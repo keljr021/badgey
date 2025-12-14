@@ -1,5 +1,10 @@
 <script setup>
 import NavbarLinks from './NavbarLinks.vue'
+import { defineProps } from 'vue'
+
+const props = defineProps({
+  userLogin: Boolean
+});
 
 </script>
 
@@ -9,7 +14,7 @@ import NavbarLinks from './NavbarLinks.vue'
       <img src="./../assets/img/logo_black.png" />
     </div>
     <div class="nav-links">
-      <NavbarLinks />
+      <NavbarLinks :userLogin="userLogin" />
     </div>
   </div>
 </template>
@@ -19,7 +24,7 @@ import NavbarLinks from './NavbarLinks.vue'
   position: sticky;
   height: 52px;
   padding: 10px 50px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.75);
   color: black;  
 }
 
@@ -28,7 +33,8 @@ import NavbarLinks from './NavbarLinks.vue'
 }
 
 .nav-logo img {
-  height: 25px;
+  height: 30px;
+  cursor: pointer;
 }
 
 .nav-links {
