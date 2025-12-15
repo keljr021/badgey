@@ -18,7 +18,8 @@ export default defineConfig({
       },
       theme: {
         colors: ['primary', 'secondary', 'success', 'info', 'warning', 'error']
-      }
+      },
+      css: ['~/assets/css/main.css'],
     })
   ]
 })
