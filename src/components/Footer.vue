@@ -3,7 +3,65 @@
 </script>
 
 <template>
-  <div style="background:#aaa">
-    Footer
+  <div class="footer">
+    <div class="footer-logo">
+      <img src="./../assets/img/logo_full_white.png" />
+    </div>
+    <div class="footer-links">
+      <ULink class="footer-links-item">About</ULink>
+      <ULink class="footer-links-item">Terms and Conditions</ULink>
+      <ULink class="footer-links-item">Privacy Policy</ULink>
+      <ULink class="footer-links-item">Release Notes</ULink>
+      <ULink class="footer-links-item">Contact</ULink>
+    </div>
+    <div class="footer-copy">
+      Copyright 2025. Website done by <a href="https://kelvin-m.com/#/">Kelvin Morrisey Jr</a>.
+    </div>
   </div>
 </template>
+
+<style scoped>
+.footer {
+  background: var(--badgey-green);
+  width: 100%;
+  min-height: 100px;
+  padding: 10px 50px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  flex: 1;
+  flex-basis: 50%;
+}
+
+.footer-logo img {
+  height: 60px;
+  opacity: 0.5;
+}
+
+.footer-links {
+  flex: 1;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-basis: 50%;
+}
+
+.footer-links-item {
+  margin: 0 15px !important;
+}
+
+.footer-copy {
+  flex: 1;
+  flex-basis: 100%;
+  margin: 10px 0;
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.5;
+}
+
+.footer-copy a {
+  text-decoration: underline;
+}
+</style>

@@ -9,6 +9,13 @@ export default defineConfig({
       colorMode: {
         preference: 'light'
       },
+      ui: {
+        colors: {
+          primary: '',
+          secondary: '',
+          tertiary: '',
+        }
+      },
       theme: {
         colors: ['primary', 'secondary', 'success', 'info', 'warning', 'error']
       }

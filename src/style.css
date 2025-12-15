@@ -1,3 +1,13 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+:root {
+    --badgey-white: #fafafa;
+    --badgey-green: #2a5547;
+    --badgey-light-green: #ecf8f4;
+    --badgey-black: #3f3f3f;
+    
+    --ui-bg: var(--badgey-white);
+    --ui-primary: var(--badgey-black);
+}
+

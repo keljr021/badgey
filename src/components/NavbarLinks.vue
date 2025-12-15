@@ -8,10 +8,10 @@ const props = defineProps({
 
 <template>
     <div>
-        <div v-if="userLogin">
-            <ULink as="button" color="neutral" class="nav-link-item" to="/">Dashboard</ULink>
-            <ULink as="button" color="neutral" class="nav-link-item" to="/">Badges</ULink>
-            <UButton color="neutral" variant="outline" size="md" :avatar="{ src: 'https://github.com/nuxt.png' }">Brad</UButton>
+        <div v-if="userLogin">           
+            <UButton color="neutral" variant="link" size="md" class="nav-links-item">Dashboard</UButton>
+            <UButton color="neutral" variant="link" size="md" class="nav-links-item">Badges</UButton>
+            <UButton :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="lg" class="nav-links-item" >Brad</UButton>
         </div>
 
         <div v-else>
@@ -21,7 +21,8 @@ const props = defineProps({
 </template>
 
 <style scoped>
-.nav-link-item {
-    margin: 0 10px;
+.nav-links-item {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
 }
 </style>
