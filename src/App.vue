@@ -6,7 +6,7 @@ import Footer from './components/Footer.vue'
 
 <template>
   <UApp>
-    <Navbar :userLogin="true" />
+    <Navbar :userLogin="false" />
     <router-view></router-view>
     <Footer />
   </UApp>

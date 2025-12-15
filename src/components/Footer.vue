@@ -8,11 +8,11 @@
       <img src="./../assets/img/logo_full_white.png" />
     </div>
     <div class="footer-links">
-      <ULink class="footer-links-item mx-4">About</ULink>
-      <ULink class="footer-links-item mx-4">Terms and Conditions</ULink>
-      <ULink class="footer-links-item mx-4">Privacy Policy</ULink>
-      <ULink class="footer-links-item mx-4">Release Notes</ULink>
-      <ULink class="footer-links-item mx-4">Contact</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4">About</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4">Terms and Conditions</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4">Privacy Policy</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4">Release Notes</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4">Contact</ULink>
     </div>
     <div class="footer-copy">
       Copyright 2025. Website done by <a href="https://kelvin-m.com/#/">Kelvin Morrisey Jr</a>.
@@ -25,7 +25,7 @@
   background: var(--badgey-green);
   width: 100%;
   min-height: 100px;
-  padding: 10px 50px;
+  padding: 30px 50px 0 50px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -54,6 +54,7 @@
   margin: 10px 0;
   font-size: 12px;
   font-style: italic;
+  color: var(--badgey-white);
   opacity: 0.5;
 }
 

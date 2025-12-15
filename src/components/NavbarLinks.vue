@@ -9,13 +9,13 @@ const props = defineProps({
 <template>
     <div>
         <div v-if="userLogin">           
-            <UButton color="neutral" variant="link" size="md" class="nav-links-item">Dashboard</UButton>
-            <UButton color="neutral" variant="link" size="md" class="nav-links-item">Badges</UButton>
-            <UButton :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="lg" class="nav-links-item" >Brad</UButton>
+            <UButton color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
+            <UButton color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
+            <UButton :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="md" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Brad</UButton>
         </div>
 
         <div v-else>
-            <UButton color="neutral" variant="outline" size="md" icon="i-mdi-login">Login / Register</UButton>
+            <UButton color="neutral" variant="outline" size="md" icon="i-mdi-login" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Login / Register</UButton>
         </div>
     </div>
 </template>

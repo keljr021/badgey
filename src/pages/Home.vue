@@ -1,17 +1,17 @@
 <script setup>
+import Cta from './../components/home/Cta.vue'
+import Features from './../components/home/Features.vue'
 </script>
 
 <template>
   <div>
-    <div class="home">
-      Home page
+    <div class="page">
+      <Cta />
+      <Features />
     </div>
   </div>
 </template>
 
 <style scoped>
-.home {
-  background: #999;
-  height: 200px;
-}
+
 </style>

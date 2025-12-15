@@ -1,7 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Indie+Flower&display=swap');
 @import "tailwindcss";
 @import "@nuxt/ui";
 
 :root {
+    /* Font */
+    --badgey-text-title-font: Caveat Brush, cursive;
+    --badgey-text-header-font: Indie Flower, cursive;
+
+    --badgey-text-jumbo-size: 64px;
+    --badgey-text-title-size: 48px;
+    --badgey-text-header-size: 32px;
+    --badgey-text-subheader-size: 24px;
+
+    /* Colors */
     --badgey-white: #fafafa;
     --badgey-green: #2a5547;
     --badgey-light-green: #ecf8f4;
@@ -9,5 +20,10 @@
     
     --ui-bg: var(--badgey-white);
     --ui-primary: var(--badgey-black);
+    --ui-text: var(--badgey-black);
 }
 
+.page {
+  background: var(--badgey-white);
+  min-height: calc(100vh - 160px);
+}

@@ -11,13 +11,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Cta: typeof import('./src/components/home/Cta.vue')['default']
+    CtaButton: typeof import('./src/components/home/CtaButton.vue')['default']
+    Features: typeof import('./src/components/home/Features.vue')['default']
+    FeaturesItem: typeof import('./src/components/home/FeaturesItem.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
+    HomeCta: typeof import('./src/components/home/HomeCta.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     NavbarLinks: typeof import('./src/components/NavbarLinks.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UApp: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/App.vue')['default']
     UButton: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Button.vue')['default']
+    UCard: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Card.vue')['default']
     ULink: typeof import('./node_modules/@nuxt/ui/dist/runtime/vue/components/Link.vue')['default']
+    UPageCard: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/PageCard.vue')['default']
   }
 }

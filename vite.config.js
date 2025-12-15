@@ -6,15 +6,13 @@ export default defineConfig({
   plugins: [
     vue(),
     ui({
-      colorMode: {
-        preference: 'light'
-      },
       ui: {
+        colorMode: false,
         colors: {
           primary: '',
           secondary: '',
           tertiary: '',
-        }
+        },
       },
       theme: {
         colors: ['primary', 'secondary', 'success', 'info', 'warning', 'error']
