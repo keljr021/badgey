@@ -15,7 +15,7 @@ const props = defineProps({
         </div>
 
         <div v-else>
-            <UButton color="neutral" variant="outline" size="md" icon="i-mdi-login" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Login / Register</UButton>
+            <UButton @click="$router.push({ name: 'login' })" color="neutral" variant="outline" size="md" icon="i-mdi-login" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Login / Register</UButton>
         </div>
     </div>
 </template>

@@ -5,7 +5,7 @@ import Features from './../components/home/Features.vue'
 
 <template>
   <div>
-    <div class="page">
+    <div>
       <Cta />
       <Features />
     </div>

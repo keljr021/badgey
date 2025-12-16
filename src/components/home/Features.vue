@@ -37,7 +37,7 @@ function getImageSrc(input) {
       </div>
 
       <div class="features-button">
-        <UButton color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account</UButton>
+        <UButton @click="$router.push({ name: 'login' })" color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account</UButton>
       </div>
     </div>
   </div>

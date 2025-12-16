@@ -10,7 +10,7 @@ const props = defineProps({
 
 <template>
   <div class="nav">
-    <div class="nav-logo">
+    <div class="nav-logo" @click="$router.push({ name: 'home'})">
       <img src="./../assets/img/logo_black.png" />
     </div>
     <div class="nav-links">

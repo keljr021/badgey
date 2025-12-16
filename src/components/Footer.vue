@@ -8,7 +8,7 @@
       <img src="./../assets/img/logo_full_white.png" />
     </div>
     <div class="footer-links">
-      <ULink class="footer-links-item hover:text-white mx-4">About</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4" to="/about">About</ULink>
       <ULink class="footer-links-item hover:text-white mx-4">Terms and Conditions</ULink>
       <ULink class="footer-links-item hover:text-white mx-4">Privacy Policy</ULink>
       <ULink class="footer-links-item hover:text-white mx-4">Release Notes</ULink>
