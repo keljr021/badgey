@@ -9,10 +9,10 @@
     </div>
     <div class="footer-links">
       <ULink class="footer-links-item hover:text-white mx-4" to="/about">About</ULink>
-      <ULink class="footer-links-item hover:text-white mx-4">Terms and Conditions</ULink>
-      <ULink class="footer-links-item hover:text-white mx-4">Privacy Policy</ULink>
-      <ULink class="footer-links-item hover:text-white mx-4">Release Notes</ULink>
-      <ULink class="footer-links-item hover:text-white mx-4">Contact</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4" to="/terms">Terms and Conditions</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4" to="/privacy">Privacy Policy</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4" to="/release">Release Notes</ULink>
+      <ULink class="footer-links-item hover:text-white mx-4" to="/contact">Contact</ULink>
     </div>
     <div class="footer-copy">
       Copyright 2025. Website done by <a href="https://kelvin-m.com/#/">Kelvin Morrisey Jr</a>.
