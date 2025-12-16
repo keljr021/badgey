@@ -24,6 +24,6 @@
 }
 
 .page {
-  background: var(--badgey-white);
+  background: #fff;
   min-height: calc(100vh - 160px);
 }

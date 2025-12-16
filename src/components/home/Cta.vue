@@ -1,24 +1,31 @@
 <script setup>
+function getImageSrc(input) {
+     return new URL(`../../assets/img/${input}`, import.meta.url).href;
+}
 </script>
 
 <template>
-  <div class="cta">
+  <div style="position: relative;">
+    <img class="cta-bg" :src="getImageSrc('home-bg.png')" />
 
-    <div class="cta-jumbo">
-      An online souvenir of your best moments.
-    </div>
+    <div class="cta">
+      <div class="cta-jumbo">
+        An online souvenir of your best moments.
+      </div>
 
-    <div class="cta-caption">
-      Badgey is an application to create, redeem, and share digital badges with your community.<br><br>
-      Show off your journey here!<br><br>
+      <div class="cta-caption">
+        Badgey is an application to create, redeem, and share digital badges with your community.<br><br>
+        Show off your journey here!<br><br>
 
-      <UButton color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account today!</UButton>
+        <UButton color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account today!</UButton>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 .cta {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,6 +35,17 @@
   margin: 0 auto;
   padding-bottom: 100px; 
   text-align: center;
+}
+
+.cta-bg {
+  position: absolute;
+  opacity: 0.05;
+  width: 100%;
+  height: 820px;
+}
+
+.cta-bg img { 
+  object-fit: contain;
 }
 
 .cta-jumbo {
