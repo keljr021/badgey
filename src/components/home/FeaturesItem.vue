@@ -13,17 +13,17 @@ const { imgSrc } = toRefs(props);
 <template>
     <div class="features-list-item">
         <UPageCard
+            variant="solid"
             :title="title"
             :description="text"
-            icon="i-simple-icons-tailwindcss"
             :ui="{
                 body: {
                     base: 'border-none'
                 },
                 ring: 'ring-0',
                 title: 'text-[var(--badgey-black)]',
+                background: 'bg-white'
             }"
-            spotlight
             reverse
         >
             <img :src="imgSrc" />
