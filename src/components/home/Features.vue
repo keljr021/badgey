@@ -7,7 +7,7 @@ function getImageSrc(input) {
 </script>
 
 <template>
-  <div style="background-color:var(--badgey-white)">
+  <div>
     <div class="features">
       <div class="features-title">
         Collect digital badges

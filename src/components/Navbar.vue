@@ -21,15 +21,18 @@ const props = defineProps({
 
 <style>
 .nav {
-  position: sticky;
+  position: fixed;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-content: center;
   align-items: center;
+  width: 100%;
   height: 52px;
   padding: 0 50px;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.95);
   color: black;  
+  z-index: 9;
 }
 
 .nav-logo {

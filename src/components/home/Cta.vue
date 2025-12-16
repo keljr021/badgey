@@ -33,15 +33,16 @@ function getImageSrc(input) {
   width: 50%;
   min-height: 100vh;
   margin: 0 auto;
+  padding-top: 52px;
   padding-bottom: 100px; 
   text-align: center;
 }
 
 .cta-bg {
-  position: absolute;
-  opacity: 0.05;
+  position: fixed;
+  top: 52px;
+  opacity: 0.04;
   width: 100%;
-  height: 820px;
 }
 
 .cta-bg img { 
