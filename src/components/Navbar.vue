@@ -57,7 +57,7 @@ const props = defineProps({
 
 @media all and (max-width: 1023px) {
   .nav {
-    width: calc(100% - 50px);
+    width: 100%;
     padding: 0 25px;
   }
 }

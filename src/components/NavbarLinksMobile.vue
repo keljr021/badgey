@@ -1,20 +1,61 @@
 <script setup>
-import { defineProps, toRef } from 'vue'
+import { ref, defineProps } from 'vue'
+
+const showMenu = ref(false);
 
 const props = defineProps({
     userLogin: Boolean
 });
+
+function toggleMenu() {
+    showMenu.value = !showMenu.value;
+}
 </script>
 
 <template>
     <div>
-        x
+        <UButton @click="toggleMenu" variant="ghost" icon="i-mdi-menu" size="xl" />
+
+        <div v-if="showMenu" class="nav-menu">
+            <div class="nav-menu-user">
+                <UAvatar src="https://github.com/benjamincanac.png" />
+                <div class="nav-menu-user-name">
+                    Brad
+                </div>
+            </div>
+            <div class="nav-menu-link" @click="toggleMenu">Dashboard</div>
+            <div class="nav-menu-link" @click="toggleMenu">Create badge</div>
+            <div class="nav-menu-link" @click="toggleMenu">Manage badges</div>
+            <div class="nav-menu-link" @click="toggleMenu">Redeem badge</div>
+            <div class="nav-menu-link" @click="toggleMenu">Profile</div>
+            <div class="nav-menu-link" @click="toggleMenu">Settings</div>
+            <div class="nav-menu-link" @click="toggleMenu">Logout</div>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.nav-links-item {
-    margin-left: 10px !important;
-    margin-right: 10px !important;
+.nav-menu {
+    position: fixed;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 9;
+}
+
+.nav-menu-user,
+.nav-menu-link {
+    width: 100%;
+    padding: 20px 25px;
+    text-align: right;
+    color: var(--badgey-black);
+    cursor: pointer;
+}
+
+.nav-menu-user-name {
+    float: right;
+    padding-left: 20px;
+    font-weight: bold;
 }
 </style>
