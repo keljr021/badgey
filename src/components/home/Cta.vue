@@ -14,7 +14,7 @@ function getImageSrc(input) {
       </div>
 
       <div class="cta-caption">
-        Badgey is an application to create, redeem, and share digital badges with your community.<br><br>
+        <b>Badgey</b> is an application to create, redeem, and share digital badges with your community.<br><br>
         Show off your journey here!<br><br>
 
         <UButton color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account today!</UButton>
