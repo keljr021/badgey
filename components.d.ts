@@ -19,6 +19,7 @@ declare module 'vue' {
     HomeCta: typeof import('./src/components/home/HomeCta.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     NavbarLinks: typeof import('./src/components/NavbarLinks.vue')['default']
+    NavbarLinksMobile: typeof import('./src/components/NavbarLinksMobile.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UApp: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/App.vue')['default']

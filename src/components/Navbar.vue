@@ -1,5 +1,6 @@
 <script setup>
 import NavbarLinks from './NavbarLinks.vue'
+import NavbarLinksMobile from './NavbarLinksMobile.vue'
 import { defineProps } from 'vue'
 
 const props = defineProps({
@@ -14,7 +15,8 @@ const props = defineProps({
       <img src="./../assets/img/logo_black.png" />
     </div>
     <div class="nav-links">
-      <NavbarLinks :userLogin="userLogin" />
+      <NavbarLinks class="desktop" :userLogin="userLogin" />
+      <NavbarLinksMobile class="mobile" />
     </div>
   </div>
 </template>
@@ -27,7 +29,7 @@ const props = defineProps({
   justify-content: space-between;
   align-content: center;
   align-items: center;
-  width: 100%;
+  width: calc(100% - 100px);
   height: 52px;
   padding: 0 50px;
   background: rgba(255, 255, 255, 0.95);
@@ -51,5 +53,12 @@ const props = defineProps({
   justify-content: flex-end;
   align-items: center;
   align-content: center;
+}
+
+@media all and (max-width: 1023px) {
+  .nav {
+    width: calc(100% - 50px);
+    padding: 0 25px;
+  }
 }
 </style>
