@@ -24,6 +24,18 @@
 }
 
 .page {
-  background: var(--badgey-white);
   min-height: calc(100vh - 160px);
+  z-index: 1;
+}
+
+.cta-bg {
+  position: fixed;
+  top: 52px;
+  opacity: 0.04;
+  width: 100%;
+  z-index: -1;
+}
+
+.cta-bg img { 
+  object-fit: contain;
 }

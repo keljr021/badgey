@@ -28,6 +28,7 @@
   padding: 30px 50px 0 50px;
   display: flex;
   flex-wrap: wrap;
+  z-index: 1;
 }
 
 .footer-logo {

@@ -38,17 +38,6 @@ function getImageSrc(input) {
   text-align: center;
 }
 
-.cta-bg {
-  position: fixed;
-  top: 52px;
-  opacity: 0.04;
-  width: 100%;
-}
-
-.cta-bg img { 
-  object-fit: contain;
-}
-
 .cta-jumbo {
   flex: 1;
   flex-basis: 100%;
