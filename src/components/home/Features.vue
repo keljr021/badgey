@@ -78,4 +78,10 @@ function getImageSrc(input) {
 .features-button {
   padding-bottom: 100px; 
 }
+
+@media all and (max-width: 1023px) {
+  .features {
+    width: 80%;
+  }
+}
 </style>

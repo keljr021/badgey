@@ -62,4 +62,21 @@
 .footer-copy a {
   text-decoration: underline;
 }
+
+@media all and (max-width: 1023px) {
+  .footer {
+    padding-top: 25px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    align-items: end;
+  }
+
+  .footer-links a {
+    padding: 10px 0;
+    text-align: right;
+  }
+
+}
 </style>

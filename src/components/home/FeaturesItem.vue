@@ -42,4 +42,10 @@ const { imgSrc } = toRefs(props);
     max-height: 180px;
     margin: 0 auto;
 }
+
+@media all and (max-width: 1023px) {
+    .features-list-item {
+        flex-basis: calc(100% - 50px);
+    }
+}
 </style>

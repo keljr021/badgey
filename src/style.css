@@ -49,8 +49,13 @@
   .desktop {
     display: none;
   }
-  
+
   .mobile {
     display: initial;
+  }
+
+  .cta-bg {
+    top: initial;
+    bottom: -100px;
   }
 }

@@ -56,5 +56,9 @@ function getImageSrc(input) {
   padding: 20px 0;
 }
 
-
+@media all and (max-width: 1023px) {
+  .cta {
+    width: 80%;
+  }
+}
 </style>
