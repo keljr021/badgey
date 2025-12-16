@@ -7,7 +7,6 @@ export default defineConfig({
     vue(),
     ui({
       ui: {
-        colorMode: false,
         colors: {
           primary: '',
           secondary: '',

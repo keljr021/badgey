@@ -1,6 +1,17 @@
 <script setup>
-import Navbar from './components/Navbar.vue'
-import Footer from './components/Footer.vue'
+import { onMounted } from 'vue';
+import { useColorMode } from '#imports';
+import Navbar from './components/Navbar.vue';
+import Footer from './components/Footer.vue';
+
+
+const colorMode = useColorMode();
+
+onMounted(() => {
+  if (colorMode.preference !== 'light') {
+    colorMode.preference = 'light';
+  }
+})
 
 </script>
 

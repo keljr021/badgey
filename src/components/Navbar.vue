@@ -1,6 +1,5 @@
 <script setup>
 import NavbarLinks from './NavbarLinks.vue'
-import NavbarLinksMobile from './NavbarLinksMobile.vue'
 import { defineProps } from 'vue'
 
 const props = defineProps({
@@ -28,7 +27,7 @@ const props = defineProps({
   justify-content: space-between;
   align-content: center;
   align-items: center;
-  width: calc(100% - 100px);
+  width: 100%;
   height: 52px;
   padding: 0 50px;
   background: rgba(255, 255, 255, 0.95);

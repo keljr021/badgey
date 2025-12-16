@@ -17,13 +17,9 @@ const { imgSrc } = toRefs(props);
             :title="title"
             :description="text"
             :ui="{
-                body: {
-                    base: 'border-none'
-                },
-                ring: 'ring-0',
                 title: 'text-[var(--badgey-black)]',
-                background: 'bg-white'
             }"
+            class="border-none ring-0 bg-white text-[var(--badgey-black)]"
             reverse
         >
             <img :src="imgSrc" />

@@ -12,21 +12,23 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Cta: typeof import('./src/components/home/Cta.vue')['default']
-    CtaButton: typeof import('./src/components/home/CtaButton.vue')['default']
     Features: typeof import('./src/components/home/Features.vue')['default']
     FeaturesItem: typeof import('./src/components/home/FeaturesItem.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
-    HomeCta: typeof import('./src/components/home/HomeCta.vue')['default']
+    LoginForm: typeof import('./src/components/login/LoginForm.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     NavbarLinks: typeof import('./src/components/NavbarLinks.vue')['default']
     NavbarLinksMobile: typeof import('./src/components/NavbarLinksMobile.vue')['default']
+    RegisterForm: typeof import('./src/components/login/RegisterForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UApp: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/App.vue')['default']
     UAvatar: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Avatar.vue')['default']
     UButton: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Button.vue')['default']
-    UCard: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Card.vue')['default']
+    UFormField: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/FormField.vue')['default']
+    UInput: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Input.vue')['default']
     ULink: typeof import('./node_modules/@nuxt/ui/dist/runtime/vue/components/Link.vue')['default']
     UPageCard: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/PageCard.vue')['default']
+    URadioGroup: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/RadioGroup.vue')['default']
   }
 }
