@@ -15,8 +15,7 @@ const props = defineProps({
       <img src="./../assets/img/logo_black.png" />
     </div>
     <div class="nav-links">
-      <NavbarLinks class="desktop" :userLogin="userLogin" />
-      <NavbarLinksMobile class="mobile" />
+      <NavbarLinks :userLogin="userLogin" />
     </div>
   </div>
 </template>

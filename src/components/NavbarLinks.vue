@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, toRef } from 'vue'
+import NavbarLinksMobile from './NavbarLinksMobile.vue'
 
 const props = defineProps({
     userLogin: Boolean
@@ -8,10 +9,14 @@ const props = defineProps({
 
 <template>
     <div>
-        <div v-if="userLogin">           
-            <UButton @click="$router.push({ name: 'dashboard' })" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
-            <UButton color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
-            <UButton :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="md" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Brad</UButton>
+        <div v-if="userLogin">    
+            <div class="desktop">
+                <UButton @click="$router.push({ name: 'dashboard' })" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
+                <UButton color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
+                <UButton :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="md" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Brad</UButton>
+            </div>
+            
+            <NavbarLinksMobile class="mobile" />
         </div>
 
         <div v-else>

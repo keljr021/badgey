@@ -81,7 +81,7 @@ function getImageSrc(input) {
 
 @media all and (max-width: 1023px) {
   .features {
-    width: 80%;
+    width: 90%;
   }
 }
 </style>

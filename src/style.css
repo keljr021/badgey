@@ -24,7 +24,7 @@
 }
 
 .page {
-  padding-top: 52px;
+  padding-top: 50px;
   min-height: calc(100vh - 160px);
   z-index: 1;
 }
