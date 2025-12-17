@@ -1,15 +1,26 @@
 <script setup>
+import { useRouter } from 'vue-router'
 import LoginForm from './../components/login/LoginForm.vue'
 import RegisterForm from './../components/login/RegisterForm.vue'
+
+const router = useRouter();
+
+function login() {
+  router.push('/dashboard');
+}
+
+function register() {
+  router.push('/dashboard');
+}
 </script>
 
 <template>
   <div class="login">
     <div class="login-form">
-      <LoginForm />
+      <LoginForm @login="login"/>
     </div>
     <div class="login-form">
-      <RegisterForm />
+      <RegisterForm @register="register" />
     </div>
   </div>
 </template>

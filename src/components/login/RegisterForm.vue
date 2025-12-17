@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 
 const userType = ref([
   {
@@ -14,8 +14,10 @@ const userType = ref([
   }
 ]);
 
+const emit = defineEmits(['register']);
+
 function handleRegister() {
-  console.log('register button clicked.');
+  emit('register')
 }
 </script>
 

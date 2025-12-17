@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 
 const user = ref();
 const password = ref();
@@ -9,8 +9,10 @@ const inputStyling = {
   color: 'text-[var(--badgey-black)]'
 }
 
+const emit = defineEmits(['login']);
+
 function handleLogin() {
-  console.log('login button clicked.');
+  emit('login');
 }
 
 function handleForgotPassword() {
