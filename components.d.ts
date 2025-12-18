@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Cta: typeof import('./src/components/home/Cta.vue')['default']
+    DashOptions: typeof import('./src/components/DashOptions.vue')['default']
     Features: typeof import('./src/components/home/Features.vue')['default']
     FeaturesItem: typeof import('./src/components/home/FeaturesItem.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']

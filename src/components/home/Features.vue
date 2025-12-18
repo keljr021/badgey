@@ -1,9 +1,7 @@
 <script setup>
 import FeaturesItem from './FeaturesItem.vue'
+import { getImageSrc } from '../../assets/js/imgHelpers.js'
 
-function getImageSrc(input) {
-     return new URL(`../../assets/img/${input}`, import.meta.url).href;
-}
 </script>
 
 <template>
