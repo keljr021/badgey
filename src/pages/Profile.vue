@@ -5,6 +5,10 @@ import BadgeItem from '../components/badges/BadgeItem.vue'
 
 const items = ref(['Backlog', 'Todo', 'In Progress', 'Done']);
 
+function handleClick() {
+  console.log('badge clicked.');
+}
+
 </script>
 
 <template>
@@ -29,9 +33,9 @@ const items = ref(['Backlog', 'Todo', 'In Progress', 'Done']);
     <div class="profile-top">
       <div class="profile-top-header">Top badges</div>
       <div class="profile-top-badges">
-        <template v-for="i in 3" :key="i">
-          <BadgeItem />
-        </template>
+        <BadgeItem :image="'custom_badge1.png'" name="Custom Badge 1" @handleClick="handleClick"/>
+        <BadgeItem :image="'custom_badge2.png'" name="Custom Badge 2" @handleClick="handleClick"/>
+        <BadgeItem :image="'custom_badge3.png'" name="Custom Badge 3" @handleClick="handleClick"/>
       </div>
     </div>
 
@@ -40,8 +44,10 @@ const items = ref(['Backlog', 'Todo', 'In Progress', 'Done']);
         <USelect class="w-48" :items="items" placeholder="Sort by..." />
       </div>
       <div class="profile-list-badges">
-        <template v-for="i in 9" :key="i">
-          <BadgeItem />
+        <template v-for="i in 3" :key="i">
+          <BadgeItem :image="'custom_badge1.png'" name="Custom Badge 1" @handleClick="handleClick"/>
+          <BadgeItem :image="'custom_badge2.png'" name="Custom Badge 2" @handleClick="handleClick"/>
+          <BadgeItem :image="'custom_badge3.png'" name="Custom Badge 3" @handleClick="handleClick"/>
         </template>
       </div>
     </div>
