@@ -25,7 +25,7 @@ function clickBadge() {
 <style scoped>
 .badge {
     flex: 1;
-    flex-basis: calc(33% - 100px);
+    flex-basis: calc(33% - 50px);
     border-radius: 10%;
     margin: 20px 10px;
     padding: 10px;

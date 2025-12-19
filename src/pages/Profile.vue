@@ -59,7 +59,7 @@ function handleClick() {
 .profile {
   background-color: var(--badgey-white);
   width: 100%;
-  padding: 50px 200px;
+  padding: 50px 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
