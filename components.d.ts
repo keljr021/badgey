@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AboutSection: typeof import('./src/components/AboutSection.vue')['default']
     BadgeItem: typeof import('./src/components/badges/BadgeItem.vue')['default']
     Cta: typeof import('./src/components/home/Cta.vue')['default']
     DashOptions: typeof import('./src/components/DashOptions.vue')['default']
