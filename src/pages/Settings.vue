@@ -1,4 +1,5 @@
 <script setup>
+import { getImageSrc } from '../assets/js/imgHelpers.js'
 import { ref } from 'vue'
  
 const userType = ref([
@@ -49,7 +50,18 @@ const userType = ref([
     <div class="settings-body-profile">
       <div class="settings-body-profile-title">Profile settings</div>
       <div class="settings-body-profile-form">
-        <UFormField class="w-100 py-4" :ui="inputStyling">
+        <UFormField label="Profile image" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
+          <div class="settings-body-profile-form-image py-3">
+            <img class="my-3" :src="getImageSrc('badgey_brad.png')" />
+          </div>
+        </UFormField>
+        <UFormField size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
+          <UButton @click="handleRegister()" color="neutral" variant="outline" icon="i-lucide-upload" class="text-[var(--badgey-black)] hover:text-white">Upload image</UButton>
+        </UFormField>
+        <UFormField label="Description" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
+          <UTextarea rows="4" class="py-2 w-100" />
+        </UFormField>
+        <UFormField class="w-100 pt-22" :ui="inputStyling">
           <UButton @click="handleRegister()" color="neutral" variant="outline" icon="i-lucide-save" class="text-[var(--badgey-black)] hover:text-white">Save settings</UButton>
         </UFormField>
       </div>
@@ -99,5 +111,21 @@ const userType = ref([
 .settings-body-account-form,
 .settings-body-profile-form {
   padding: 10px 20px;
+}
+
+.settings-body-profile-form-image {
+  flex: 1;
+  width: 200px;
+  height: 200px;
+  margin: 20px 0;
+}
+
+.settings-body-profile-form-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 50%;
 }
 </style>
