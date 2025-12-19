@@ -29,17 +29,17 @@ const routes = [
   { path: '/badges', 
     children: [
       {
-        path: '/create',
+        path: 'create',
         name: 'create',
         component: CreateBadge
       },
       {
-        path: '/manage',
+        path: 'manage',
         name: 'manage',
         component: ManageBadge
       },
       {
-        path: '/redeem',
+        path: 'redeem',
         name: 'redeem',
         component: RedeemBadge
       },
