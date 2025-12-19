@@ -3,6 +3,11 @@ import vue from '@vitejs/plugin-vue'
 import ui from '@nuxt/ui/vite'
 
 export default defineConfig({
+  server: {
+    watch: {
+      usePolling: true
+    }
+  },
   plugins: [
     vue(),
     ui({

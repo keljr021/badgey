@@ -32,7 +32,7 @@ function toggleFollowers() {
         description="View who's following you, friends, and friend requests."/>
 
       <DashOptions 
-        routeTo="/profile/me" 
+        routeTo="/profile" 
         icon="i-lucide-square-user" 
         title="View profile" 
         description="View your current profile and customize to your liking."/>

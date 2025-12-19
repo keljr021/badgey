@@ -2,7 +2,9 @@
 </script>
 
 <template>
-  <div>Manage badge view</div>
+  <div class="page">
+    <div>Manage badge view</div>
+  </div>
 </template>
 
 <style scoped>

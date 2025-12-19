@@ -45,7 +45,7 @@ const routes = [
       },
   ]},
 
-  { path: '/profile/*', name: 'profile', component: Profile },
+  { path: '/profile', name: 'profile', component: Profile },
   { path: '/claim/*', name: 'claim', component: ClaimBadge },
 
   { path: '/about', name: 'about', component: About },

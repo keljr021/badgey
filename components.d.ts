@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BadgeItem: typeof import('./src/components/badges/BadgeItem.vue')['default']
     Cta: typeof import('./src/components/home/Cta.vue')['default']
     DashOptions: typeof import('./src/components/DashOptions.vue')['default']
     Features: typeof import('./src/components/home/Features.vue')['default']
@@ -31,5 +32,6 @@ declare module 'vue' {
     ULink: typeof import('./node_modules/@nuxt/ui/dist/runtime/vue/components/Link.vue')['default']
     UPageCard: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/PageCard.vue')['default']
     URadioGroup: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/RadioGroup.vue')['default']
+    USelect: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
   }
 }
