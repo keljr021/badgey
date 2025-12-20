@@ -15,26 +15,26 @@ import AboutSection from '../components/AboutSection.vue'
     </div>
     <div class="about-idea">
       <AboutSection title="One Idea - Short and Sweet" image="user-interface-73.png">
-        <p>Badgey was created in 2025; started by one web developer with an idea.</p>
-        <p>The idea was to give users a simple solution to create, customize, and share badges among one another. A simple badge that share a convention they've attended; or a proud achievement at a local event. We want our users to share those badges proudly!</p>
+        <p class="py-4"><i>Badgey</i> was created in 2025; started by one web developer with an idea.</p>
+        <p class="py-4">The idea was to give users a simple solution to create, customize, and share badges among one another. A simple badge that share a convention they've attended; or a proud achievement at a local event. We want our users to share those badges proudly!</p>
       </AboutSection>
     </div>
     <div class="about-who">
       <AboutSection title="Who is Badgey for?" image="allura-celebrations.png">
-        <ul>
+        <ul class="py-6">
           <li>Got a local sports team that just won the playoffs?</li> 
           <li>An annual event with a cook-off?</li>
           <li>Attendees hosting the next comic-con?</li>
           <li>Your favorite band hosting a nearby show?</li>
         </ul>
-        <p>Badgey was created in 2025; started by one web developer with an idea.</p>
+        <p class="py-4">Create a badge that can be quickly shared among your attendees! <i>Badgey</i> is for anyone who wants to create badge, share badges, and connect.</p>
       </AboutSection>
     </div>
     <div class="about-brad">
       <AboutSection title="Who's Brad B. Badger?" image="badgey_brad.png">
-        <p>Brad is our local badger mascot that eagerly wants to help folks along the way. Brad's an easygoing and carefree guy that helps with his local comic conventions every year. He's not afraid to show off his own badges; rather it be digital or real-life.</p>
-        <p>But thanks to Badgey, he has the option of creating a new badge each year; and give attendees another amazing piece to connect with one another!</p>
-        <p>If you see him around, feel free to say hello!</p>
+        <p class="py-4">Brad is our local badger mascot that eagerly wants to help folks along the way. Brad's an easygoing and carefree guy that helps with his local comic conventions every year. He's not afraid to show off his own badges; rather it be digital or real-life.</p>
+        <p class="py-4">But thanks to <i>Badgey</i>, he has the option of creating a new badge each year; and give attendees another amazing piece to connect with one another!</p>
+        <p class="py-4">If you see him around, feel free to say hello!</p>
       </AboutSection>
     </div>
   </div>
@@ -58,7 +58,7 @@ import AboutSection from '../components/AboutSection.vue'
   left: 12.5%;
   bottom: 50%;
   font-family: var(--badgey-text-header-font);
-  font-size: var(--badgey-text-header-size);
+  font-size: 40px;
   color: white;
   text-align: center;
 }
@@ -87,7 +87,11 @@ import AboutSection from '../components/AboutSection.vue'
 .about-who {
   background-color: var(--badgey-light-green);
   padding: 50px;
+}
 
+.about-who li {
+  list-style-type: initial;
+  margin-left: 20px;
 }
 
 .about-brad {
