@@ -66,11 +66,12 @@
 @media all and (max-width: 1023px) {
   .footer {
     padding-top: 25px;
+    flex-direction: column;
+    align-items: center;
   }
 
   .footer-links {
     flex-direction: column;
-    align-items: end;
   }
 
   .footer-links a {
