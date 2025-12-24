@@ -17,14 +17,14 @@ function toggleFollowers() {
         <img :src="getImageSrc('badgey_brad.png')" />
       </div>
       <div class="dash-header-text">
-        <div class="dash-header-text-welcome">Welcome Brad B. Badger</div>
+        <div class="dash-header-text-welcome">Welcome<br class="mobile" />Brad B. Badger</div>
         <div class="dash-header-text-last">Last login 12/01/2025</div>
       </div>
       <div class="dash-header-status">
         &nbsp;
       </div>
     </div>
-    <div class="dash-options p-3">
+    <div class="dash-options">
       <DashOptions 
         @click="toggleFollowers()" 
         icon="i-lucide-users" 
@@ -112,5 +112,33 @@ function toggleFollowers() {
   justify-content: space-between;
   flex-wrap: wrap;
   padding: 20px;
+}
+
+@media all and (max-width: 1023px) {
+  .dash {
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .dash-header {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+
+  .dash-header-image {
+    margin: 20px auto;
+  }
+
+  .dash-header-text {
+    flex-basis: 100%;
+  }
+
+  .dash-options {
+    flex-direction: column;
+    padding: 10px;
+  }
+  
 }
 </style>
