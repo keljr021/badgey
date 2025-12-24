@@ -154,4 +154,16 @@ function handleClick() {
   justify-content: space-around;
   flex-wrap: wrap;
 }
+
+@media all and (max-width: 1023px) {
+  .profile {
+    flex-direction: column;
+  }
+
+  .profile-header-image {
+    width: 85px;
+    height: 85px;
+  }
+
+}
 </style>
