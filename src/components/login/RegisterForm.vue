@@ -14,6 +14,19 @@ const userType = ref([
   }
 ]);
 
+const type = ref('');
+const name = ref('');
+const username = ref('');
+const email = ref('');
+const dob = ref('');
+const password = ref('');
+const confirm = ref('');
+
+const inputStyling = {
+  borderColor: 'bg-[var(--badgey-black)]',
+  color: 'text-[var(--badgey-black)]'
+}
+
 const emit = defineEmits(['register']);
 
 function handleRegister() {

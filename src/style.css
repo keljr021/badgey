@@ -54,6 +54,10 @@
     display: initial;
   }
 
+  .page:has(.green) {
+    background-color: var(--badgey-light-green);
+  }
+
   .cta-bg {
     top: initial;
     bottom: -100px;
