@@ -38,5 +38,6 @@ declare module 'vue' {
     USelect: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
     UTabs: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Tabs.vue')['default']
     UTextarea: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Textarea.vue')['default']
+    UTimeline: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Timeline.vue')['default']
   }
 }
