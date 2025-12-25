@@ -24,10 +24,11 @@ function handleClick() {
           <div class="profile-header-text-followers">3 Followers</div>
           <div class="profile-header-text-following">12 Following</div>
         </div>
-        <div class="profile-header-text-about">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et interdum arcu. Etiam neque purus, facilisis non nisl et, facilisis egestas lorem.
-        </div>
       </div>
+    </div>
+
+    <div class="profile-about py-5">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et interdum arcu. Etiam neque purus, facilisis non nisl et, facilisis egestas lorem.
     </div>
 
     <div class="profile-top">
@@ -157,12 +158,21 @@ function handleClick() {
 
 @media all and (max-width: 1023px) {
   .profile {
+    padding: 20px;
     flex-direction: column;
   }
 
   .profile-header-image {
     width: 85px;
     height: 85px;
+  }
+
+  .profile-top-header {
+    text-align: center;
+  }
+
+  .profile-top-badges {
+    margin-top: 0;
   }
 
 }
