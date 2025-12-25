@@ -90,4 +90,10 @@ function handleClick() {
   justify-content: flex-start;
   flex-wrap: wrap;
 }
+
+@media all and (max-width: 1023px) {
+  .manage {
+    padding: 20px;
+  }
+}
 </style>

@@ -57,4 +57,17 @@ function clickBadge() {
 .badge-text {
     font-size: 20px;
 } 
+
+@media all and (max-width: 1023px) {
+    .badge {
+        flex-basis: calc(50% - 10px);
+        padding: 10px 5px;
+        margin: 20px 5px;
+    }
+
+    .badge-image {
+        width: 75px;
+        height: 75px;
+    }
+}
 </style>

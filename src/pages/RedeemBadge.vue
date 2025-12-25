@@ -95,4 +95,18 @@ function submitCode() {
 .redeem-body-form-card-image img {
   height: 200px;
 }
+
+@media all and (max-width: 1023px) {
+  .redeem {
+    padding: 20px;
+  }
+
+  .redeem-body {
+    flex-direction: column;
+  }
+  .redeem-body-form {
+    width: 100%;
+    padding: 20px 0;
+  }
+}
 </style>
