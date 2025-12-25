@@ -24,10 +24,13 @@ function handleClick() {
           <div class="profile-header-text-followers">3 Followers</div>
           <div class="profile-header-text-following">12 Following</div>
         </div>
+        <div class="profile-about desktop py-5">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et interdum arcu. Etiam neque purus, facilisis non nisl et, facilisis egestas lorem.
+        </div>
       </div>
     </div>
 
-    <div class="profile-about py-5">
+    <div class="profile-about mobile py-5">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et interdum arcu. Etiam neque purus, facilisis non nisl et, facilisis egestas lorem.
     </div>
 
