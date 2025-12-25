@@ -14,7 +14,7 @@ function toggleMenu() {
 
 <template>
     <div>
-        <UButton @click="toggleMenu" variant="ghost" icon="i-mdi-menu" size="xl" />
+        <UButton @click="toggleMenu()" variant="ghost" icon="i-mdi-menu" size="xl" />
 
         <div v-if="showMenu" class="nav-menu">
             <div class="nav-menu-user">
@@ -23,13 +23,13 @@ function toggleMenu() {
                     Brad
                 </div>
             </div>
-            <div class="nav-menu-link" @click="toggleMenu">Dashboard</div>
-            <div class="nav-menu-link" @click="toggleMenu">Create badge</div>
-            <div class="nav-menu-link" @click="toggleMenu">Manage badges</div>
-            <div class="nav-menu-link" @click="toggleMenu">Redeem badge</div>
-            <div class="nav-menu-link" @click="toggleMenu">Profile</div>
-            <div class="nav-menu-link" @click="toggleMenu">Settings</div>
-            <div class="nav-menu-link" @click="toggleMenu">Logout</div>
+            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'dashboard' })">Dashboard</div>
+            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'create' })">Create badge</div>
+            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'manage' })">Manage badges</div>
+            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'redeem' })">Redeem badge</div>
+            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'profile' })">Profile</div>
+            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'settings' })">Settings</div>
+            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'home' })">Logout</div>
         </div>
     </div>
 </template>
