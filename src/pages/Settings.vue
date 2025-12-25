@@ -25,7 +25,7 @@ const userType = ref([
         <div class="settings-body-account-title">Account settings</div>
         <div class="settings-body-account-form">
           <UFormField label="I am a(n)..." size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <URadioGroup v-model="type" orientation="horizontal" :items="userType" class="py-2" />
+            <URadioGroup v-model="type" :orientation="'mobile' ? 'vertical':'horizontal'" :items="userType" class="py-2" />
           </UFormField>
           <UFormField label="Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <UInput v-model="name" class="w-full" />
@@ -59,7 +59,7 @@ const userType = ref([
           <UButton @click="handleRegister()" color="neutral" variant="outline" icon="i-lucide-upload" class="text-[var(--badgey-black)] hover:text-white">Upload image</UButton>
         </UFormField>
         <UFormField label="Description" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-          <UTextarea rows="4" class="py-2 w-100" />
+          <UTextarea rows="4" :class="'py-2 ' + ('mobile' ? 'w-full' : 'w-100')" />
         </UFormField>
         <UFormField class="w-100 pt-22" :ui="inputStyling">
           <UButton @click="handleRegister()" color="neutral" variant="outline" icon="i-lucide-save" class="text-[var(--badgey-black)] hover:text-white">Save settings</UButton>
@@ -127,5 +127,28 @@ const userType = ref([
   object-fit: cover;
   object-position: top center;
   border-radius: 50%;
+}
+
+@media all and (max-width: 1023px) {
+  .settings {
+    justify-content: center;
+    padding: 50px 20px;
+    width: calc(100% - 40px);
+  }
+
+  .settings-body {
+    padding: initial;
+    flex-direction: column;
+  }
+
+  .settings-body-account,
+  .settings-body-profile {
+    flex-basis: 100%;
+  }
+
+  .settings-body-account-form,
+  .settings-body-profile-form {
+    padding: 20px;
+  }
 }
 </style>
