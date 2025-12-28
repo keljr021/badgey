@@ -1,0 +1,27 @@
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import ui from '@nuxt/ui/vite'
+
+export default defineConfig({
+  server: {
+    watch: {
+      usePolling: true
+    }
+  },
+  plugins: [
+    vue(),
+    ui({
+      ui: {
+        colors: {
+          primary: '',
+          secondary: '',
+          tertiary: '',
+        },
+      },
+      theme: {
+        colors: ['primary', 'secondary', 'success', 'info', 'warning', 'error']
+      },
+      css: ['~/assets/css/main.css'],
+    })
+  ]
+})
