@@ -1,6 +1,5 @@
 <script setup>
 import { getImageSrc } from '../../assets/js/imgHelpers.js'
-import { isOnMobile } from '../../assets/js/screenHelpers.js'
 import { defineProps, ref } from 'vue'
 
 const props = defineProps({

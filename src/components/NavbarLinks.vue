@@ -56,7 +56,7 @@ function hideSubmenus() {
                     <UButton @click="$router.push({ name: 'settings' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
                         Settings
                     </UButton>
-                    <UButton @click="$router.push({ name: 'logout' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                    <UButton @click="$router.push({ name: 'home' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
                         Logout
                     </UButton>
                 </div>

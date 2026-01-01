@@ -1,6 +1,5 @@
 <script setup>
 import { getImageSrc } from '../../assets/js/imgHelpers.js'
-import { isOnMobile } from '../../assets/js/screenHelpers.js'
 import { defineProps, defineEmits, ref } from 'vue'
 
 const props = defineProps({
@@ -27,11 +26,10 @@ function updateBadge() {
 
 <template>
     <UModal 
-        :fullscreen="isOnMobile"
         v-model:open="open"
         :title="name" 
         :ui="{ 
-            content: 'max-w-4xl px-8 py-4', 
+            content: 'w-full h-full px-2 py-2 sm:max-w-4xl sm:px-8 sm:py-4', 
             header: 'border-0 sm:px-0',
             body: 'border-0 px-8 py-4', 
             footer: 'justify-center' 

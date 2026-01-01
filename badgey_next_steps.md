@@ -2,11 +2,7 @@
 Badgey Next Steps
 ========================================
 
-- Add Navbar sub menus
-
-- Add modals for badges
-
-- Create database
+- Add database to site
 
 - Add GQL
 
