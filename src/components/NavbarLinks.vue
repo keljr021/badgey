@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, onUnmounted } from 'vue'
 import NavbarLinksMobile from './NavbarLinksMobile.vue'
 
 const props = defineProps({
@@ -17,15 +17,23 @@ function toggleSubmenu(target, input) {
     if (target === 'account') openAccountSubmenu.value = input;
 }
 
+function hideSubmenus() {
+    const timeout = setTimeout(() => {
+        toggleSubmenu('badge', false);
+        toggleSubmenu('account', false);
+        clearTimeout(timeout);
+    }, 1500);
+}
+
 </script>
 
 <template>
-    <div>
+    <div @mouseleave="hideSubmenus()">
         <div v-if="userLogin">    
             <div class="desktop">
-                <UButton @click="toggleSubmenu();$router.push({ name: 'dashboard' })" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
-                <UButton @click="toggleSubmenu('badge', true)" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
-                <UButton @click="toggleSubmenu('account', true)" :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="md" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Brad</UButton>
+                <UButton @click="toggleSubmenu();$router.push({ name: 'dashboard' })" @mouseover="hideSubmenus()" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
+                <UButton @click="toggleSubmenu('badge', true)" @mouseover="toggleSubmenu('badge', true)" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
+                <UButton @click="toggleSubmenu('account', true)" @mouseover="toggleSubmenu('account', true)" :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="md" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Brad</UButton>
 
 
                 <div class="nav-links-submenu" :class="{ 'active': openBadgeSubmenu }">
@@ -83,6 +91,7 @@ function toggleSubmenu(target, input) {
 
 .nav-links-submenu.active {
     opacity: 1;
+    z-index: 9;
 }
 
 .nav-links-submenu-item {
