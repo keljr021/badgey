@@ -1,19 +1,57 @@
 <script setup>
-import { defineProps, toRef } from 'vue'
+import { defineProps, ref } from 'vue'
 import NavbarLinksMobile from './NavbarLinksMobile.vue'
 
 const props = defineProps({
     userLogin: Boolean
 });
+
+const openBadgeSubmenu = ref(false);
+const openAccountSubmenu = ref(false);
+
+function toggleSubmenu(target, input) {
+    openBadgeSubmenu.value = false;
+    openAccountSubmenu.value = false;
+
+    if (target === 'badge') openBadgeSubmenu.value = input;
+    if (target === 'account') openAccountSubmenu.value = input;
+}
+
 </script>
 
 <template>
     <div>
         <div v-if="userLogin">    
             <div class="desktop">
-                <UButton @click="$router.push({ name: 'dashboard' })" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
-                <UButton color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
-                <UButton :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="md" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Brad</UButton>
+                <UButton @click="toggleSubmenu();$router.push({ name: 'dashboard' })" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
+                <UButton @click="toggleSubmenu('badge', true)" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
+                <UButton @click="toggleSubmenu('account', true)" :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="md" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Brad</UButton>
+
+
+                <div class="nav-links-submenu" :class="{ 'active': openBadgeSubmenu }">
+                    <UButton @click="$router.push({ name: 'create' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                        Create badge
+                    </UButton>
+                    <UButton @click="$router.push({ name: 'manage' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                        Manage badges
+                    </UButton>
+                    <UButton @click="$router.push({ name: 'redeem' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                        Redeem badge
+                    </UButton>
+                </div>
+
+
+                <div class="nav-links-submenu" :class="{ 'active': openAccountSubmenu }">
+                    <UButton @click="$router.push({ name: 'profile' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                        Profile
+                    </UButton>
+                    <UButton @click="$router.push({ name: 'settings' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                        Settings
+                    </UButton>
+                    <UButton @click="$router.push({ name: 'logout' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                        Logout
+                    </UButton>
+                </div>
             </div>
             
             <NavbarLinksMobile class="mobile" />
@@ -27,6 +65,28 @@ const props = defineProps({
 
 <style scoped>
 .nav-links-item {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
+.nav-links-submenu {
+    position: absolute;
+    padding: 10px 25px;
+    right: 10px;
+    display: flex;
+    justify-content: end;
+    background-color: white;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    
+}
+
+.nav-links-submenu.active {
+    opacity: 1;
+}
+
+.nav-links-submenu-item {
+    flex: 1;
     margin-left: 10px !important;
     margin-right: 10px !important;
 }
