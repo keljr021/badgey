@@ -2,7 +2,9 @@
 Badgey Next Steps
 ========================================
 
-- Create data structures
+- Add Navbar sub menus
+
+- Add modals for badges
 
 - Create database
 
@@ -15,5 +17,3 @@ Badgey Next Steps
 - Upload file system
 
 - Create Badge system
-
-- Find email structures
