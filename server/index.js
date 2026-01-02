@@ -1,41 +1,35 @@
-import 'dotenv/config';
+import { buildSchema } from 'graphql';
+import { createHandler } from 'graphql-http/lib/use/express';
+import { ruruHTML } from 'ruru/server';
+
 import express from 'express';
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-import { connectDB, sequelize } from './sequelize.js';
-
-import { typeDefs } from './typeDefs.js';
-import { resolvers } from './resolvers.js';
-
-import { User } from './models/user.js'
-
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
+ 
+// Construct a schema, using GraphQL schema language
+const schema = buildSchema(`type Query { hello: String } `);
+ 
+// The root provides a resolver function for each API endpoint
+const root = {
+  hello() {
+    return 'Hello world!';
+  },
+};
+ 
 const app = express();
-const port = 4000;
+ 
+// Create and use the GraphQL handler.
+app.all(
+  '/graphql',
+  createHandler({
+    schema: schema,
+    rootValue: root,
+  }),
+);
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  // Pass the Sequelize models in the context
-  context: ({ req }) => ({
-    models: {
-      User,
-    },
-    sequelize,
-  })
+app.get('/', (_req, res) => {
+  res.type('html');
+  res.end(ruruHTML({ endpoint: '/graphql' }));
 });
 
-await server.start();
-
-
-connectDB().then(() => {
-
-  app.get('/', (req, res) => {
-    res.send('Welcome to the API!');
-  });
-
-  app.listen({ port }, () =>
-    console.log(`🚀 Server ready at http://localhost:${port}`)
-  );
-});
+app.listen(4000, () =>
+  console.log(`🚀 Server ready at http://localhost:4000`)
+);
