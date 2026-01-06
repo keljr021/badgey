@@ -4,35 +4,34 @@ import { sequelize } from '../sequelize.js';
 const stringType = {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: '',
 };
 
-export const User = sequelize.define('User', {
+export const Badge = sequelize.define('Badge', {
   id: {
     type: DataTypes.UUIDV4,
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  type: stringType,
+  userId: stringType,
   image: {
     type: DataTypes.BLOB('long'),
     allowNull: true,
   },
-  full_name: stringType,
-  username: stringType,
-  email: stringType,
-  dob: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  password: stringType,
-  company: stringType,
+  name: stringType,
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-}, 
+  isApproved: {
+    type: DataTypes.TINYINT,
+    allowNull: false,
+  },
+  rejectReason: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+},
 {
-  tableName: 'Users',
-  timestamps: false,
+    tableName: 'Badges',
+    timestamps: false,
 });

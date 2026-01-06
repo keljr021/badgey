@@ -11,7 +11,7 @@ export const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
 });
 
 // Test the connection
-export const connectDB = async () => {
+const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully with MySQL.');
@@ -21,3 +21,5 @@ export const connectDB = async () => {
     console.error('Unable to connect to the database:', error);
   }
 };
+
+connectDB();
