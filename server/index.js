@@ -2,6 +2,7 @@ import { buildSchema } from 'graphql';
 import { createHandler } from 'graphql-http/lib/use/express';
 import { ruruHTML } from 'ruru/server';
 import { v4 as uuidv4 } from 'uuid';
+import { encrypt, decrypt } from './helpers/encrypt.js';
 
 import express from 'express';
 
@@ -28,11 +29,14 @@ const schema = buildSchema(
     image: String
     name: String
     description: String
+    isApproved: Boolean    
+    rejectReason: String
+    createdAt: String
   }
 
   type User {
     id: String
-    type: String
+    userType: String
     image: String
     name: String
     username: String
@@ -46,7 +50,7 @@ const schema = buildSchema(
   }
 
   input CreateUser {
-    type: String
+    userType: String
     image: String
     name: String
     username: String
@@ -55,6 +59,7 @@ const schema = buildSchema(
     password: String
     company: String
     description: String
+    createdAt: String
   }
 
   type Query {
@@ -67,10 +72,10 @@ const schema = buildSchema(
   type Mutation {
     createBadge(input: CreateBadge): Badge
     updateBadge(id: String, input: CreateBadge): Badge
-    deleteBadge(id: ID): String
+    deleteBadge(id: String): String
     createUser(input: CreateUser): User
-    updateUser(id: ID, input: CreateUser): User
-    deleteUser(id: ID): String
+    updateUser(id: String, input: CreateUser): User
+    deleteUser(id: String): String
   }
 `
 );
@@ -78,79 +83,82 @@ const schema = buildSchema(
 // The root provides a resolver function for each API endpoint
 const root = {
   async badges() {
-    await Badge.findAll();
+    const badges = await Badge.findAll();
+    return badges;
   },
 
-  async badge(id) {
-    await Badge.findByPk(id);
+  async badge({ id }) {
+    const targetBadge = await Badge.findByPk(id);
+    return targetBadge;
   },
 
-  async createBadge(input) {
-    let newBadge = { ...input };
-    newBadge.id = uuidv4();
-    newBadge.password = Buffer.from(badge.password);
-
-    await Badge.create(newBadge);
+  async createBadge({ input }) {
+    const newBadge = await Badge.create({
+      userId: input.userId,
+      image: input.image,
+      name: input.name,
+      description: input.description,
+      createdAt: new Date().toISOString(),
+      isApproved: false,
+      rejectReason: ''
+    });
+    return newBadge;
   },
 
-  async updateBadge(id, input) {
+  async updateBadge({ id, input }) {
     await Badge.update(input, { 
       where: { 
         id: id 
       }
     });
+    const targetBadge = await Badge.findByPk(id);
+    return targetBadge;
   },
 
-  async deleteBadge(id) {
-    await Badge.destroy({
+  async deleteBadge({ id }) {
+    const targetBadge =  Badge.destroy({
       where: {
         id: id
       }
     });
+    return 'Badge ' + id + ' deleted.';
   },
 
   async users() {
-    await User.findAll();
+    let users = await User.findAll();
+    return users;
   },
 
-  async user(id) {
-    await User.findByPk(id);
+  async user({ id }) {
+    const targetUser = await User.findByPk(id, { raw: true });
+    return targetUser;
   },
 
-  async createUser(input) {
-    console.log('input values: ', input);
-    let newUser = input.input;
-    let uuid = (uuidv4()).toString();
-    console.log('new user data: ', newUser, ' id: ', uuid);
-    await User.create({
-      id: uuid,
-      type: newUser.type,
-      full_name: newUser.name,
-      username: newUser.username,
-      email: newUser.email,
-      dob: newUser.dob,
-      password: Buffer.from(newUser.password),
-      company: newUser.company,
-      description: newUser.description,
-      createdAt: new Date().toISOString()
-    });
+  async createUser({ input }) {
+    input.password = encrypt(input.password);
+    input.createdAt = new Date().toISOString();
+    
+    let newUser = await User.create(input);
     return newUser;
   },
 
-  async updateUser(id, input) {
+  async updateUser({ id, input }) {    
     await User.update(input, { 
       where: { 
         id: id 
       }
     });
+    const targetUser = await User.findByPk(id);
+    return targetUser;
   },
 
-  async deleteUser(id) {
+  async deleteUser({ id }) {
     await User.destroy({
       where: {
         id: id
       }
     });
+    return 'User ' + id + ' deleted.';
   },
 };
  

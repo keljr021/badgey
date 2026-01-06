@@ -1,32 +1,55 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../sequelize.js';
 
-const stringType = {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: '',
-};
-
 export const User = sequelize.define('User', {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.STRING,
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  type: stringType,
+  userType: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
   image: {
     type: DataTypes.BLOB('long'),
     allowNull: true,
+    get() {
+        // Convert the Buffer to a Base64 string when accessed
+        const rawValue = this.getDataValue('image');
+        return rawValue ? rawValue.toString('base64') : null;
+      }
   },
-  full_name: stringType,
-  username: stringType,
-  email: stringType,
+  name: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
   dob: {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  password: stringType,
-  company: stringType,
+  password: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
+  company: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: '',
+  },
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
