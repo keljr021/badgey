@@ -2,12 +2,16 @@
 Badgey Next Steps
 ========================================
 
-- Add GQL
-    - Add client to server communication
+- Dashboard workflow
+
+- Badges
+  - Add isDraft boolean to badges table
 
 - Search workflow
 
 - Login workflow
+
+- Profile workflow
 
 - Upload file system
 
