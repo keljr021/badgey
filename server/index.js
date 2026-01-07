@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { encrypt, decrypt } from './helpers/encrypt.js';
 
 import express from 'express';
+import cors from 'cors';
 
 import { User } from './models/user.js';
 import { Badge } from './models/badge.js';
@@ -163,6 +164,7 @@ const root = {
 };
  
 const app = express();
+app.use(cors());
  
 // Create and use the GraphQL handler.
 app.all(

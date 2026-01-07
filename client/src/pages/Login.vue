@@ -1,11 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import LoginForm from './../components/login/LoginForm.vue'
 import LoginFormMobile from './../components/login/LoginFormMobile.vue'
 import RegisterForm from './../components/login/RegisterForm.vue'
 import RegisterFormMobile from './../components/login/RegisterFormMobile.vue'
 
+import { useUserStore } from './../store/user.js'
+
+const userStore = useUserStore();
 
 const router = useRouter();
 
@@ -27,6 +30,13 @@ function toggleLoginModal() {
 function toggleRegisterModal() {
   openRegister.value = !openRegister.value;
 }
+
+onMounted(async () => {
+  console.log('mounted');
+  await userStore.fetchAllUsers();
+  console.log('users: ', userStore.users);
+
+})
 </script>
 
 <template>
