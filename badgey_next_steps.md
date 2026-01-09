@@ -6,11 +6,11 @@ Badgey Next Steps
   - Add isDraft boolean to badges table
   - Add isEmailVerified boolean to users table
   - Add isLocked boolean to users table
-  - Add lastLogin date to users table
 
 - Navbar
   - Switch states when user is logged in
   - Add Logged in user values to links
+  - Submenu issue with clicking links even when hidden
 
 - Login
   - Add company option when Host is selected
@@ -18,6 +18,8 @@ Badgey Next Steps
   - Add alerts whenever user login/register is invalid
 
 - Dashboard workflow
+  - Add lastLogin date to users table
+  - Connect user data to page
 
 - Badges
 
@@ -30,3 +32,5 @@ Badgey Next Steps
 - Create Badge system
 
 - Scroll to top of page in between routes
+
+- Add image workflow

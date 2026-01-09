@@ -11,6 +11,7 @@ query Users {
     image
     userType
     username
+    lastLogin
   }
 }
 `;
@@ -29,6 +30,7 @@ query loginUser($username: String, $password: String) {
     userType
     username
     password
+    lastLogin
   }
 }
 `;

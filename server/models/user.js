@@ -38,7 +38,7 @@ export const User = sequelize.define('User', {
     defaultValue: '',
   },
   dob: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
   password: {
@@ -55,6 +55,11 @@ export const User = sequelize.define('User', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  lastLogin: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    defaultValue: DataTypes.NOW,
+  }
 }, 
 {
   tableName: 'Users',

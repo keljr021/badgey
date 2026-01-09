@@ -1,11 +1,31 @@
 <script setup>
-import { ref, onMounted } from 'vue' 
+import { ref, computed, onMounted } from 'vue' 
 import DashOptions from '../components/DashOptions.vue'
 import { getImageSrc } from '../assets/js/imgHelpers.js'
 
 import { useUserStore } from './../store/user.js'
 
 const userStore = useUserStore();
+const currentUser = userStore.loggedInUser;
+
+const formattedLoginDate = computed(() => {
+  // console.log('current user date: ', currentUser.lastLogin);
+
+  // let dateObject = new Date(currentUser.lastLogin.toISOString());
+  // console.log('to date: ', dateObject);
+
+  // let inputDate = new Date().toISOString();
+
+  // if (currentUser.lastLogin) inputDate = new Date(currentUser.lastLogin).toDateString();
+  
+  // let m = inputDate.getMonth() + 1;
+  // let d = inputDate.getDate();
+  // let y = inputDate.getFullYear();
+
+  // return `${m}/${d}/${y}`;
+
+  return '01/01/2026';
+});
 
 const showFollowers = ref(false);
 
@@ -14,7 +34,7 @@ function toggleFollowers() {
 }
 
 onMounted(() => {
-  console.log('loggedInUser: ', userStore.loggedInUser);
+  console.log('loggedInUser: ', currentUser);
 });
 </script>
 
@@ -25,8 +45,8 @@ onMounted(() => {
         <img :src="getImageSrc('badgey_brad.png')" />
       </div>
       <div class="dash-header-text">
-        <div class="dash-header-text-welcome">Welcome<br class="mobile" />Brad B. Badger</div>
-        <div class="dash-header-text-last">Last login 12/01/2025</div>
+        <div class="dash-header-text-welcome">Welcome<br class="mobile" />{{ currentUser.name }}</div>
+        <div class="dash-header-text-last">Last login {{ formattedLoginDate }}</div>
       </div>
       <div class="dash-header-status">
         &nbsp;
@@ -40,7 +60,7 @@ onMounted(() => {
         description="View who's following you, friends, and friend requests."/>
 
       <DashOptions 
-        routeTo="/profile" 
+        routeTo="/profile/" + currentUser.id 
         icon="i-lucide-square-user" 
         title="View profile" 
         description="View your current profile and customize to your liking."/>

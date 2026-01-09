@@ -15,10 +15,12 @@ import { Sequelize, Op } from 'sequelize';
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(
 `
+  scalar Upload
+
   type Badge {
     id: String
     userId: String
-    image: String
+    image: Upload
     name: String
     description: String
     createdAt: String
@@ -28,7 +30,7 @@ const schema = buildSchema(
 
   input CreateBadge {
     userId: String
-    image: String
+    image: Upload
     name: String
     description: String
     isApproved: Boolean    
@@ -39,7 +41,7 @@ const schema = buildSchema(
   type User {
     id: String
     userType: String
-    image: String
+    image: Upload
     name: String
     username: String
     email: String
@@ -48,12 +50,12 @@ const schema = buildSchema(
     company: String
     description: String
     createdAt: String
-    badges: [Badge] 
+    lastLogin: String
   }
 
   input CreateUser {
     userType: String
-    image: String
+    image: Upload
     name: String
     username: String
     email: String
@@ -62,6 +64,8 @@ const schema = buildSchema(
     company: String
     description: String
     createdAt: String
+    lastLogin: String
+
   }
 
   type Query {
@@ -78,7 +82,7 @@ const schema = buildSchema(
     updateBadge(id: String, input: CreateBadge): Badge
     deleteBadge(id: String): String
     createUser(input: CreateUser): User
-    updateUser(id: String, input: CreateUser): User
+    updateUser(id: String, input: String): User
     deleteUser(id: String): String
   }
 `
@@ -154,42 +158,22 @@ const root = {
     return targetUsers;
   },
 
-  async loginUser({ username, password }) {
-    let targetUser = await User.findAll({
-      where: {
-        [Op.or]: [
-          {username: username},
-          {email: username}
-        ]
-      }
-    });
-
-    if (targetUser.length > 0) {
-      let firstUser = targetUser[0];
-      let comparePasswords = await bcrypt.compare(password, String(firstUser.password));
-
-      if (comparePasswords) return firstUser;
-    }
-
-    return null;
-  },
-
   async createUser({ input }) {
     input.dob = new Date(input.dob).toISOString();
     input.createdAt = new Date().toISOString();
+    input.lastLogin = new Date().toISOString();
+
     
     let newUser = await User.create(input);
     return newUser;
   },
 
-  async updateUser({ id, input }) {    
-    await User.update(input, { 
+  async updateUser({ id, input }) {   
+    return await User.update(input, { 
       where: { 
         id: id 
       }
     });
-    const targetUser = await User.findByPk(id);
-    return targetUser;
   },
 
   async deleteUser({ id }) {
@@ -199,6 +183,28 @@ const root = {
       }
     });
     return 'User ' + id + ' deleted.';
+  },
+
+  async loginUser({ username, password }) {
+    let targetUser = await User.findOne({
+      where: {
+        [Op.or]: [
+          {username: username },
+          {email: username }
+        ]
+      }
+    });
+
+    if (targetUser) {
+      let comparePasswords = await bcrypt.compare(password, String(targetUser.password));
+      if (comparePasswords) {
+        // targetUser.lastLogin = new Date().toISOString();
+        // targetUser.save();
+        return targetUser;
+      }
+    }
+
+    return null;
   },
 };
  
