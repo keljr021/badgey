@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../sequelize.js';
+import bcrypt from 'bcrypt';
 
 export const User = sequelize.define('User', {
   id: {
@@ -58,4 +59,20 @@ export const User = sequelize.define('User', {
 {
   tableName: 'Users',
   timestamps: false,
+  hooks: {
+    // Hash the password before a new user is created
+      beforeCreate: async (user) => {
+        const saltRounds = 10; // 10 is the current recommended strength for bcrypt
+        user.password = await bcrypt.hash(user.password, saltRounds);
+        return user;
+      },
+      // Hash the password if it is updated
+      beforeUpdate: async (user) => {
+        if (user.changed('password')) { // Only hash if the password field was changed
+          const saltRounds = 10;
+          user.password = await bcrypt.hash(user.password, saltRounds);
+        }
+        return user;
+      },
+  }
 });

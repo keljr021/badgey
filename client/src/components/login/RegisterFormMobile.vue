@@ -5,12 +5,12 @@ const userType = ref([
   {
     label: 'Attendee',
     description: 'User who attends events.',
-    value: 'attendee'
+    value: '1'
   },
   {
     label: 'Host',
     description: 'User who creates and host events.',
-    value: 'host'
+    value: '2'
   }
 ]);
 

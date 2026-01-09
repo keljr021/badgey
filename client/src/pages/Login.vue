@@ -15,12 +15,27 @@ const router = useRouter();
 const openLogin = ref(false);
 const openRegister = ref(false);
 
-function login() {
-  router.push('/dashboard');
+async function login(user, password) {
+  const loggedInUser = await userStore.handleLogin(user.value, password.value);
+
+  if (loggedInUser)
+    router.push('/dashboard');
+  else
+    alert('Login invalid');
 }
 
-function register() {
-  router.push('/dashboard');
+async function register(payload) {
+
+  //Check if user has an account first
+  const registerUser = await userStore.handleRegister(payload);
+
+  if (registerUser === 'already registered') {
+    alert('User already has an account.');
+  } else if (registerUser === 'successful') {
+    router.push('/dashboard');
+  } else {
+    alert('Register invalid.');
+  }
 }
 
 function toggleLoginModal() {
@@ -30,13 +45,6 @@ function toggleLoginModal() {
 function toggleRegisterModal() {
   openRegister.value = !openRegister.value;
 }
-
-onMounted(async () => {
-  console.log('mounted');
-  await userStore.fetchAllUsers();
-  console.log('users: ', userStore.users);
-
-})
 </script>
 
 <template>

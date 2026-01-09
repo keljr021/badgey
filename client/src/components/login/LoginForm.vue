@@ -12,7 +12,7 @@ const inputStyling = {
 const emit = defineEmits(['login']);
 
 function handleLogin() {
-  emit('login');
+  emit('login', user, password);
 }
 
 function handleForgotPassword() {

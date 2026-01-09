@@ -2,13 +2,14 @@ import { buildSchema } from 'graphql';
 import { createHandler } from 'graphql-http/lib/use/express';
 import { ruruHTML } from 'ruru/server';
 import { v4 as uuidv4 } from 'uuid';
-import { encrypt, decrypt } from './helpers/encrypt.js';
+import bcrypt from 'bcrypt';
 
 import express from 'express';
 import cors from 'cors';
 
 import { User } from './models/user.js';
 import { Badge } from './models/badge.js';
+import { Sequelize, Op } from 'sequelize';
 
  
 // Construct a schema, using GraphQL schema language
@@ -68,6 +69,8 @@ const schema = buildSchema(
     badge(id: String): Badge
     users: [User] 
     user(id: String): User
+    searchUsers(query: String): [User]
+    loginUser(username: String, password: String): User
   }
 
   type Mutation {
@@ -135,8 +138,44 @@ const root = {
     return targetUser;
   },
 
+  async searchUsers({ query }) {
+    let where = {};
+
+    let queryArray = query.split(',');
+
+    for(let queryItem in queryArray) {
+      let keyVal = queryItem.split('=');
+      where[keyVal[0]] = keyVal[1];
+    }
+
+    let targetUsers = await User.findAll({
+      where: where
+    });
+    return targetUsers;
+  },
+
+  async loginUser({ username, password }) {
+    let targetUser = await User.findAll({
+      where: {
+        [Op.or]: [
+          {username: username},
+          {email: username}
+        ]
+      }
+    });
+
+    if (targetUser.length > 0) {
+      let firstUser = targetUser[0];
+      let comparePasswords = await bcrypt.compare(password, String(firstUser.password));
+
+      if (comparePasswords) return firstUser;
+    }
+
+    return null;
+  },
+
   async createUser({ input }) {
-    input.password = encrypt(input.password);
+    input.dob = new Date(input.dob).toISOString();
     input.createdAt = new Date().toISOString();
     
     let newUser = await User.create(input);

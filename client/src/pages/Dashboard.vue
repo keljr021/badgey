@@ -1,13 +1,21 @@
 <script setup>
-import { ref } from 'vue' 
+import { ref, onMounted } from 'vue' 
 import DashOptions from '../components/DashOptions.vue'
 import { getImageSrc } from '../assets/js/imgHelpers.js'
+
+import { useUserStore } from './../store/user.js'
+
+const userStore = useUserStore();
 
 const showFollowers = ref(false);
 
 function toggleFollowers() {
   showFollowers.value = !showFollowers.value;
 }
+
+onMounted(() => {
+  console.log('loggedInUser: ', userStore.loggedInUser);
+});
 </script>
 
 <template>

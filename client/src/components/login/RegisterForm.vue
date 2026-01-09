@@ -5,12 +5,12 @@ const userType = ref([
   {
     label: 'Attendee',
     description: 'User who attends events.',
-    value: 'attendee'
+    value: '1'
   },
   {
     label: 'Host',
     description: 'User who creates and host events.',
-    value: 'host'
+    value: '2'
   }
 ]);
 
@@ -30,7 +30,16 @@ const inputStyling = {
 const emit = defineEmits(['register']);
 
 function handleRegister() {
-  emit('register')
+  const payload = {
+    userType: type.value,
+    name: name.value,
+    username: username.value,
+    email: email.value,
+    dob: dob.value,
+    description: '',
+    password: password.value,
+  }
+  emit('register', payload);
 }
 </script>
 
