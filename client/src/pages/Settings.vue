@@ -1,20 +1,40 @@
 <script setup>
 import { getImageSrc } from '../assets/js/imgHelpers.js'
-import { ref } from 'vue'
- 
-const userType = ref([
+import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue'
+
+import { useUserStore } from './../store/user.js'
+
+const userStore = useUserStore();
+
+const { loggedInUser } = storeToRefs(userStore);
+
+
+const userType = [
   {
     label: 'Attendee',
     description: 'User who attends events.',
-    value: 'attendee'
+    value: "1"
   },
   {
     label: 'Host',
     description: 'User who creates and host events.',
-    value: 'host'
+    value: "2"
   }
-]);
+];
 
+const selectedUserType = loggedInUser.value.userType || "1";
+const name = loggedInUser.value.name || '';
+const username = loggedInUser.value.username || '';
+const email = loggedInUser.value.email || '';
+const dob = loggedInUser.value.dob || '';
+const password = '*********';
+const description = loggedInUser.value.description || '';
+
+
+onMounted(() => {
+  console.log('loggedInUser: ', loggedInUser.value);
+});
 </script>
 
 <template>
@@ -25,7 +45,7 @@ const userType = ref([
         <div class="settings-body-account-title">Account settings</div>
         <div class="settings-body-account-form">
           <UFormField label="I am a(n)..." size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <URadioGroup v-model="type" :orientation="'mobile' ? 'vertical':'horizontal'" :items="userType" class="py-2" />
+            <URadioGroup v-model="selectedUserType" :orientation="'mobile' ? 'vertical':'horizontal'" :items="userType" class="py-2" />
           </UFormField>
           <UFormField label="Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <UInput v-model="name" class="w-full" />
@@ -40,10 +60,7 @@ const userType = ref([
             <UInput v-model="dob" class="w-full" />
           </UFormField>
           <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput v-model="password" class="w-full" />
-          </UFormField>
-          <UFormField label="Confirm password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput v-model="confirm" class="w-full" />
+            <UInput v-model="password" class="w-full" disabled />
           </UFormField>
       </div>
     </div>
@@ -59,7 +76,7 @@ const userType = ref([
           <UButton @click="handleRegister()" color="neutral" variant="outline" icon="i-lucide-upload" class="text-[var(--badgey-black)] hover:text-white">Upload image</UButton>
         </UFormField>
         <UFormField label="Description" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-          <UTextarea rows="4" :class="'py-2 ' + ('mobile' ? 'w-full' : 'w-100')" />
+          <UTextarea v-model="description" rows="4" :class="'py-2 ' + ('mobile' ? 'w-full' : 'w-100')" />
         </UFormField>
         <UFormField class="w-100 pt-22" :ui="inputStyling">
           <UButton @click="handleRegister()" color="neutral" variant="outline" icon="i-lucide-save" class="text-[var(--badgey-black)] hover:text-white">Save settings</UButton>

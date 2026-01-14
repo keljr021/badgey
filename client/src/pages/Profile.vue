@@ -1,10 +1,21 @@
 <script setup>
 import { getImageSrc } from '../assets/js/imgHelpers.js'
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { ref, onMounted } from 'vue'
 import BadgeItem from '../components/badges/BadgeItem.vue'
+
+import { useUserStore } from './../store/user.js'
 
 const items = ref(['Backlog', 'Todo', 'In Progress', 'Done']);
 
+const userStore = useUserStore();
+
+const { loggedInUser } = storeToRefs(userStore);
+
+
+onMounted(() => {
+  console.log('loggedInUser: ', loggedInUser.value);
+});
 </script>
 
 <template>
@@ -14,20 +25,20 @@ const items = ref(['Backlog', 'Todo', 'In Progress', 'Done']);
         <img :src="getImageSrc('badgey_brad.png')" />
       </div>
       <div class="profile-header-text">
-        <div class="profile-header-text-name">Brad B. Badger</div>
-        <div class="profile-header-text-user">@badgey_brad</div>
+        <div class="profile-header-text-name">{{ loggedInUser.name }}</div>
+        <div class="profile-header-text-user">@{{ loggedInUser.username }}</div>
         <div class="profile-header-text-follow">
           <div class="profile-header-text-followers">3 Followers</div>
           <div class="profile-header-text-following">12 Following</div>
         </div>
         <div class="profile-about desktop py-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et interdum arcu. Etiam neque purus, facilisis non nisl et, facilisis egestas lorem.
+          {{  loggedInUser.description }}
         </div>
       </div>
     </div>
 
     <div class="profile-about mobile py-5">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et interdum arcu. Etiam neque purus, facilisis non nisl et, facilisis egestas lorem.
+      {{ loggedInUser.description }}
     </div>
 
     <div class="profile-top">
