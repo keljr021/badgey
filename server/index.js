@@ -1,5 +1,7 @@
 import { buildSchema } from 'graphql';
 import { createHandler } from 'graphql-http/lib/use/express';
+import { db } from './drizzle.js'
+import { eq, or, like, sql } from 'drizzle-orm';
 import { ruruHTML } from 'ruru/server';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
@@ -9,7 +11,6 @@ import cors from 'cors';
 
 import { User } from './models/user.js';
 import { Badge } from './models/badge.js';
-import { Sequelize, Op } from 'sequelize';
 
  
 // Construct a schema, using GraphQL schema language
@@ -91,115 +92,142 @@ const schema = buildSchema(
 // The root provides a resolver function for each API endpoint
 const root = {
   async badges() {
-    const badges = await Badge.findAll();
+    const badges = await db.select().from(Badge);
     return badges;
   },
 
   async badge({ id }) {
-    const targetBadge = await Badge.findByPk(id);
-    return targetBadge;
+    const targetBadges = await db.select()
+      .from(Badge)
+      .where(eq(Badge.id, id))
+      .limit(1);
+    return targetBadges[0];
   },
 
   async createBadge({ input }) {
-    const newBadge = await Badge.create({
+    const newBadgeId = uuidv4();
+
+    const badgeInfo = {
+      id: newBadgeId,
       userId: input.userId,
       image: input.image,
       name: input.name,
       description: input.description,
-      createdAt: new Date().toISOString(),
       isApproved: false,
       rejectReason: ''
-    });
-    return newBadge;
+    };
+
+    await db.insert(Badge).values(badgeInfo);
+
+    const target = await db.select()
+      .from(Badge)
+      .where(eq(Badge.id, newBadgeId))
+      .limit(1);
+
+    return target[0];
   },
 
   async updateBadge({ id, input }) {
-    await Badge.update(input, { 
-      where: { 
-        id: id 
-      }
-    });
-    const targetBadge = await Badge.findByPk(id);
-    return targetBadge;
+
+    await db.update(Badge)
+      .set(input)
+      .where(eq(Badge.id, id));
+
+    const target = await db.select()
+      .from(Badge)
+      .where(eq(Badge.id, id))
+      .limit(1);
+
+    return target[0];
   },
 
   async deleteBadge({ id }) {
-    const targetBadge =  Badge.destroy({
-      where: {
-        id: id
-      }
-    });
+    await db.delete(Badge).where(eq(Badge.id, id));
     return 'Badge ' + id + ' deleted.';
   },
 
   async users() {
-    let users = await User.findAll();
+    const users = await db.select().from(User);
     return users;
   },
 
   async user({ id }) {
-    const targetUser = await User.findByPk(id, { raw: true });
-    return targetUser;
+    const targetUsers = await db.select()
+      .from(User)
+      .where(eq(User.id, id))
+      .limit(1);
+      return targetUsers[0];
   },
 
   async searchUsers({ query }) {
-    let where = {};
+    const users = await db.select()
+      .from(User)
+      .where(
+        or(
+          like(User.name, `%${query}%`),
+          like(User.username, `%${query}%`),
+          like(User.email, `%${query}%`),
+          like(User.description, `%${query}%`),
+        )
+      )
+    return users;
 
-    let queryArray = query.split(',');
-
-    for(let queryItem in queryArray) {
-      let keyVal = queryItem.split('=');
-      where[keyVal[0]] = keyVal[1];
-    }
-
-    let targetUsers = await User.findAll({
-      where: where
-    });
-    return targetUsers;
   },
 
   async createUser({ input }) {
-    input.dob = new Date(input.dob).toISOString();
-    input.createdAt = new Date().toISOString();
-    input.lastLogin = new Date().toISOString();
+    const newUserId = uuidv4();
 
-    
-    let newUser = await User.create(input);
-    return newUser;
+    input.id = newUserId;
+    input.dob = new Date(input.dob);
+    input.createdAt = sql`NOW()`;
+    input.lastLogin = sql`NOW()`;
+
+    await db.insert.users.values(input);
+
+    const target = await db.select()
+      .from(User)
+      .where(eq(User.id, newUserId))
+      .limit(1);
+
+    return target[0];
   },
 
   async updateUser({ id, input }) {   
-    return await User.update(input, { 
-      where: { 
-        id: id 
-      }
-    });
+    await db.update(User)
+      .set(input)
+      .where(eq(User.id, id));
+
+    const target = await db.select()
+      .from(User)
+      .where(eq(User.id, id))
+      .limit(1);
+
+    return target[0];
   },
 
   async deleteUser({ id }) {
-    await User.destroy({
-      where: {
-        id: id
-      }
-    });
+    await db.delete(User).where(eq(User.id, id));
     return 'User ' + id + ' deleted.';
   },
 
   async loginUser({ username, password }) {
-    let targetUser = await User.findOne({
-      where: {
-        [Op.or]: [
-          {username: username },
-          {email: username }
-        ]
-      }
-    });
+    let targetUser = await await db.select()
+      .from(User)
+      .where(
+        or(
+          eq(User.username, username),
+          eq(User.email, username)
+        )
+      );
 
     if (targetUser) {
-      let comparePasswords = await bcrypt.compare(password, String(targetUser.password));
-      if (comparePasswords) {
-        // targetUser.lastLogin = new Date().toISOString();
-        // targetUser.save();
+      let passwordMatches = await bcrypt.compare(password, String(targetUser.password));
+      if (passwordMatches) {
+
+        await db.update(User)
+          .set({ lastLogin: new Date().toISOString() })
+          .where(eq(User.id, id));
+        
         return targetUser;
       }
     }

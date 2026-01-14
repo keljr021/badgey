@@ -6,6 +6,7 @@ Badgey Next Steps
   - Add isDraft boolean to badges table
   - Add isEmailVerified boolean to users table
   - Add isLocked boolean to users table
+  - Issue between saving lastLogin date between MySQL -> Sequelize -> Javascript
 
 - Navbar
   - Switch states when user is logged in

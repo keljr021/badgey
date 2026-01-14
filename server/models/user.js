@@ -1,83 +1,29 @@
-import { DataTypes } from 'sequelize';
-import { sequelize } from '../sequelize.js';
-import bcrypt from 'bcrypt';
+import { sql } from 'drizzle-orm';
+import { customType, mysqlTable, varchar, date, text, datetime } from 'drizzle-orm/mysql-core';
+import { v4 as uuidv4 } from 'uuid';
 
-export const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-    defaultValue: DataTypes.UUIDV4,
+const customLongBlob = customType({
+  dataType() {
+    return 'LONGBLOB';
   },
-  userType: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: '',
-  },
-  image: {
-    type: DataTypes.BLOB('long'),
-    allowNull: true,
-    get() {
-        // Convert the Buffer to a Base64 string when accessed
-        const rawValue = this.getDataValue('image');
-        return rawValue ? rawValue.toString('base64') : null;
-      }
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: '',
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: '',
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: '',
-  },
-  dob: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: '',
-  },
-  company: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: '',
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  lastLogin: {
-    type: DataTypes.DATE,
-    allowNull: true,
-    defaultValue: DataTypes.NOW,
-  }
-}, 
-{
-  tableName: 'Users',
-  timestamps: false,
-  hooks: {
-    // Hash the password before a new user is created
-      beforeCreate: async (user) => {
-        const saltRounds = 10; // 10 is the current recommended strength for bcrypt
-        user.password = await bcrypt.hash(user.password, saltRounds);
-        return user;
-      },
-      // Hash the password if it is updated
-      beforeUpdate: async (user) => {
-        if (user.changed('password')) { // Only hash if the password field was changed
-          const saltRounds = 10;
-          user.password = await bcrypt.hash(user.password, saltRounds);
-        }
-        return user;
-      },
-  }
+});
+
+export const User = mysqlTable('users', {
+  id: varchar('id', { length: 36 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+  userType: varchar('userType', { length: 255 }),
+  image: customLongBlob('image'),
+  name: varchar('name', { length: 255 }),
+  username: varchar('username', { length: 255 }),
+  email: varchar('email', { length: 255 }),
+  dob: date('dob', { mode: 'string' }),
+  password: varchar('password', { length: 255 }),
+  company: varchar('company', { length: 255 }),
+  description: text('description'),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3)`),
+  lastLogin: datetime('lastLogin', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3)`),
 });
