@@ -1,30 +1,30 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue' 
+import { storeToRefs } from 'pinia'
 import DashOptions from '../components/DashOptions.vue'
 import { getImageSrc } from '../assets/js/imgHelpers.js'
 
 import { useUserStore } from './../store/user.js'
 
 const userStore = useUserStore();
-const currentUser = userStore.loggedInUser;
+
+const { loggedInUser } = storeToRefs(userStore);
 
 const formattedLoginDate = computed(() => {
-  // console.log('current user date: ', currentUser.lastLogin);
+  let inputLoginDate = loggedInUser.value.lastLogin;
+  let dateObject = new Date(inputLoginDate);
 
-  // let dateObject = new Date(currentUser.lastLogin.toISOString());
-  // console.log('to date: ', dateObject);
-
-  // let inputDate = new Date().toISOString();
-
-  // if (currentUser.lastLogin) inputDate = new Date(currentUser.lastLogin).toDateString();
+  // Check if the date is valid
+  if (!dateObject || isNaN(dateObject.getTime())) {
+    console.error('Invalid date received:', inputLoginDate);
+    return 'Invalid Date';
+  }
   
-  // let m = inputDate.getMonth() + 1;
-  // let d = inputDate.getDate();
-  // let y = inputDate.getFullYear();
+  let m = dateObject.getMonth() + 1;
+  let d = dateObject.getDate();
+  let y = dateObject.getFullYear();
 
-  // return `${m}/${d}/${y}`;
-
-  return '01/01/2026';
+  return `${m}/${d}/${y}`;
 });
 
 const showFollowers = ref(false);
@@ -34,7 +34,7 @@ function toggleFollowers() {
 }
 
 onMounted(() => {
-  console.log('loggedInUser: ', currentUser);
+  console.log('loggedInUser: ', loggedInUser.value);
 });
 </script>
 
@@ -45,7 +45,7 @@ onMounted(() => {
         <img :src="getImageSrc('badgey_brad.png')" />
       </div>
       <div class="dash-header-text">
-        <div class="dash-header-text-welcome">Welcome<br class="mobile" />{{ currentUser.name }}</div>
+        <div class="dash-header-text-welcome">Welcome<br class="mobile" />{{ loggedInUser.name }}</div>
         <div class="dash-header-text-last">Last login {{ formattedLoginDate }}</div>
       </div>
       <div class="dash-header-status">
@@ -60,7 +60,7 @@ onMounted(() => {
         description="View who's following you, friends, and friend requests."/>
 
       <DashOptions 
-        routeTo="/profile/" + currentUser.id 
+        routeTo="/profile/" + loggedInUser.id 
         icon="i-lucide-square-user" 
         title="View profile" 
         description="View your current profile and customize to your liking."/>

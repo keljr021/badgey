@@ -3,10 +3,6 @@ Badgey Next Steps
 ========================================
 
 - Database
-  - Add isDraft boolean to badges table
-  - Add isEmailVerified boolean to users table
-  - Add isLocked boolean to users table
-  - Issue between saving lastLogin date between MySQL -> Sequelize -> Javascript
 
 - Navbar
   - Switch states when user is logged in
@@ -17,10 +13,11 @@ Badgey Next Steps
   - Add company option when Host is selected
   - Add validations to forms
   - Add alerts whenever user login/register is invalid
+  - Add datepicker to DOB
+  - Add password inputs to password options
 
 - Dashboard workflow
-  - Add lastLogin date to users table
-  - Connect user data to page
+  - Persist user data when refreshing/back
 
 - Badges
 

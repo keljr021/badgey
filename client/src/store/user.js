@@ -1,7 +1,7 @@
 import { ref, reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { fetchUsers, loginUser, searchUsers, createUser } from './../gql/userQuery.js'
+import { fetchUsers, findUser, loginUser, searchUsers, createUser } from './../gql/userQuery.js'
 
 const { VITE_POST_URL } = import.meta.env;
 
@@ -35,11 +35,6 @@ export const useUserStore = defineStore('user', () => {
         users.value = data.users;
     }
 
-    async function findUsers(input) {
-        let data = await callServer(searchUsers, input);
-        return data.searchUsers;
-    }
-
     function fetchUser(id) {
         let users = getters.allUsers;
         let targetUser = users.find(user => id === user.id);
@@ -49,6 +44,8 @@ export const useUserStore = defineStore('user', () => {
     async function handleLogin(username, password) {
         const data = await callServer(loginUser, { username, password });
 
+        console.log('data returned: ', data);
+
         if (data.loginUser) {
             loggedInUser.value = data.loginUser;
             return true;
@@ -57,9 +54,10 @@ export const useUserStore = defineStore('user', () => {
     }
 
     async function handleRegister(input) {
-        const userExists = await findUsers({query: `username='${input.username}`});
+        const findUserCall = await callServer(findUser, {query: `username='${input.username}`});
+        debugger;
 
-        if (userExists) return 'already registered';
+        if (findUserCall.user !== null) return 'already registered';
         else {
             const data = await callServer(createUser, { input: input });
 

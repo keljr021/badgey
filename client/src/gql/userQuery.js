@@ -16,6 +16,24 @@ query Users {
 }
 `;
 
+export const findUser = `
+query User {
+  user {
+    name
+    company
+    createdAt
+    description
+    dob
+    email
+    id
+    image
+    userType
+    username
+    lastLogin
+  }
+}
+`;
+
 export const loginUser = `
 query loginUser($username: String, $password: String) {
   loginUser(username: $username, password: $password) {

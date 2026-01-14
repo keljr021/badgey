@@ -25,6 +25,7 @@ const schema = buildSchema(
     name: String
     description: String
     createdAt: String
+    isDraft: Boolean
     isApproved: Boolean
     rejectReason: String
   }
@@ -34,6 +35,7 @@ const schema = buildSchema(
     image: Upload
     name: String
     description: String
+    isDraft: Boolean
     isApproved: Boolean    
     rejectReason: String
     createdAt: String
@@ -52,6 +54,8 @@ const schema = buildSchema(
     description: String
     createdAt: String
     lastLogin: String
+    isEmailVerified: Boolean
+    isLocked: Boolean
   }
 
   input CreateUser {
@@ -66,7 +70,8 @@ const schema = buildSchema(
     description: String
     createdAt: String
     lastLogin: String
-
+    isEmailVerified: Boolean
+    isLocked: Boolean
   }
 
   type Query {
@@ -83,7 +88,7 @@ const schema = buildSchema(
     updateBadge(id: String, input: CreateBadge): Badge
     deleteBadge(id: String): String
     createUser(input: CreateUser): User
-    updateUser(id: String, input: String): User
+    updateUser(id: String, input: CreateUser): User
     deleteUser(id: String): String
   }
 `
@@ -114,6 +119,7 @@ const root = {
       name: input.name,
       description: input.description,
       isApproved: false,
+      isDraft: input.isDraft,
       rejectReason: ''
     };
 
@@ -178,11 +184,12 @@ const root = {
     const newUserId = uuidv4();
 
     input.id = newUserId;
+    input.password = await bcrypt.hash(input.password, 10);
     input.dob = new Date(input.dob);
     input.createdAt = sql`NOW()`;
     input.lastLogin = sql`NOW()`;
 
-    await db.insert.users.values(input);
+    await db.insert(User).values(input);
 
     const target = await db.select()
       .from(User)
@@ -220,13 +227,13 @@ const root = {
         )
       );
 
-    if (targetUser) {
+    if (targetUser.length > 0) {
+      targetUser = targetUser[0];
       let passwordMatches = await bcrypt.compare(password, String(targetUser.password));
       if (passwordMatches) {
-
         await db.update(User)
-          .set({ lastLogin: new Date().toISOString() })
-          .where(eq(User.id, id));
+          .set({ lastLogin:  sql`NOW()` })
+          .where(eq(User.id, targetUser.id));
         
         return targetUser;
       }
