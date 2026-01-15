@@ -50,7 +50,6 @@ export const useUserStore = defineStore('user', () => {
             // normalize id (some servers return _id)
             loggedInUser.value = data.loginUser;
             loggedInUser.value.id = data.loginUser.id || data.loginUser._id || loggedInUser.value.id;
-            console.log('handleLogin: loggedInUser stored =>', loggedInUser.value);
             return true;
         }
         return false;
@@ -81,9 +80,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     async function saveSettings(updatedInfo) {
-        console.log('saveSettings: loggedInUser =>', loggedInUser.value);
         const rawUser = loggedInUser.value ? toRaw(loggedInUser.value) : null;
-        console.log('saveSettings: toRaw(loggedInUser) =>', rawUser);
         let userId = rawUser && (rawUser.id || rawUser._id) || (loggedInUser.value && loggedInUser.value.id);
 
         // If id isn't available, try to resolve via username using searchUsers
@@ -104,8 +101,6 @@ export const useUserStore = defineStore('user', () => {
             console.error('saveSettings: no user id available to update settings');
             return false;
         }
-
-        console.log('saveSettings: resolved userId =>', userId);
 
         const updateUserCall = await callServer(updateUser, { id: userId, input: updatedInfo });
 

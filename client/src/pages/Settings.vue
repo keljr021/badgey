@@ -100,7 +100,7 @@ async function saveSettings() {
         <UFormField label="Description" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
           <UTextarea autoresize v-model="description" :rows="4" :class="'py-2 ' + ('mobile' ? 'w-full' : 'w-100')" />
         </UFormField>
-        <UFormField class="w-100 pt-22" :ui="inputStyling">
+        <UFormField class="w-100 pt-10" :ui="inputStyling">
           <UButton @click="saveSettings()" color="neutral" variant="outline" icon="i-lucide-save" class="text-[var(--badgey-black)] hover:text-white">Save settings</UButton>
         </UFormField>
       </div>
