@@ -29,7 +29,7 @@ function toggleMenu() {
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'create' })">Create badge</div>
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'manage' })">Manage badges</div>
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'redeem' })">Redeem badge</div>
-            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'profile' })">Profile</div>
+            <div class="nav-menu-link" @click="toggleMenu();$router.push({ path: 'profile/me' })">Profile</div>
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'settings' })">Settings</div>
             <div class="nav-menu-link" @click="toggleMenu();emit('logout')">Logout</div>
         </div>

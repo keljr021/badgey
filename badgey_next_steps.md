@@ -10,7 +10,6 @@ Badgey Next Steps
 - Add image workflow
 
 - Navbar
-  - Add Logged in user values to links
   - Submenu issue with clicking links even when hidden
 
 - Login

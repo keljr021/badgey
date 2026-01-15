@@ -54,7 +54,7 @@ function hideSubmenus() {
 
 
                 <div class="nav-links-submenu" :class="{ 'active': openAccountSubmenu }">
-                    <UButton @click="$router.push({ name: 'profile' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                    <UButton @click="$router.push({ path: 'profile/me' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
                         Profile
                     </UButton>
                     <UButton @click="$router.push({ name: 'settings' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
