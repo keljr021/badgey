@@ -1,10 +1,12 @@
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, defineEmits } from 'vue'
 
 const showMenu = ref(false);
+const emit = defineEmits(['logout']);
 
 const props = defineProps({
-    userLogin: Boolean
+    loggedInUser: Object,
+    userLoggedIn: Boolean
 });
 
 function toggleMenu() {
@@ -29,7 +31,7 @@ function toggleMenu() {
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'redeem' })">Redeem badge</div>
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'profile' })">Profile</div>
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'settings' })">Settings</div>
-            <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'home' })">Logout</div>
+            <div class="nav-menu-link" @click="toggleMenu();emit('logout')">Logout</div>
         </div>
     </div>
 </template>

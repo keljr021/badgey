@@ -4,10 +4,12 @@ Badgey Next Steps
 
 - Add followers and following workflow
 - Add top badges to profile
-
+- Upload file system
+- Create Badge system
+- Scroll to top of page in between routes
+- Add image workflow
 
 - Database
-
 
 - Navbar
   - Switch states when user is logged in
@@ -29,16 +31,11 @@ Badgey Next Steps
 - Search workflow
 
 - Profile workflow
-  - Add followers and following to profile
+  - Add followers and following
+  - Add top badges
   - Add obtained badges
 
 - Settings
   - Add Change password workflow to settings
 
-- Upload file system
 
-- Create Badge system
-
-- Scroll to top of page in between routes
-
-- Add image workflow

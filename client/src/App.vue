@@ -16,7 +16,7 @@ onMounted(() => {
 
 <template>
   <UApp>
-    <Navbar :userLogin="true" />
+    <Navbar />
 
     <div class="page">
       <router-view></router-view>

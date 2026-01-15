@@ -35,16 +35,16 @@ export const useUserStore = defineStore('user', () => {
         users.value = data.users;
     }
 
-    function fetchUser(id) {
-        let users = getters.allUsers;
-        let targetUser = users.find(user => id === user.id);
-        return targetUser;
+    async function fetchUser(id) {
+        const findUserCall = await callServer(findUser, { id: id });
+        if (findUserCall && findUserCall.user !== null) {
+            return findUserCall.user;
+        }
+        return null;
     }
 
     async function handleLogin(username, password) {
         const data = await callServer(loginUser, { username, password });
-
-        console.log('data returned: ', data);
 
         if (data.loginUser) {
             loggedInUser.value = data.loginUser;
@@ -54,8 +54,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     async function handleRegister(input) {
-        const findUserCall = await callServer(findUser, {query: `username='${input.username}`});
-        debugger;
+        const findUserCall = await callServer(searchUsers, {query: `username='${input.username}`});
 
         if (findUserCall.user !== null) return 'already registered';
         else {
@@ -69,5 +68,9 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, handleLogin, handleRegister };
-});
+    async function handleLogout() {
+        loggedInUser.value = null;
+    }
+
+    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, handleLogin, handleRegister, handleLogout };
+}, { persist: true });

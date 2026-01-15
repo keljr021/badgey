@@ -17,8 +17,8 @@ query Users {
 `;
 
 export const findUser = `
-query User {
-  user {
+query User($id: String) {
+  user(id: $id) {
     name
     company
     createdAt
@@ -30,6 +30,8 @@ query User {
     userType
     username
     lastLogin
+    isEmailVerified
+    isLocked
   }
 }
 `;

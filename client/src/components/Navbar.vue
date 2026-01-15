@@ -1,11 +1,28 @@
 <script setup>
 import NavbarLinks from './NavbarLinks.vue'
-import { defineProps } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia'
+import { useUserStore } from './../store/user.js'
 
-const props = defineProps({
-  userLogin: Boolean
+const userStore = useUserStore();
+const route = useRoute();
+const { loggedInUser } = storeToRefs(userStore);
+
+const userLoggedIn = ref(false);
+
+async function logout() {
+    await userStore.handleLogout();
+}
+
+watch(loggedInUser, (newValue) => {
+  userLoggedIn.value = newValue !== null;
 });
 
+onMounted(() => {
+  userLoggedIn.value = loggedInUser.value !== null;
+  console.log('Navbar mounted. userLoggedIn: ', userLoggedIn.value);
+});
 </script>
 
 <template>
@@ -14,7 +31,7 @@ const props = defineProps({
       <img src="./../assets/img/logo_black.png" />
     </div>
     <div class="nav-links">
-      <NavbarLinks :userLogin="userLogin" />
+      <NavbarLinks @logout="logout()" :loggedInUser="loggedInUser" :userLoggedIn="userLoggedIn" />
     </div>
   </div>
 </template>

@@ -2,43 +2,62 @@
 import { getImageSrc } from '../assets/js/imgHelpers.js'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router';
+
 import BadgeItem from '../components/badges/BadgeItem.vue'
 
 import { useUserStore } from './../store/user.js'
 
-const items = ref(['Backlog', 'Todo', 'In Progress', 'Done']);
+const items = ['Backlog', 'Todo', 'In Progress', 'Done'];
 
+const route = useRoute()
 const userStore = useUserStore();
 
 const { loggedInUser } = storeToRefs(userStore);
 
+let member = ref(null);
 
-onMounted(() => {
-  console.log('loggedInUser: ', loggedInUser.value);
+const fetchUserProfile = async () => {
+  console.log('fetching user profile for id: ', route.params.id);
+  if (route.params.id === 'me') {
+    console.log('logged in user: ', loggedInUser.value);
+    member.value = loggedInUser.value;
+  } else {
+    const fetchedUser = await userStore.fetchUser(route.params.id);
+    console.log('fetched user: ', fetchedUser);
+    if (fetchedUser) {
+      member.value = fetchedUser;
+    }
+  }
+};
+
+onMounted(async () => {
+  await fetchUserProfile();
+  console.log('member: ', member.value);
 });
 </script>
 
 <template>
   <div class="profile">
-    <div class="profile-header">
+    <div v-if="member" class="profile-header">
       <div class="profile-header-image">
         <img :src="getImageSrc('badgey_brad.png')" />
       </div>
       <div class="profile-header-text">
-        <div class="profile-header-text-name">{{ loggedInUser.name }}</div>
-        <div class="profile-header-text-user">@{{ loggedInUser.username }}</div>
+        <div class="profile-header-text-name">{{ member.name }}</div>
+        <div class="profile-header-text-user">@{{ member.username }}</div>
         <div class="profile-header-text-follow">
           <div class="profile-header-text-followers">3 Followers</div>
           <div class="profile-header-text-following">12 Following</div>
         </div>
         <div class="profile-about desktop py-5">
-          {{  loggedInUser.description }}
+          {{  member.description }}
         </div>
       </div>
     </div>
 
-    <div class="profile-about mobile py-5">
-      {{ loggedInUser.description }}
+    <div v-if="member" class="profile-about mobile py-5">
+      {{ member.description }}
     </div>
 
     <div class="profile-top">

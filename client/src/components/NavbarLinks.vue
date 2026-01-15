@@ -1,9 +1,13 @@
 <script setup>
-import { defineProps, ref, onUnmounted } from 'vue'
+import { defineProps, ref, defineEmits } from 'vue'
+import { useRoute } from 'vue-router';
 import NavbarLinksMobile from './NavbarLinksMobile.vue'
 
+const route = useRoute();
+const emit = defineEmits(['logout']);
 const props = defineProps({
-    userLogin: Boolean
+    loggedInUser: Object,
+    userLoggedIn: Boolean
 });
 
 const openBadgeSubmenu = ref(false);
@@ -29,7 +33,7 @@ function hideSubmenus() {
 
 <template>
     <div @mouseleave="hideSubmenus()">
-        <div v-if="userLogin">    
+        <div v-if="userLoggedIn">    
             <div class="desktop">
                 <UButton @click="toggleSubmenu();$router.push({ name: 'dashboard' })" @mouseover="hideSubmenus()" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
                 <UButton @click="toggleSubmenu('badge', true)" @mouseover="toggleSubmenu('badge', true)" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
@@ -56,13 +60,13 @@ function hideSubmenus() {
                     <UButton @click="$router.push({ name: 'settings' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
                         Settings
                     </UButton>
-                    <UButton @click="$router.push({ name: 'home' });toggleSubmenu()" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
+                    <UButton @click="$router.push({ name: 'home' });emit('logout')" color="neutral" variant="link" size="md" class="nav-links-submenu-item hover:text-black mr-3">
                         Logout
                     </UButton>
                 </div>
             </div>
-            
-            <NavbarLinksMobile class="mobile" />
+
+            <NavbarLinksMobile class="mobile" :loggedInUser="loggedInUser" :userLoggedIn="userLoggedIn" @logout="logout()" />
         </div>
 
         <div v-else>

@@ -60,7 +60,7 @@ onMounted(() => {
         description="View who's following you, friends, and friend requests."/>
 
       <DashOptions 
-        routeTo="/profile/" + loggedInUser.id 
+        routeTo="/profile/me" 
         icon="i-lucide-square-user" 
         title="View profile" 
         description="View your current profile and customize to your liking."/>

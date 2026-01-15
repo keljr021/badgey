@@ -45,7 +45,10 @@ const routes = [
       },
   ]},
 
-  { path: '/profile', name: 'profile', component: Profile },
+  { path: '/profile/:id', 
+    name: 'profile',
+    component: Profile
+  },
   { path: '/claim/:badgeId', name: 'claim', component: ClaimBadge },
 
   { path: '/about', name: 'about', component: About },

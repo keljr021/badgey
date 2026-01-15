@@ -10,4 +10,4 @@ export const useBadgeStore = defineStore('badge', {
 
     actions: {},
 
-});
+}, { persist: true });
