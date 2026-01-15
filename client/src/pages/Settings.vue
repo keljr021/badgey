@@ -11,7 +11,7 @@ const { loggedInUser } = storeToRefs(userStore);
 
 const toast = useToast();
 
-const userType = [
+const userType = ref([
   {
     label: 'Attendee',
     description: 'User who attends events.',
@@ -22,7 +22,7 @@ const userType = [
     description: 'User who creates and host events.',
     value: "2"
   }
-];
+]);
 
 const selectedUserType = ref(loggedInUser.value.userType || '1');
 const company = ref(loggedInUser.value.company || '');
@@ -33,6 +33,14 @@ const dob = ref(loggedInUser.value.dob || '');
 const password = '*********';
 const description = ref(loggedInUser.value.description || '');
 
+async function loadUserType() {
+  if (selectedUserType.value === '3') 
+    userType.value.push({
+      label: 'Administrator',
+      description: 'User who manages the platform.',
+      value: "3",
+    });
+}
 
 async function saveSettings() {
   const result =await userStore.saveSettings({
@@ -54,6 +62,10 @@ async function saveSettings() {
     life: 1500,
   });
 }
+
+onMounted(async () => {
+  await loadUserType();
+});
 </script>
 
 <template>
@@ -64,7 +76,7 @@ async function saveSettings() {
         <div class="settings-body-account-title">Account settings</div>
         <div class="settings-body-account-form">
           <UFormField label="I am a(n)..." size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <URadioGroup v-model="selectedUserType" :orientation="'mobile' ? 'vertical':'horizontal'" :items="userType" class="py-2" />
+            <URadioGroup v-model="selectedUserType" :orientation="'mobile' ? 'vertical':'horizontal'" :items="userType" class="py-2" :disabled="selectedUserType === '3'" />
           </UFormField>
           <UFormField v-if="selectedUserType === '2'" label="Event Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <UInput v-model="company" class="w-full" />

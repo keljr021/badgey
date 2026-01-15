@@ -48,7 +48,7 @@ function toggleRegisterModal() {
 </script>
 
 <template>
-  <div class="green login">
+  <div class="login">
     <div class="login-form">
       <LoginForm class="desktop" @login="login"/>
       <LoginFormMobile class="mobile" @login="login" :openLogin="openLogin" @toggle-login="toggleLoginModal" @toggle-register="toggleRegisterModal" />
@@ -65,6 +65,7 @@ function toggleRegisterModal() {
   width: 100%;
   padding: 50px;
   display: flex;
+  background-color: var(--badgey-light-green);
 }
 
 .login-form {
