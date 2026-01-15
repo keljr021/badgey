@@ -63,3 +63,29 @@
     bottom: -100px;
   }
 }
+
+/* Nuxt UI toast text color override: ensure toast text appears black
+   Limit scope to typographic elements only so progress/slider UI components
+   (which often rely on CSS variables, backgrounds, fills, or input styling)
+   are not affected. Do NOT override `--ui-text` or apply universal selectors. */
+.nuxt-ui-toast,
+.nui-toast,
+.u-toast,
+.nuxt-ui__toast,
+.ui-toast,
+.toast,
+[data-nuxt-ui-toast],
+.nuxtui-toast {
+  color: var(--badgey-black) !important;
+}
+
+/* Apply the text color only to common text-bearing elements inside toasts.
+   Exclude inputs, progress/meter elements, SVG fills, and other UI primitives. */
+[data-nuxt-ui-toast] :is(p, span, a, li, b, strong, em, i, h1, h2, h3, h4, h5, h6, label, small, code) {
+  color: inherit !important;
+}
+
+/* SVG text nodes: set fill for textual SVG content but avoid touching shapes */
+[data-nuxt-ui-toast] text {
+  fill: var(--badgey-black) !important;
+}

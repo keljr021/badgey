@@ -15,6 +15,7 @@ const userType = ref([
 ]);
 
 const type = ref('');
+const company = ref('');
 const name = ref('');
 const username = ref('');
 const email = ref('');
@@ -66,6 +67,9 @@ function handleRegister() {
                 </div>
                 <UFormField label="I am a(n)..." size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
                     <URadioGroup v-model="type" orientation="vertical" :items="userType" class="py-2 my-2" />
+                </UFormField>
+                <UFormField v-if="type === '2'" label="Event Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
+                    <UInput v-model="company" class="w-full" />
                 </UFormField>
                 <UFormField label="Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
                     <UInput v-model="name" class="w-full" />

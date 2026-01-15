@@ -1,6 +1,7 @@
 export const fetchUsers = `
 query Users {
   users {
+    id
     name
     company
     createdAt
@@ -19,6 +20,7 @@ query Users {
 export const findUser = `
 query User($id: String) {
   user(id: $id) {
+    id
     name
     company
     createdAt
@@ -39,6 +41,7 @@ query User($id: String) {
 export const loginUser = `
 query loginUser($username: String, $password: String) {
   loginUser(username: $username, password: $password) {
+    id
     name
     company
     createdAt
@@ -58,6 +61,7 @@ query loginUser($username: String, $password: String) {
 export const searchUsers = `
 query searchUsers($query: String) {
   searchUsers(query: $query) {
+    id
     name
     company
     createdAt
@@ -75,6 +79,7 @@ query searchUsers($query: String) {
 export const createUser = `
 mutation createUser($input: CreateUser) {
   createUser(input: $input) {
+    id
     name
     company
     createdAt
@@ -86,6 +91,26 @@ mutation createUser($input: CreateUser) {
     userType
     username
     password
+  }
+}
+`;
+
+export const updateUser = `
+mutation UpdateUser ($id: String, $input: CreateUser) {
+  updateUser(id: $id, input: $input) {
+    id
+    userType
+    image
+    name
+    username
+    email
+    dob
+    company
+    description
+    createdAt
+    lastLogin
+    isEmailVerified
+    isLocked
   }
 }
 `;

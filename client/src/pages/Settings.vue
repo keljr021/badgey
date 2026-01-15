@@ -1,7 +1,7 @@
 <script setup>
 import { getImageSrc } from '../assets/js/imgHelpers.js'
 import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import { useUserStore } from './../store/user.js'
 
@@ -9,6 +9,7 @@ const userStore = useUserStore();
 
 const { loggedInUser } = storeToRefs(userStore);
 
+const toast = useToast();
 
 const userType = [
   {
@@ -23,18 +24,36 @@ const userType = [
   }
 ];
 
-const selectedUserType = loggedInUser.value.userType || "1";
-const name = loggedInUser.value.name || '';
-const username = loggedInUser.value.username || '';
-const email = loggedInUser.value.email || '';
-const dob = loggedInUser.value.dob || '';
+const selectedUserType = ref(loggedInUser.value.userType || '1');
+const company = ref(loggedInUser.value.company || '');
+const name = ref(loggedInUser.value.name || '');
+const username = ref(loggedInUser.value.username || '');
+const email = ref(loggedInUser.value.email || '');
+const dob = ref(loggedInUser.value.dob || '');
 const password = '*********';
-const description = loggedInUser.value.description || '';
+const description = ref(loggedInUser.value.description || '');
 
 
-onMounted(() => {
-  console.log('loggedInUser: ', loggedInUser.value);
-});
+async function saveSettings() {
+  const result =await userStore.saveSettings({
+    userType: selectedUserType.value,
+    company: company.value,
+    name: name.value,
+    username: username.value,
+    email: email.value,
+    dob: dob.value,
+    description: description.value
+  });
+
+  let alertMsg = (result) ? 'Settings saved.' : 'Error saving settings, please try again later.';
+
+  toast.add({
+    color: result ? 'success' : 'error',
+    icon: result ? 'i-lucide-badge-check' : 'i-lucide-alert-circle',
+    description: alertMsg,
+    life: 1500,
+  });
+}
 </script>
 
 <template>
@@ -46,6 +65,9 @@ onMounted(() => {
         <div class="settings-body-account-form">
           <UFormField label="I am a(n)..." size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <URadioGroup v-model="selectedUserType" :orientation="'mobile' ? 'vertical':'horizontal'" :items="userType" class="py-2" />
+          </UFormField>
+          <UFormField v-if="selectedUserType === '2'" label="Event Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
+            <UInput v-model="company" class="w-full" />
           </UFormField>
           <UFormField label="Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <UInput v-model="name" class="w-full" />
@@ -76,10 +98,10 @@ onMounted(() => {
           <UButton @click="handleRegister()" color="neutral" variant="outline" icon="i-lucide-upload" class="text-[var(--badgey-black)] hover:text-white">Upload image</UButton>
         </UFormField>
         <UFormField label="Description" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-          <UTextarea v-model="description" rows="4" :class="'py-2 ' + ('mobile' ? 'w-full' : 'w-100')" />
+          <UTextarea autoresize v-model="description" :rows="4" :class="'py-2 ' + ('mobile' ? 'w-full' : 'w-100')" />
         </UFormField>
         <UFormField class="w-100 pt-22" :ui="inputStyling">
-          <UButton @click="handleRegister()" color="neutral" variant="outline" icon="i-lucide-save" class="text-[var(--badgey-black)] hover:text-white">Save settings</UButton>
+          <UButton @click="saveSettings()" color="neutral" variant="outline" icon="i-lucide-save" class="text-[var(--badgey-black)] hover:text-white">Save settings</UButton>
         </UFormField>
       </div>
     </div>

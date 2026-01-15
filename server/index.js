@@ -31,6 +31,7 @@ const schema = buildSchema(
   }
 
   input CreateBadge {
+    id: String
     userId: String
     image: Upload
     name: String
@@ -59,6 +60,7 @@ const schema = buildSchema(
   }
 
   input CreateUser {
+    id: String
     userType: String
     image: Upload
     name: String
@@ -200,6 +202,7 @@ const root = {
   },
 
   async updateUser({ id, input }) {   
+    console.log('Updating user id ', id, ' with input: ', input);
     await db.update(User)
       .set(input)
       .where(eq(User.id, id));
@@ -208,6 +211,8 @@ const root = {
       .from(User)
       .where(eq(User.id, id))
       .limit(1);
+
+    console.log('Updated user: ', target[0]);
 
     return target[0];
   },

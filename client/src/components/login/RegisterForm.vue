@@ -15,6 +15,7 @@ const userType = ref([
 ]);
 
 const type = ref('');
+const company = ref('');
 const name = ref('');
 const username = ref('');
 const email = ref('');
@@ -32,6 +33,7 @@ const emit = defineEmits(['register']);
 function handleRegister() {
   const payload = {
     userType: type.value,
+    company: company.value,
     name: name.value,
     username: username.value,
     email: email.value,
@@ -54,6 +56,9 @@ function handleRegister() {
          <div class="card-form">
           <UFormField label="I am a(n)..." size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <URadioGroup v-model="type" orientation="horizontal" :items="userType" class="py-2" />
+          </UFormField>
+          <UFormField v-if="type === '2'" label="Event Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
+            <UInput v-model="company" class="w-full" />
           </UFormField>
           <UFormField label="Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <UInput v-model="name" class="w-full" />

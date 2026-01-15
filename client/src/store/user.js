@@ -1,7 +1,7 @@
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, toRaw } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { fetchUsers, findUser, loginUser, searchUsers, createUser } from './../gql/userQuery.js'
+import { fetchUsers, findUser, loginUser, searchUsers, createUser, updateUser } from './../gql/userQuery.js'
 
 const { VITE_POST_URL } = import.meta.env;
 
@@ -47,30 +47,78 @@ export const useUserStore = defineStore('user', () => {
         const data = await callServer(loginUser, { username, password });
 
         if (data.loginUser) {
+            // normalize id (some servers return _id)
             loggedInUser.value = data.loginUser;
+            loggedInUser.value.id = data.loginUser.id || data.loginUser._id || loggedInUser.value.id;
+            console.log('handleLogin: loggedInUser stored =>', loggedInUser.value);
             return true;
         }
         return false;
     }
 
     async function handleRegister(input) {
-        const findUserCall = await callServer(searchUsers, {query: `username='${input.username}`});
-
-        if (findUserCall.user !== null) return 'already registered';
-        else {
-            const data = await callServer(createUser, { input: input });
-
-            if (data.createUser) {
-                loggedInUser.value = data.createUser;
-                return 'successful';
+        // check for existing user by username
+        try {
+            const found = await callServer(searchUsers, { query: `username='${input.username}'` });
+            if (found && Array.isArray(found.searchUsers) && found.searchUsers.length > 0) {
+                return 'already registered';
             }
+        } catch (err) {
+            console.error('handleRegister: searchUsers error', err);
             return false;
         }
+
+        const data = await callServer(createUser, { input: input });
+
+        if (data && data.createUser) {
+            // normalize id (some servers return _id)
+            loggedInUser.value = data.createUser;
+            loggedInUser.value.id = data.createUser.id || data.createUser._id || loggedInUser.value.id;
+            console.log('handleRegister: loggedInUser stored =>', loggedInUser.value);
+            return 'successful';
+        }
+        return false;
+    }
+
+    async function saveSettings(updatedInfo) {
+        console.log('saveSettings: loggedInUser =>', loggedInUser.value);
+        const rawUser = loggedInUser.value ? toRaw(loggedInUser.value) : null;
+        console.log('saveSettings: toRaw(loggedInUser) =>', rawUser);
+        let userId = rawUser && (rawUser.id || rawUser._id) || (loggedInUser.value && loggedInUser.value.id);
+
+        // If id isn't available, try to resolve via username using searchUsers
+        if (!userId && loggedInUser.value && loggedInUser.value.username) {
+            try {
+                const found = await callServer(searchUsers, { query: `username='${loggedInUser.value.username}'` });
+                if (found && Array.isArray(found.searchUsers) && found.searchUsers.length > 0) {
+                    userId = found.searchUsers[0].id || found.searchUsers[0]._id;
+                    // update local store with resolved id for future calls
+                    if (loggedInUser.value) loggedInUser.value.id = userId;
+                }
+            } catch (err) {
+                console.error('saveSettings: error resolving user by username', err);
+            }
+        }
+
+        if (!userId) {
+            console.error('saveSettings: no user id available to update settings');
+            return false;
+        }
+
+        console.log('saveSettings: resolved userId =>', userId);
+
+        const updateUserCall = await callServer(updateUser, { id: userId, input: updatedInfo });
+
+        if (updateUserCall && updateUserCall.updateUser) {
+            loggedInUser.value = updateUserCall.updateUser;
+            return true;
+        }
+        return false;
     }
 
     async function handleLogout() {
         loggedInUser.value = null;
     }
 
-    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, handleLogin, handleRegister, handleLogout };
+    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, handleLogin, handleRegister, saveSettings, handleLogout };
 }, { persist: true });
