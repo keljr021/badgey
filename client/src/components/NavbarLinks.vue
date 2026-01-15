@@ -35,6 +35,7 @@ function hideSubmenus() {
     <div @mouseleave="hideSubmenus()">
         <div v-if="userLoggedIn">    
             <div class="desktop">
+                <UButton v-if="loggedInUser.userType === '3'" @mouseover="hideSubmenus()" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Admin</UButton>
                 <UButton @click="toggleSubmenu();$router.push({ name: 'dashboard' })" @mouseover="hideSubmenus()" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Dashboard</UButton>
                 <UButton @click="toggleSubmenu('badge', true)" @mouseover="toggleSubmenu('badge', true)" color="neutral" variant="link" size="md" class="nav-links-item hover:text-black mr-3">Badges</UButton>
                 <UButton @click="toggleSubmenu('account', true)" @mouseover="toggleSubmenu('account', true)" :avatar="{ src: 'https://github.com/nuxt.png' }" color="neutral" variant="outline" size="md" class="nav-links-item text-muted border-muted hover:bg-gray-100 hover:text-black">Brad</UButton>

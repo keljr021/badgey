@@ -33,4 +33,6 @@ Badgey Next Steps
 - Settings
   - Add Change password workflow to settings
 
-
+- Admin
+  - Add administrator pages for Users and Badges
+  - Add full CRUD for Users and Badges

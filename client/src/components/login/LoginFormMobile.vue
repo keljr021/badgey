@@ -54,7 +54,7 @@ function handleForgotPassword() {
                   <UInput v-model="user" class="w-full"/>
                 </UFormField>
                 <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-                  <UInput v-model="password" class="w-full" />
+                  <UInput type="password" v-model="password" class="w-full" />
                 </UFormField>
         
                 <UFormField class="w-100 py-4" :ui="inputStyling">
