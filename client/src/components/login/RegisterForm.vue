@@ -70,7 +70,7 @@ function handleRegister() {
             <UInput v-model="email" class="w-full" />
           </UFormField>
           <UFormField label="Date of birth" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput v-model="dob" class="w-full" />
+            <UInput type="date" v-model="dob" class="w-full" />
           </UFormField>
           <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <UInput type="password" v-model="password" class="w-full" />

@@ -32,10 +32,6 @@ const showFollowers = ref(false);
 function toggleFollowers() {
   showFollowers.value = !showFollowers.value;
 }
-
-onMounted(() => {
-  console.log('loggedInUser: ', loggedInUser.value);
-});
 </script>
 
 <template>

@@ -91,10 +91,10 @@ onMounted(async () => {
             <UInput v-model="email" class="w-full" />
           </UFormField>
           <UFormField label="Date of birth" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput v-model="dob" class="w-full" />
+            <UInput v-model="dob" type="date" class="w-full" />
           </UFormField>
           <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput v-model="password" class="w-full" disabled />
+            <UInput v-model="password" type="password" class="w-full" disabled />
           </UFormField>
       </div>
     </div>
