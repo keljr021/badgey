@@ -16,6 +16,7 @@ import Terms from './../pages/Terms.vue'
 import Privacy from './../pages/Privacy.vue'
 import Release from './../pages/Release.vue'
 import Contact from './../pages/Contact.vue'
+import Admin from './../pages/Admin.vue'
 
 import PageNotFound from './../pages/PageNotFound.vue'
 
@@ -56,6 +57,7 @@ const routes = [
   { path: '/privacy', name: 'privacy', component: Privacy },
   { path: '/release', name: 'release', component: Release },
   { path: '/contact', name: 'contact', component: Contact },
+  { path: '/admin', name: 'admin', component: Admin },
   { path: '/notFound', name: 'notFound', component: PageNotFound},
 ]
 

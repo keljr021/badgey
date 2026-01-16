@@ -25,6 +25,7 @@ function toggleMenu() {
                     Brad
                 </div>
             </div>
+            <div v-if="loggedInUser.userType === '3'" class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'admin' })">Dashboard</div>
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'dashboard' })">Dashboard</div>
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'create' })">Create badge</div>
             <div class="nav-menu-link" @click="toggleMenu();$router.push({ name: 'manage' })">Manage badges</div>
