@@ -37,9 +37,6 @@ const pageTabs = ref([
             <template #pending>
               <div class="admin-content-tab flex flex-col">
                 <div class="admin-content-tab-title">Pending badges</div>
-                <div class="admin-content-tab-description">
-                  Badges pending approval from Administrators before being published on site.
-                </div>
                 <div class="admin-content-tab-table">
                   <PendingBadgesTable />
                 </div>
@@ -49,9 +46,6 @@ const pageTabs = ref([
             <template #badges>
               <div class="admin-content-tab flex flex-col">
                 <div class="admin-content-tab-title">Badges</div>
-                <div class="admin-content-tab-description">
-                  Collection of all badges in the application.
-                </div>
                 <div class="admin-content-tab-table">
                   <BadgesTable />
                 </div>
@@ -60,9 +54,6 @@ const pageTabs = ref([
             <template #users>
               <div class="admin-content-tab flex flex-col">
                 <div class="admin-content-tab-title">Users</div>
-                <div class="admin-content-tab-description">
-                  Collection of all users in the application.
-                </div>
                 <div class="admin-content-tab-table">
                   <UsersTable />
                 </div>

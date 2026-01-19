@@ -17,7 +17,7 @@ onMounted(async () => {
 
 <template>
     <div class="pending">
-        <div>Total Users: {{ totalUsers }}</div>
+        <div class="pb-5">Total Users: {{ totalUsers }}</div>
         <UTable :data="tableData" sticky class="flex-1 max-h-[312px]" />
     </div>
 </template>

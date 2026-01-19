@@ -15,7 +15,7 @@ export const Badge = mysqlTable('badges', {
   image: customLongBlob('image'),
   name: varchar('name', { length: 255 }),
   description: text('description'),
-  isApproved: tinyint('isApproved'),
+  status: varchar('status', { length: 5 }),
   rejectReason: text('rejectReason'),
   createdAt: datetime('createdAt', { mode: 'string', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3)`),

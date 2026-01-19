@@ -26,7 +26,7 @@ const schema = buildSchema(
     description: String
     createdAt: String
     isDraft: Boolean
-    isApproved: Boolean
+    status: String
     rejectReason: String
   }
 
@@ -37,7 +37,7 @@ const schema = buildSchema(
     name: String
     description: String
     isDraft: Boolean
-    isApproved: Boolean    
+    status: String
     rejectReason: String
     createdAt: String
   }
@@ -120,7 +120,7 @@ const root = {
       image: input.image,
       name: input.name,
       description: input.description,
-      isApproved: false,
+      status: 'P',
       isDraft: input.isDraft,
       rejectReason: ''
     };

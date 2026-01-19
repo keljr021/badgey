@@ -1,33 +1,24 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-import { useUserStore } from './../../store/user.js'
-import { useBadgeStore } from './../../store/badge.js'
+import { useBadgeStore } from '../../store/badge.js'
 
-const usersStore = useUserStore();
-const badgesStore = useBadgeStore();
+const badgeStore = useBadgeStore();
 
-const tableData = ref([
-  {
-    id: '338181a3-9213-48ff-817a-299371ba49e3',
-    userId: '338181a3-9213-48ff-817a-299371ba49e3',
-    image: 'null',
-    name: 'Test Badge 1',
-    description: 'This is a test badge pending approval.',
-    createdAt: '2024-06-10T12:34:56Z',
-  }
-]);
+const tableData = ref([]);
+const totalPending = ref(null);
 
-const totalPending = ref(tableData.value.length);
-
-onMounted(() => {
-  console.log('PendingBadgesTable mounted');
-});
+onMounted(async () => {
+  await badgeStore.fetchAllBadges();
+  tableData.value = badgeStore.pendingBadges;
+  console.log('-- tableData pending badges: ', tableData.value);
+  totalPending.value = tableData.value.length;
+})
 </script>
 
 <template>
     <div class="pending">
-        <div>Total Pending: {{ totalPending }}</div>
+        <div class="pb-5">Total Pending: {{ totalPending }}</div>
         <UTable :data="tableData" sticky class="flex-1 max-h-[312px]" />
     </div>
 </template>

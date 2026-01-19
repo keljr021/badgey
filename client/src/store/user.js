@@ -43,6 +43,21 @@ export const useUserStore = defineStore('user', () => {
         return null;
     }
 
+    async function createUser(input) {
+        const data = await callServer(createUser, { input });
+        return data.createUser;
+    }
+
+    async function updateUser(id, input) {
+        const data = await callServer(updateUser, { id, input });
+        return data.updateUser;
+    }
+
+    async function deleteUser(id) {
+        const data = await callServer(deleteUser, { id });
+        return data.deleteUser;
+    }
+
     async function handleLogin(username, password) {
         const data = await callServer(loginUser, { username, password });
 
@@ -115,5 +130,5 @@ export const useUserStore = defineStore('user', () => {
         loggedInUser.value = null;
     }
 
-    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, handleLogin, handleRegister, saveSettings, handleLogout };
+    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, createUser, updateUser, deleteUser, handleLogin, handleRegister, saveSettings, handleLogout };
 }, { persist: true });
