@@ -1,27 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
-const tableData = ref([
-  {
-    id: '338181a3-9213-48ff-817a-299371ba49e3',
-    userType: '3',
-    image: 'null',
-    name: 'Test User 1',
-    username: 'testuser1',
-    email: 'testuser@email.com',
-    dob: '1990-01-01',
-    password: '********',
-    company: 's',
-    description: 'x',
-    lastLogin: '2024-06-10T12:34:56Z',
-    isEmailVerified: false,
-    isLocked: false,
-    createdAt: '2024-06-10T12:34:56Z',
-  }
-]);
+import { useUserStore } from '../../store/user.js'
 
-const totalUsers = ref(tableData.value.length);
+const userStore = useUserStore()
 
+const tableData = ref(null);
+const totalUsers = ref(0);
+
+onMounted(async () => {
+  await userStore.fetchAllUsers()
+  tableData.value = userStore.users;
+  totalUsers.value = tableData.value.length;
+})
 </script>
 
 <template>
