@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^4.2.1",
     "axios": "^1.13.2",
     "dotenv": "^17.2.3",

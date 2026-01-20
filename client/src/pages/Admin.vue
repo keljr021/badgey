@@ -9,6 +9,10 @@ import UsersTable from '../components/admin/UsersTable.vue'
 
 import { useUserStore } from './../store/user.js'
 
+const pendingBadgesTotal = ref(0);
+const badgesTotal = ref(0);
+const usersTotal = ref(0);
+
 const pageTabs = ref([
   {
     label: 'Pending badges',
@@ -26,6 +30,20 @@ const pageTabs = ref([
     icon: 'i-lucide-users'
   },
 ]);
+
+function updateTableCount(type, number) {
+  switch(type) {
+    case 'pending':
+      pendingBadgesTotal.value = number;
+      break;
+    case 'badges':
+      badgesTotal.value = number;
+      break;
+    case 'users':
+      usersTotal.value = number;
+      break;
+  }
+};
 </script>
 
 <template>
@@ -36,26 +54,35 @@ const pageTabs = ref([
 
             <template #pending>
               <div class="admin-content-tab flex flex-col">
-                <div class="admin-content-tab-title">Pending badges</div>
+                <div class="admin-content-tab-title">
+                  Pending badges 
+                  <span class="admin-content-tab-title-count">({{ pendingBadgesTotal }})</span>
+                </div>
                 <div class="admin-content-tab-table">
-                  <PendingBadgesTable />
+                  <PendingBadgesTable @update-count="updateTableCount" />
                 </div>
 
               </div>
             </template>
             <template #badges>
               <div class="admin-content-tab flex flex-col">
-                <div class="admin-content-tab-title">Badges</div>
+                <div class="admin-content-tab-title">
+                  Badges
+                  <span class="admin-content-tab-title-count">({{ badgesTotal }})</span>
+                </div>
                 <div class="admin-content-tab-table">
-                  <BadgesTable />
+                  <BadgesTable @update-count="updateTableCount" />
                 </div>
               </div>
             </template>
             <template #users>
               <div class="admin-content-tab flex flex-col">
-                <div class="admin-content-tab-title">Users</div>
+                <div class="admin-content-tab-title">
+                  Users
+                  <span class="admin-content-tab-title-count">({{ usersTotal }})</span>
+                </div>
                 <div class="admin-content-tab-table">
-                  <UsersTable />
+                  <UsersTable @update-count="updateTableCount" />
                 </div>
               </div>
             </template>
@@ -72,7 +99,7 @@ const pageTabs = ref([
 }
 
 .admin-title {
-  font-size: var(--badgey-text-title-size);
+  font-size: var(--badgey-text-subheader-size);
   padding-bottom: 30px;
 }
 
@@ -85,13 +112,20 @@ const pageTabs = ref([
   background-color: var(--badgey-light-gray);
   width: 100%;
   height: 500px;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .admin-content-tab-title {
   font-size: 28px;
   font-weight: bold;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.admin-content-tab-title-count {
+  font-size: 18px;
+  font-weight: normal;
+  margin-left: 5px;
+  color: var(--badgey-text-secondary-color);
 }
 
 .admin-content-tab-description {
