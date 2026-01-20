@@ -13,9 +13,9 @@ const tableData = ref(null);
 const totalUsers = ref(0);
 
 const viewUser = ref(null);
+const updatedUser = ref(null);
 const toggleUpdate = ref(false);
 
-const updatedUser = ref(null);
 
 const userTypeItems = ref([
   {
@@ -183,7 +183,7 @@ onMounted(async () => {
         class="flex-1 max-h-[312px] even-rows"
       />
 
-      <UModal 
+    <UModal 
         v-model:open="openModal"
         :ui="{ 
             content: 'w-full h-full px-2 py-2 sm:max-w-4xl sm:px-8 sm:py-4', 
@@ -224,7 +224,7 @@ onMounted(async () => {
                   <div class="modal-text-view-text-header">Description:</div>
                   <div class="modal-text-view-text-info" v-if="!toggleUpdate">{{ viewUser.description }}</div>
                   <div class="modal-text-view-text-info" v-if="toggleUpdate">
-                    <UTextarea v-model="updatedUser.description" placeholder="Description" rows="4" autoresize />
+                    <UTextarea v-model="updatedUser.description" class="w-full" placeholder="Description" rows="4" autoresize />
                   </div>
                 </div>
               </div>
