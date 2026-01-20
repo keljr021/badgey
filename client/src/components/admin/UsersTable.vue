@@ -92,7 +92,12 @@ onMounted(async () => {
 
 <template>
     <div class="users">
-      <UTable :columns="tableColumns" :data="tableData" sticky class="flex-1 max-h-[312px]"></UTable>
+      <UTable 
+        :columns="tableColumns" 
+        :data="tableData" 
+        sticky
+        class="flex-1 max-h-[312px] even-rows"
+      />
     </div>
 </template>
 
@@ -100,5 +105,9 @@ onMounted(async () => {
 .users {
   max-height: 400px;
   overflow-y: auto;
+}
+
+:deep(.even-rows tr:nth-child(even)) {
+  background-color: #f6f6f6;
 }
 </style>

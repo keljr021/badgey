@@ -45,30 +45,24 @@ const tableColumns = [
     accessoryKey: 'status',
     header: 'Status',
     cell: ({ row }) => {
-      let badgeColor = 'neutral';
-      let badgeIcon = 'i-lucide-circle-dashed'
+      let badgeColor = 'bg-gray-400';
       let badgeText = 'Pending';
 
       switch(row.original.status) {
         case 'A':
-          badgeColor = 'success';
-          badgeIcon = 'i-lucide-check-circle';
+          badgeColor = 'bg-success';
           badgeText = 'Approved';
           break;
         case 'R':
-          badgeColor = 'danger';
-          badgeIcon = 'i-lucide-x-circle';
+          badgeColor = 'bg-error';
           badgeText = 'Rejected';
           break;
         default:
           break;
       }
 
-      return h(UBadge, { 
-        class: 'rounded-full',
-        size: 'md',
-        icon: badgeIcon,
-        color: badgeColor,
+      return h('span', { 
+        class: 'p-2 rounded-full text-inverted ' + badgeColor,
       }, badgeText);
     }
   },
@@ -95,7 +89,12 @@ onMounted(async () => {
 
 <template>
     <div class="pending">
-      <UTable :data="tableData" :columns="tableColumns" sticky class="flex-1 max-h-[312px]" />
+      <UTable         
+        :columns="tableColumns" 
+        :data="tableData" 
+        sticky
+        class="flex-1 max-h-[312px] even-rows"
+       />
     </div>
 </template>
 
@@ -103,5 +102,9 @@ onMounted(async () => {
 .pending {
   max-height: 400px;
   overflow-y: auto;
+}
+
+:deep(.even-rows tr:nth-child(even)) {
+  background-color: #f6f6f6;
 }
 </style>
