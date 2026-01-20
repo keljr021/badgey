@@ -28,6 +28,7 @@ const schema = buildSchema(
     isDraft: Boolean
     status: String
     rejectReason: String
+    users: [User]
   }
 
   input CreateBadge {
@@ -57,6 +58,7 @@ const schema = buildSchema(
     lastLogin: String
     isEmailVerified: Boolean
     isLocked: Boolean
+    badges: [Badge]
   }
 
   input CreateUser {

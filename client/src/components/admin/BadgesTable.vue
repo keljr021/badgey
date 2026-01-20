@@ -38,7 +38,8 @@ const tableColumns = [
     accessoryKey: 'author',
     header: 'Author',
     cell: ({ row }) => {
-      return 'First Last';
+      const author = (row.original.users && row.original.users.length > 0) ? row.original.users[0].name : '-'; 
+      return author;
     }
   },
   {

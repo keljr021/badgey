@@ -13,6 +13,17 @@ query Users {
     userType
     username
     lastLogin
+    badges {
+      id
+      userId
+      name
+      description
+      image
+      createdAt
+      isDraft
+      status
+      rejectReason
+    }
   }
 }
 `;
@@ -34,6 +45,17 @@ query User($id: String) {
     lastLogin
     isEmailVerified
     isLocked
+    badges {
+      id
+      userId
+      name
+      description
+      image
+      createdAt
+      isDraft
+      status
+      rejectReason
+    }
   }
 }
 `;
@@ -54,6 +76,17 @@ query loginUser($username: String, $password: String) {
     username
     password
     lastLogin
+    badges {
+      id
+      userId
+      name
+      description
+      image
+      createdAt
+      isDraft
+      status
+      rejectReason
+    }
   }
 }
 `;

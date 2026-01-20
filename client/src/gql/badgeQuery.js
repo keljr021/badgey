@@ -10,6 +10,12 @@ query Badges {
         isDraft
         status
         rejectReason
+        users {
+            id
+            name
+            username
+            image
+        }
     }
 }
 `;
@@ -26,6 +32,12 @@ query badge($id: String) {
         isDraft
         status
         rejectReason
+        user {
+            id
+            name
+            username
+            image
+        }
     }
 }
 `;
