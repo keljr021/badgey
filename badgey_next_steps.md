@@ -34,4 +34,5 @@ Badgey Next Steps
   - Add Change password workflow to settings
 
 - Admin
-  - Add full CRUD for Users and Badges
+  - Add auto-signout when a user is locked or deleted
+  - Add author functionality to badges
