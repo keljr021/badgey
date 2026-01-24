@@ -113,8 +113,8 @@ const tableColumns = [
             console.log(`View badge ${row.original.id}`);
             viewBadge.value = row.original;
             updatedBadge.value = row.original;
-            toggleUpdate.value = false;
             openModal.value = true;
+            toggleUpdate.value = false;
           }
         }, 'View'),
         h('button', {
@@ -123,8 +123,8 @@ const tableColumns = [
             console.log(`Update badge ${row.original.id}`);
             viewBadge.value = row.original;
             updatedBadge.value = row.original;
-            toggleUpdate.value = true;
             openModal.value = true;
+            toggleUpdate.value = true;
           }
         }, 'Update')
       ]);
@@ -132,24 +132,38 @@ const tableColumns = [
   },
 ];
 
-function saveBadge() {
-  console.log('- saveBadge triggered.');
+async function saveBadge() {
+  delete updatedBadge.value.users;
+  console.log(' - saveBadge ', updatedBadge.value.id, ' triggered.');
+  await badgeStore.modifyBadge(viewBadge.value.id, {
+    name: updatedBadge.value.name,
+    description: updatedBadge.value.description,
+    userId: updatedBadge.value.userId,
+    status: updatedBadge.value.status,
+    rejectReason: updatedBadge.value.rejectReason
+  });
+  await refreshTable();
   toggleUpdate.value = false;
 }
 
-function toggleBadgeUser() {
-  console.log('- toggleBadgeUser triggered.');
+async function removeBadge() {
+  if (window.confirm("Delete this badge? #" + viewBadge.value.id)) {
+    console.log(' - badge ', viewBadge.value.id, ' deleted.');
+    await badgeStore.removeBadge(viewBadge.value.id);
+    await refreshTable();
+    openModal.value = false;
+  }
 }
 
-function removeBadge() {
-  openModal.value = false;
-}
-
-onMounted(async () => {
+async function refreshTable() {
   await badgeStore.fetchAllBadges();
   tableData.value = badgeStore.badges;
   totalBadges.value = tableData.value.length;
   emits('update-count', 'badges', totalBadges.value);
+}
+
+onMounted(async () => {
+ await refreshTable();
 })
 </script>
 
@@ -175,7 +189,7 @@ onMounted(async () => {
           <div class="modal">
             <div class="modal-options">
               <div class="modal-options-view" v-if="!toggleUpdate">
-                <UButton @click="toggleUpdate = true;updateBadge=viewBadge" class="mx-2" icon="i-lucide-pencil" label="Update badge" color="neutral" variant="outline" />
+                <UButton @click="toggleUpdate = true" class="mx-2" icon="i-lucide-pencil" label="Update badge" color="neutral" variant="outline" />
                 <UButton @click="removeBadge" class="mx-2" icon="i-lucide-delete" label="Remove badge" color="neutral" variant="outline" />      
                 <UButton @click="openModal = false" class="mx-2" icon="i-lucide-x" label="Close" color="neutral" variant="outline" />
               </div>
@@ -214,7 +228,10 @@ onMounted(async () => {
                   <div class="modal-text-view-text-info py-4">
                     <span class="p-2 rounded-full text-inverted bg-gray-400" v-if="viewBadge.status === 'P'">Pending</span>
                     <span class="p-2 rounded-full text-inverted bg-success" v-else-if="viewBadge.status === 'A'">Accepted</span>
-                    <span class="p-2 rounded-full text-inverted bg-error" v-else-if="viewBadge.status === 'R'">Rejected</span>
+                    <div v-else-if="viewBadge.status === 'R'">
+                      <span class="p-2 rounded-full text-inverted bg-error">Rejected</span>
+                      <div class="my-3">{{ viewBadge.rejectReason }}</div>
+                    </div>
                     <span v-else>N/A</span>
                 </div>
                 <div class="modal-text-view-text">
@@ -234,6 +251,9 @@ onMounted(async () => {
               <div class="modal-text-view-text-header">Status:</div>
               <div class="modal-text-view-text-info">
                 <UInputMenu v-model="updatedBadge.status" :items="statusItems" value-key="value" />
+                <div v-if="updatedBadge.status === 'R'">
+                  <UTextarea v-model="updatedBadge.rejectReason" :rows="4" />
+                </div>
             </div>
             <div class="modal-text-view-text">
               <div class="modal-text-view-text-header">Created Date:</div>

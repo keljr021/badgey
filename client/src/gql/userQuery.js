@@ -110,7 +110,7 @@ query searchUsers($query: String) {
 `;
 
 export const createUser = `
-mutation createUser($input: CreateUser) {
+mutation createUser($input: UserInfo) {
   createUser(input: $input) {
     id
     name
@@ -129,7 +129,7 @@ mutation createUser($input: CreateUser) {
 `;
 
 export const updateUser = `
-mutation UpdateUser ($id: String, $input: CreateUser) {
+mutation UpdateUser ($id: String, $input: UserInfo) {
   updateUser(id: $id, input: $input) {
     id
     userType

@@ -119,21 +119,31 @@ const tableColumns = [
   },
 ];
 
-function approveBadge() {
+async function approveBadge() {
   console.log('Badge ', viewBadge.value.id + ' approved.');
+  await badgeStore.modifyBadge(viewBadge.value.id, { status: 'A' });
+  openModal.value = false;
+  await refreshTable();
 }
 
-function rejectBadge() {
+async function rejectBadge() {
   console.log('Badge ', viewBadge.value.id + ' rejected with reason: ', reasonText.value);
+  await badgeStore.modifyBadge(viewBadge.value.id, { status: 'R', rejectReason: reasonText.value });
+  openReason.value = false;
+  openModal.value = false;
+  await refreshTable();
 }
 
-
-onMounted(async () => {
+async function refreshTable() {
   await badgeStore.fetchAllBadges();
   tableData.value = badgeStore.pendingBadges;
   console.log('pending badges: ', badgeStore.pendingBadges);
   totalPending.value = tableData.value.length;
   emits('update-count', 'pending', totalPending.value);
+}
+
+onMounted(async () => {
+  await refreshTable();
 })
 </script>
 
@@ -213,7 +223,7 @@ onMounted(async () => {
             <div class="modal-text-view-text">
               <div class="modal-text-view-text-header py-4">Reason for rejecting this badge:</div>
               <div class="modal-text-view-text-info">
-                <UTextarea v-model="reasonText" class="w-full" size="xl" rows="5" autoresize></UTextarea>
+                <UTextarea v-model="reasonText" class="w-full" size="xl" :rows="5" autoresize></UTextarea>
               </div>
             </div>
             <div class="modal-text-view-text">

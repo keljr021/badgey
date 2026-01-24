@@ -43,7 +43,7 @@ query badge($id: String) {
 `;
 
 export const createBadge = `
-mutation createBadge($input: CreateBadge) {
+mutation createBadge($input: BadgeInfo) {
     createBadge(input: $input) {
         id
         userId
@@ -59,7 +59,7 @@ mutation createBadge($input: CreateBadge) {
 `;
 
 export const updateBadge = `
-mutation updateBadge($id: String, $input: CreateBadge) {
+mutation updateBadge($id: String, $input: BadgeInfo) {
     updateBadge(id: $id, input: $input) {
         id
         userId

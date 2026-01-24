@@ -16,6 +16,7 @@ const callServer = async (query, variables = null) => {
         },
     })
     .then(response => {
+        console.log(response.data);
         return response.data.data;
     })
     .catch(error => {
@@ -46,14 +47,14 @@ export const useBadgeStore = defineStore('badge', () =>{
 
     async function addBadge(input) {
         const data = await callServer(createBadge, { input });
-        const { createBadge } = data;
-        return createBadge;
+        const targetBadge = data.createBadge;
+        return targetBadge;
     }
 
     async function modifyBadge(id, input) {
         const data = await callServer(updateBadge, { id, input });
-        const { updateBadge } = data;
-        return updateBadge;
+        const targetBadge = data.updateBadge;
+        return targetBadge;
     }
 
     async function removeBadge(id) {

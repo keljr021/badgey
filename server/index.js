@@ -31,7 +31,7 @@ const schema = buildSchema(
     users: [User]
   }
 
-  input CreateBadge {
+  input BadgeInfo {
     id: String
     userId: String
     image: Upload
@@ -61,7 +61,7 @@ const schema = buildSchema(
     badges: [Badge]
   }
 
-  input CreateUser {
+  input UserInfo {
     id: String
     userType: String
     image: Upload
@@ -88,11 +88,11 @@ const schema = buildSchema(
   }
 
   type Mutation {
-    createBadge(input: CreateBadge): Badge
-    updateBadge(id: String, input: CreateBadge): Badge
+    createBadge(input: BadgeInfo): Badge
+    updateBadge(id: String, input: BadgeInfo): Badge
     deleteBadge(id: String): String
-    createUser(input: CreateUser): User
-    updateUser(id: String, input: CreateUser): User
+    createUser(input: UserInfo): User
+    updateUser(id: String, input: UserInfo): User
     deleteUser(id: String): String
   }
 `
