@@ -13,6 +13,7 @@ query Users {
     userType
     username
     lastLogin
+    isLocked
     badges {
       id
       userId
@@ -76,6 +77,7 @@ query loginUser($username: String, $password: String) {
     username
     password
     lastLogin
+    isLocked
     badges {
       id
       userId
@@ -105,6 +107,7 @@ query searchUsers($query: String) {
     image
     userType
     username
+    isLocked
   }
 }
 `;
@@ -124,6 +127,7 @@ mutation createUser($input: UserInfo) {
     userType
     username
     password
+    isLocked
   }
 }
 `;
@@ -145,5 +149,11 @@ mutation UpdateUser ($id: String, $input: UserInfo) {
     isEmailVerified
     isLocked
   }
+}
+`;
+
+export const deleteUser = `
+mutation DeleteUser ($id: String) {
+  deleteUser(id: $id)
 }
 `;

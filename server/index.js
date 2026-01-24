@@ -233,13 +233,16 @@ const root = {
 
     if (targetUser.length > 0) {
       targetUser = targetUser[0];
-      let passwordMatches = await bcrypt.compare(password, String(targetUser.password));
-      if (passwordMatches) {
-        await db.update(User)
-          .set({ lastLogin:  sql`NOW()` })
-          .where(eq(User.id, targetUser.id));
-        
-        return targetUser;
+
+      if (targetUser.isLocked === false) {
+        let passwordMatches = await bcrypt.compare(password, String(targetUser.password));
+        if (passwordMatches) {
+          await db.update(User)
+            .set({ lastLogin:  sql`NOW()` })
+            .where(eq(User.id, targetUser.id));
+          
+          return targetUser;
+        }
       }
     }
 

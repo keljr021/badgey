@@ -41,7 +41,7 @@ function toggleFollowers() {
         <img :src="getImageSrc('badgey_brad.png')" />
       </div>
       <div class="dash-header-text">
-        <div class="dash-header-text-welcome">Welcome<br class="mobile" />{{ loggedInUser.name }}</div>
+        <div class="dash-header-text-welcome">Welcome <br class="mobile" />{{ loggedInUser.name }}</div>
         <div class="dash-header-text-last">Last login {{ formattedLoginDate }}</div>
       </div>
       <div class="dash-header-status">

@@ -169,6 +169,8 @@ onMounted(async () => {
 
 <template>
     <div class="badges">
+      <UButton @click="$router.push('/badge/create')" variant="outlined" color="neutral" icon="i-lucide-badge-plus" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded mx-2">Create Badge</UButton>
+
       <UTable 
         :columns="tableColumns" 
         :data="tableData" 
@@ -194,6 +196,7 @@ onMounted(async () => {
                 <UButton @click="openModal = false" class="mx-2" icon="i-lucide-x" label="Close" color="neutral" variant="outline" />
               </div>
               <div class="modal-options-update" v-if="toggleUpdate">
+                <UButton @click="toggleUpdate = false" class="mx-2" icon="i-lucide-eye" label="View badge" color="neutral" variant="outline" />
                 <UButton @click="saveBadge" class="mx-2" icon="i-lucide-save" label="Save badge" color="neutral" variant="outline" />
                 <UButton @click="openModal = false" class="mx-2" icon="i-lucide-x" label="Close" color="neutral" variant="outline" />
               </div>              

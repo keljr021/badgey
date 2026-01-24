@@ -1,7 +1,7 @@
 import { ref, reactive, computed, toRaw } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { fetchUsers, findUser, loginUser, searchUsers, createUser, updateUser } from './../gql/userQuery.js'
+import { fetchUsers, findUser, loginUser, searchUsers, createUser, updateUser, deleteUser } from './../gql/userQuery.js'
 
 const { VITE_POST_URL } = import.meta.env;
 
@@ -43,17 +43,17 @@ export const useUserStore = defineStore('user', () => {
         return null;
     }
 
-    async function createUser(input) {
+    async function addUser(input) {
         const data = await callServer(createUser, { input });
         return data.createUser;
     }
 
-    async function updateUser(id, input) {
+    async function modifyUser(id, input) {
         const data = await callServer(updateUser, { id, input });
         return data.updateUser;
     }
 
-    async function deleteUser(id) {
+    async function removeUser(id) {
         const data = await callServer(deleteUser, { id });
         return data.deleteUser;
     }
@@ -130,5 +130,5 @@ export const useUserStore = defineStore('user', () => {
         loggedInUser.value = null;
     }
 
-    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, createUser, updateUser, deleteUser, handleLogin, handleRegister, saveSettings, handleLogout };
+    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, addUser, modifyUser, removeUser, handleLogin, handleRegister, saveSettings, handleLogout };
 }, { persist: true });
