@@ -23,6 +23,11 @@ const dob = ref('');
 const password = ref('');
 const confirm = ref('');
 
+const showPassword = ref(false);
+const allValuesFilled = ref(false);
+const doesPasswordsMatch = ref(false);
+const isSubmitDisabled = ref(true);
+
 const inputStyling = {
   borderColor: 'bg-[var(--badgey-black)]',
   color: 'text-[var(--badgey-black)]'
@@ -43,6 +48,22 @@ defineShortcuts({
 
 function toggleLogin() {
     emit('toggle-login');
+}
+
+function toggleSubmit() {
+  if (type.value !== null && 
+      name.value !== null && 
+      username.value !== null && 
+      email.value !== null && 
+      dob.value !== null && 
+      password.value !== null) {
+    allValuesFilled.value = true;
+  }
+
+  if (password.value === confirm.value)
+    doesPasswordsMatch.value = true;
+
+  isSubmitDisabled.value = allValuesFilled.value && doesPasswordsMatch.value;
 }
 
 function toggleRegister() {
@@ -84,16 +105,48 @@ function handleRegister() {
                     <UInput v-model="dob" class="w-full" />
                 </UFormField>
                 <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-                    <UInput type="password" v-model="password" class="w-full" />
+                    <UInput :type="showPassword ? 'text' : 'password'" v-model="password" class="w-full">
+                    <template #trailing>
+                        <UButton
+                        color="neutral"
+                        variant="link"
+                        size="sm"
+                        :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                        :aria-label="(showPassword ? 'Hide' : 'Show') + ' password'"
+                        :aria-pressed="showPassword"
+                        aria-controls="password"
+                        @click="showPassword = !showPassword"
+                        />
+                    </template>
+                    </UInput>
                 </UFormField>
                 <UFormField label="Confirm password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-                    <UInput type="password" v-model="confirm" class="w-full" />
+                    <UInput :type="showPassword ? 'text' : 'password'" v-model="confirm" class="w-full">
+                        <template #trailing>
+                            <UButton
+                            color="neutral"
+                            variant="link"
+                            size="sm"
+                            :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                            :aria-label="(showPassword ? 'Hide' : 'Show') + ' password'"
+                            :aria-pressed="showPassword"
+                            aria-controls="password"
+                            @click="showPassword = !showPassword"
+                            />
+                        </template>
+                        </UInput>
                 </UFormField>
 
                 <UFormField class="w-100 py-4" :ui="inputStyling">
-                    <UButton label="Register" @click="handleRegister()" size="xl" color="neutral" variant="outline" class="text-[var(--badgey-black)] hover:text-white mr-4" />
+                    <UButton label="Register" @click="handleRegister()" :disabled="isSubmitDisabled" color="neutral" :variant="!allValuesFilled ? 'soft' : 'outline'" class="text-[var(--badgey-black)] hover:text-white mr-4" />
                     <UButton label="Close" @click="toggleRegister()" size="xl" color="neutral" variant="outline" class="mr-4" />
                 </UFormField>
+
+                <div v-if="isSubmitDisabled">
+                    <div v-if="!allValuesFilled" class="px-4 text-error">*Required fields must have a value.</div>
+                    <div v-if="!doesPasswordsMatch" class="px-4 text-error">*Password and confirmation doesn't match.</div>
+                </div>
+
                 <UFormField class="w-100 py-4" :ui="inputStyling">
                     <UButton @click="toggleRegister();toggleLogin()" size="lg" variant="link" class="text-[var(--badgey-black)] hover:text-white" icon="i-lucide-chevron-right">Login with existing account here</UButton>
                 </UFormField>

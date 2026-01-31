@@ -15,13 +15,16 @@ const router = useRouter();
 const openLogin = ref(false);
 const openRegister = ref(false);
 
+const loginAlertType = ref('');
+const registerAlertType = ref('');
+
 async function login(user, password) {
   const loggedInUser = await userStore.handleLogin(user.value, password.value);
 
   if (loggedInUser)
     router.push('/dashboard');
   else
-    alert('Login invalid');
+    loginAlertType.value = 'invalid-login';
 }
 
 async function register(payload) {
@@ -29,12 +32,10 @@ async function register(payload) {
   //Check if user has an account first
   const registerUser = await userStore.handleRegister(payload);
 
-  if (registerUser === 'already registered') {
-    alert('User already has an account.');
-  } else if (registerUser === 'successful') {
+  if (registerUser === 'successful') {
     router.push('/dashboard');
   } else {
-    alert('Register invalid.');
+    registerAlertType.value = registerUser;
   }
 }
 
@@ -50,12 +51,12 @@ function toggleRegisterModal() {
 <template>
   <div class="login">
     <div class="login-form">
-      <LoginForm class="desktop" @login="login"/>
-      <LoginFormMobile class="mobile" @login="login" :openLogin="openLogin" @toggle-login="toggleLoginModal" @toggle-register="toggleRegisterModal" />
+      <LoginForm class="desktop" @login="login" :loginAlertType="loginAlertType"/>
+      <LoginFormMobile class="mobile" @login="login" :openLogin="openLogin" :loginAlertType="loginAlertType" @toggle-login="toggleLoginModal" @toggle-register="toggleRegisterModal" />
     </div>
     <div class="login-form">
-      <RegisterForm class="desktop" @register="register" />
-      <RegisterFormMobile class="mobile" @register="register" :openRegister="openRegister" @toggle-login="toggleLoginModal" @toggle-register="toggleRegisterModal" />
+      <RegisterForm class="desktop" @register="register" :registerAlertType="registerAlertType" />
+      <RegisterFormMobile class="mobile" @register="register" :registerAlertType="registerAlertType" :openRegister="openRegister" @toggle-login="toggleLoginModal" @toggle-register="toggleRegisterModal" />
     </div>
   </div>
 </template>
