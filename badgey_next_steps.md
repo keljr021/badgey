@@ -12,8 +12,6 @@ Badgey Next Steps
 - Navbar
   - Submenu issue with clicking links even when hidden
 
-- Dashboard workflow
-
 - Badges
   - Add system badges
 
