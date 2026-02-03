@@ -232,9 +232,10 @@ const root = {
       );
 
     if (targetUser.length > 0) {
+      console.log(targetUser);
       targetUser = targetUser[0];
 
-      if (targetUser.isLocked === false) {
+      if (targetUser.isLocked !== true) {
         let passwordMatches = await bcrypt.compare(password, String(targetUser.password));
         if (passwordMatches) {
           await db.update(User)

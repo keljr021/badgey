@@ -152,7 +152,7 @@ function handleRegister() {
           </UFormField>
           
           <UFormField class="w-100 py-4" :ui="inputStyling">
-            <UButton @click="handleRegister()" :disabled="isSubmitDisabled" color="neutral" :variant="!allValuesFilled ? 'soft' : 'outline'" class="text-[var(--badgey-black)] hover:text-white">Register</UButton>
+            <UButton @click="handleRegister()" color="neutral" :variant="!allValuesFilled ? 'soft' : 'outline'" class="text-[var(--badgey-black)] hover:text-white">Register</UButton>
           </UFormField>
 
           <div v-if="isSubmitDisabled">
