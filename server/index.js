@@ -93,6 +93,7 @@ const schema = buildSchema(
     deleteBadge(id: String): String
     createUser(input: UserInfo): User
     updateUser(id: String, input: UserInfo): User
+    updatePassword(id: String, password: String): User
     deleteUser(id: String): String
   }
 `
@@ -206,6 +207,21 @@ const root = {
   async updateUser({ id, input }) {   
     await db.update(User)
       .set(input)
+      .where(eq(User.id, id));
+
+    const target = await db.select()
+      .from(User)
+      .where(eq(User.id, id))
+      .limit(1);
+
+    return target[0];
+  },
+
+  async updatePassword({ id, password }) {
+    const encryptedPassword = await bcrypt.hash(password, 10);
+
+    await db.update(User)
+      .set({ password: encryptedPassword })
       .where(eq(User.id, id));
 
     const target = await db.select()

@@ -27,7 +27,6 @@ const alertDescription = ref('');
 const showPassword = ref(false);
 const allValuesFilled = ref(false);
 const doesPasswordsMatch = ref(false);
-const isSubmitDisabled = ref(true);
 
 const inputStyling = {
   borderColor: 'bg-[var(--badgey-black)]',
@@ -50,7 +49,7 @@ function setAlertDescription() {
     alertDescription.value = registerAlertType;
 }
 
-function toggleSubmit() {
+function validateForm() {
   if (type.value !== null && 
       name.value !== null && 
       username.value !== null && 
@@ -59,11 +58,14 @@ function toggleSubmit() {
       password.value !== null) {
     allValuesFilled.value = true;
   }
+  else {
+    allValuesFilled.value = false;
+  }
 
   if (password.value === confirm.value)
     doesPasswordsMatch.value = true;
-
-  isSubmitDisabled.value = allValuesFilled.value && doesPasswordsMatch.value;
+  else 
+    doesPasswordsMatch.value = false;
 }
 
 function handleRegister() {
@@ -101,25 +103,25 @@ function handleRegister() {
           />
 
           <UFormField label="I am a(n)..." size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <URadioGroup @change="toggleSubmit" v-model="type" orientation="horizontal" :items="userType" class="py-2" />
+            <URadioGroup @change="validateForm" v-model="type" orientation="horizontal" :items="userType" class="py-2" />
           </UFormField>
           <UFormField v-if="type === '2'" label="Event Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput @blur="toggleSubmit" v-model="company" class="w-full" />
+            <UInput @input="validateForm" v-model="company" class="w-full" />
           </UFormField>
           <UFormField label="Name" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput @blur="toggleSubmit" v-model="name" class="w-full" />
+            <UInput @input="validateForm" v-model="name" class="w-full" />
           </UFormField>
           <UFormField label="Username" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput @blur="toggleSubmit" v-model="username" class="w-full" />
+            <UInput @input="validateForm" v-model="username" class="w-full" />
           </UFormField>
           <UFormField label="Email" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput @blur="toggleSubmit" v-model="email" class="w-full" />
+            <UInput @input="validateForm" v-model="email" class="w-full" />
           </UFormField>
           <UFormField label="Date of birth" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput @change="toggleSubmit" type="date" v-model="dob" class="w-full" />
+            <UInput @input="validateForm" type="date" v-model="dob" class="w-full" />
           </UFormField>
           <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput @blur="toggleSubmit" :type="showPassword ? 'text' : 'password'" v-model="password" class="w-full">
+            <UInput @input="validateForm" :type="showPassword ? 'text' : 'password'" v-model="password" class="w-full">
               <template #trailing>
                 <UButton
                   color="neutral"
@@ -135,7 +137,7 @@ function handleRegister() {
             </UInput>
           </UFormField>
           <UFormField label="Confirm password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput @blur="toggleSubmit" :type="showPassword ? 'text' : 'password'" v-model="confirm" class="w-full">
+            <UInput @input="validateForm" :type="showPassword ? 'text' : 'password'" v-model="confirm" class="w-full">
               <template #trailing>
                 <UButton
                   color="neutral"
@@ -152,13 +154,11 @@ function handleRegister() {
           </UFormField>
           
           <UFormField class="w-100 py-4" :ui="inputStyling">
-            <UButton @click="handleRegister()" :disabled="isSubmitDisabled" color="neutral" :variant="!allValuesFilled ? 'soft' : 'outline'" class="text-[var(--badgey-black)] hover:text-white">Register</UButton>
+            <UButton @click="handleRegister()" color="neutral" variant="outline" class="text-[var(--badgey-black)] hover:text-white">Register</UButton>
           </UFormField>
 
-          <div v-if="isSubmitDisabled">
-            <div v-if="!allValuesFilled" class="px-4 text-error">*Required fields must have a value.</div>
-            <div v-if="!doesPasswordsMatch" class="px-4 text-error">*Password and confirmation doesn't match.</div>
-          </div>
+          <div v-if="!allValuesFilled" class="px-4 text-error">*Required fields must have a value.</div>
+          <div v-if="!doesPasswordsMatch" class="px-4 text-error">*Password and confirmation doesn't match.</div>
         </div>
     </UPageCard>
   </div>

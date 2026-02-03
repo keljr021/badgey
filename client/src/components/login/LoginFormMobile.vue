@@ -5,7 +5,6 @@ const user = ref('');
 const password = ref('');
 const showPassword = ref(false);
 const alertDescription = ref('');
-const allValuesFilled = ref(false);
 
 const inputStyling = {
   borderColor: 'bg-[var(--badgey-black)]',
@@ -30,17 +29,16 @@ function setAlertDescription() {
     alertDescription.value = "This username/password is incorrect. Please try again.";
 }
 
-function toggleSubmit() {
-  allValuesFilled.value = (user.value !== '' && password.value !== '');
-}
-
-
 function toggleLogin() {
     emit('toggle-login');
 }
 
 function toggleRegister() {
     emit('toggle-register');
+}
+
+function validateForm() {
+  allValuesFilled.value = (user.value !== '' && password.value !== '');
 }
 
 function handleLogin() {
@@ -73,10 +71,10 @@ function handleForgotPassword() {
                 </div>
 
                 <UFormField label="Username or email" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-                  <UInput v-model="user" @blur="toggleSubmit" class="w-full"/>
+                  <UInput @input="validateForm" v-model="user" class="w-full"/>
                 </UFormField>
                 <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-                  <UInput :type="showPassword ? 'text' : 'password'" @blur="toggleSubmit" v-model="password" class="w-full">
+                  <UInput @input="validateForm" :type="showPassword ? 'text' : 'password'" v-model="password" class="w-full">
                     <template #trailing>
                         <UButton
                         color="neutral"
@@ -93,7 +91,7 @@ function handleForgotPassword() {
                 </UFormField>
         
                 <UFormField class="w-100 py-4" :ui="inputStyling">
-                    <UButton label="Continue" @click="handleLogin()" :disabled="!allValuesFilled" size="xl" color="neutral" :variant="!allValuesFilled ? 'soft' : 'outline'" class="text-[var(--badgey-black)] hover:text-white mr-4" />
+                    <UButton label="Continue" @click="handleLogin()" variant="outline" size="xl" color="neutral" class="text-[var(--badgey-black)] hover:text-white mr-4" />
                     <UButton label="Close" @click="toggleLogin()" size="xl" color="neutral" variant="outline" class="mr-4" />
                 </UFormField>
 

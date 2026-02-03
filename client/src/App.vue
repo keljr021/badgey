@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useColorMode } from '#imports';
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';

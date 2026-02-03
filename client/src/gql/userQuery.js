@@ -152,6 +152,16 @@ mutation UpdateUser ($id: String, $input: UserInfo) {
 }
 `;
 
+export const updatePassword = `
+mutation UpdatePassword ($id: String, $password: String) {
+  updatePassword(id: $id, password: $password) {
+    id
+    password
+  }
+}
+`;
+
+
 export const deleteUser = `
 mutation DeleteUser ($id: String) {
   deleteUser(id: $id)

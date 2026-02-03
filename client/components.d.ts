@@ -14,6 +14,7 @@ declare module 'vue' {
     AboutSection: typeof import('./src/components/AboutSection.vue')['default']
     BadgeItem: typeof import('./src/components/badges/BadgeItem.vue')['default']
     BadgesTable: typeof import('./src/components/admin/BadgesTable.vue')['default']
+    ChangePasswordModal: typeof import('./src/components/ChangePasswordModal.vue')['default']
     Cta: typeof import('./src/components/home/Cta.vue')['default']
     DashOptions: typeof import('./src/components/DashOptions.vue')['default']
     Features: typeof import('./src/components/home/Features.vue')['default']

@@ -1,4 +1,5 @@
 <script setup>
+import ChangePasswordModal from '../ChangePasswordModal.vue' 
 import { getImageSrc } from '../../assets/js/imgHelpers.js'
 import { defineEmits, ref, h, onMounted } from 'vue'
 
@@ -15,7 +16,7 @@ const totalUsers = ref(0);
 const viewUser = ref(null);
 const updatedUser = ref(null);
 const toggleUpdate = ref(false);
-
+const togglePassword = ref(false);
 
 const userTypeItems = ref([
   {
@@ -194,6 +195,13 @@ async function refreshTable() {
   console.log('Users: ', userStore.users);
 }
 
+function showPasswordModal(input) {
+  togglePassword.value = input;
+
+  if (input === false)
+    toggleUpdate.value = false;
+}
+
 onMounted(async () => {
   await refreshTable();
 })
@@ -223,9 +231,10 @@ onMounted(async () => {
           <div class="modal">
             <div class="modal-options">
               <div class="modal-options-view" v-if="!toggleUpdate">
-                <UButton @click="toggleUpdate = true" class="mx-2" icon="i-lucide-pencil" label="Update user" color="neutral" variant="outline" />
+                <UButton @click="showPasswordModal(true)" class="mx-2" icon="i-lucide-rectangle-ellipsis" label="Change Password" color="neutral" variant="outline" />
+                <UButton @click="toggleUpdate = true" class="mx-2" icon="i-lucide-user-pen" label="Update user" color="neutral" variant="outline" />
                 <UButton @click="toggleLockUser" class="mx-2" :icon="(viewUser.isLocked) ? 'i-lucide-unlock' : 'i-lucide-lock'" :label="(viewUser.isLocked) ? 'Unlock user' : 'Lock user'" color="neutral" variant="outline" />
-                <UButton @click="removeUser" class="mx-2" icon="i-lucide-delete" label="Remove user" color="neutral" variant="outline" />      
+                <UButton @click="removeUser" class="mx-2" icon="i-lucide-user-round-x" label="Remove user" color="neutral" variant="outline" />      
                 <UButton @click="openModal = false" class="mx-2" icon="i-lucide-x" label="Close" color="neutral" variant="outline" />
               </div>
               <div class="modal-options-update" v-if="toggleUpdate">
@@ -329,6 +338,8 @@ onMounted(async () => {
       </div>
       </template>
     </UModal>
+
+    <change-password-modal :showModal="togglePassword" @toggle-modal="showPasswordModal" />
   </div>
 </template>
 
