@@ -105,7 +105,7 @@ const tableColumns = [
   {
     accessoryKey: 'status',
     header: 'Status',
-    cell: ({ row }) => row.original.isLocked ? 'Locked' : 'Active',
+    cell: ({ row }) => row.original.isLocked && row.original.isLocked === true ? 'Locked' : 'Active',
   },
   {
     accessoryKey: 'lastLogin',
@@ -117,7 +117,7 @@ const tableColumns = [
     header: ' ',
     cell: ({ row }) => {
       const buttonClass = 'text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-1 px-2 rounded mx-2';
-      const isUserActive = row.original.isLocked === false;
+      const isUserActive = row.original.isLocked === false || row.original.isLocked === null;
       const lockOrUnlockLabel = isUserActive ? 'Lock' : 'Unlock';
 
       return h('div', [
@@ -240,7 +240,7 @@ onMounted(async () => {
               <div class="modal-options-update" v-if="toggleUpdate">
                 <UButton @click="toggleUpdate = false" class="mx-2" icon="i-lucide-eye" label="View user" color="neutral" variant="outline" />
                 <UButton @click="saveUser" class="mx-2" icon="i-lucide-save" label="Save user" color="neutral" variant="outline" />
-                <UButton @click="toggleLockUser" class="mx-2" :icon="(viewUser.isLocked) ? 'i-lucide-unlock' : 'i-lucide-lock'" :label="(viewUser.isLocked) ? 'Unlock user' : 'Lock user'" color="neutral" variant="outline" />
+                <UButton @click="toggleLockUser" class="mx-2" :icon="(viewUser.isLocked) ? 'i-lucide-unlock' : 'i-lucide-lock'" :label="(viewUser.isLocked && viewUser.isLocked === true) ? 'Unlock user' : 'Lock user'" color="neutral" variant="outline" />
                 <UButton @click="openModal = false" class="mx-2" icon="i-lucide-x" label="Close" color="neutral" variant="outline" />
               </div>              
             </div>
@@ -326,7 +326,7 @@ onMounted(async () => {
             </div>
             <div class="modal-text-view-text">
               <div class="modal-text-view-text-header">Status:</div>
-              <div class="modal-text-view-text-info">{{ updatedUser.isLocked ? 'Locked' : 'Active' }}</div>
+              <div class="modal-text-view-text-info">{{ updatedUser.isLocked && updatedUser.isLocked === true ? 'Locked' : 'Active' }}</div>
             </div>
             <div class="modal-text-view-text">
               <div class="modal-text-view-text-header">Created Date:</div>
