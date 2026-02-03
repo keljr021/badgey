@@ -218,7 +218,10 @@ const root = {
   },
 
   async updatePassword({ id, password }) {
+    console.log('update password triggered.');
+    console.log('id: ', id, ', password: ', password);
     const encryptedPassword = await bcrypt.hash(password, 10);
+    console.log('encrypted: ', encryptedPassword);
 
     await db.update(User)
       .set({ password: encryptedPassword })

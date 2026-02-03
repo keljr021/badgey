@@ -129,11 +129,9 @@ export const useUserStore = defineStore('user', () => {
 
     async function changePassword(password) {
         const passwordObject = {
-            id: loggedInUser.id,
-            input: {
-                password: password
-            }
-        }
+            id: loggedInUser.value.id,
+            password: password
+        };
 
         const data = await callServer(updatePassword, passwordObject);
         return data.updateUser;

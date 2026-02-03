@@ -17,7 +17,7 @@ const { showModal } = toRefs(props);
 
 async function changePassword() {
     console.log('change password button triggered.');
-    await userStore.changePassword({ password: password.value });
+    await userStore.changePassword(password.value);
     togglePasswordModal(false);
 }
 
