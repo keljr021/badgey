@@ -241,8 +241,6 @@ const root = {
   },
 
   async loginUser({ username, password }) {
-    console.log("Login user triggered.")
-    console.log('username: ', username, ' password: ', password);
     let targetUser = await await db.select()
       .from(User)
       .where(
@@ -252,21 +250,16 @@ const root = {
         )
       );
 
-    console.log('target user: ', targetUser);
     if (targetUser.length > 0) {
-      console.log('target user found...');
       targetUser = targetUser[0];
-      console.log('targetUser isLocked: ', targetUser.isLocked);
 
       if (targetUser.isLocked !== true) {
         let passwordMatches = await bcrypt.compare(password, targetUser.password);
-        console.log('password matches: ', passwordMatches);
         if (passwordMatches) {
           await db.update(User)
             .set({ lastLogin:  sql`NOW()` })
             .where(eq(User.id, targetUser.id));
           
-          console.log('target user returned: ', targetUser);
           return targetUser;
         }
       }
