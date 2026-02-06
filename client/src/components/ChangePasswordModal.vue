@@ -1,13 +1,15 @@
 <script setup>
 import { ref, defineEmits, defineProps, toRefs, onMounted } from 'vue'
 import { useUserStore } from './../store/user.js'
+import { useRoute } from 'vue-router'
 
 const password = ref('');
 const confirm = ref('');
 
 const userStore = useUserStore();
-
+const route = useRoute();
 const emits = defineEmits(['toggle-modal']);
+
 
 const props = defineProps({
     showModal: Boolean
@@ -44,8 +46,8 @@ function togglePasswordModal(input) {
         </div>
         <div class="modal-header border-0">Change Password</div>
         <div class="modal-info border-0">
-            <div class="modal-info-password">Password:  <UInput v-model="password" size="lg" placeholder="Password" /></div>
-            <div class="modal-info-confirm">Confirm:  <UInput v-model="confirm" size="lg" placeholder="Confirm password" /></div>
+            <div class="modal-info-password">Password:  <UInput :type="route.name === 'settings' ? 'password' : 'text'" v-model="password" size="lg" placeholder="Password" /></div>
+            <div class="modal-info-confirm">Confirm:  <UInput :type="route.name === 'settings' ? 'password' : 'text'" v-model="confirm" size="lg" placeholder="Confirm password" /></div>
         </div>
     </template>
   </UModal> 

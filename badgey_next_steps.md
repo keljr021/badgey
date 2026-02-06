@@ -6,7 +6,6 @@ Badgey Next Steps
 - Add top badges to profile
 - Upload file system
 - Create Badge system
-- Scroll to top of page in between routes (noticed on several other sites, could be Chrome?)
 - Add image workflow
 
 - Navbar

@@ -1,5 +1,6 @@
 <script setup>
 import { getImageSrc } from '../assets/js/imgHelpers.js'
+import ChangePasswordModal from '../components/ChangePasswordModal.vue' 
 import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
 
@@ -32,6 +33,7 @@ const email = ref(loggedInUser.value.email || '');
 const dob = ref(loggedInUser.value.dob || '');
 const password = '*********';
 const description = ref(loggedInUser.value.description || '');
+const togglePassword = ref(false);
 
 async function loadUserType() {
   if (selectedUserType.value === '3') 
@@ -40,6 +42,10 @@ async function loadUserType() {
       description: 'User who manages the platform.',
       value: "3",
     });
+}
+
+function showPasswordModal(input) {
+  togglePassword.value = input;
 }
 
 async function saveSettings() {
@@ -93,8 +99,8 @@ onMounted(async () => {
           <UFormField label="Date of birth" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
             <UInput v-model="dob" type="date" class="w-full" />
           </UFormField>
-          <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput v-model="password" type="password" class="w-full" disabled />
+          <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling">
+            <UButton @click="showPasswordModal(true)" icon="i-lucide-rectangle-ellipsis" label="Change Password" color="neutral" variant="outline" />
           </UFormField>
       </div>
     </div>
@@ -117,6 +123,7 @@ onMounted(async () => {
         </UFormField>
       </div>
     </div>
+    <change-password-modal :showModal="togglePassword" @toggle-modal="showPasswordModal" />
   </div>
   </div>
 </template>
