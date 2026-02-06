@@ -22,9 +22,6 @@ Badgey Next Steps
   - Add obtained badges
   - Revise profile image for small descriptions
 
-- Settings
-  - Add Change password workflow to settings
-
 - Admin
   - Add auto-signout when a user is locked or deleted
   - Add author functionality to badges
