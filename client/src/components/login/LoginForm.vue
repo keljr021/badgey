@@ -25,7 +25,7 @@ function setAlertDescription() {
     alertDescription.value = "This username/password is incorrect. Please try again.";
 }
 
-function toggleSubmit() {
+function validateForm() {
   allValuesFilled.value = (user.value !== '' && password.value !== '');
 }
 
@@ -57,10 +57,10 @@ function handleForgotPassword() {
           />
 
           <UFormField label="Username or email" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput v-model="user" @blur="toggleSubmit" class="w-full"/>
+            <UInput @input="validateForm" v-model="user" class="w-full"/>
           </UFormField>
           <UFormField label="Password" size="lg" class="py-4 text-[var(--badgey-black)]" :ui="inputStyling" required>
-            <UInput :type="showPassword ? 'text' : 'password'" @blur="toggleSubmit" v-model="password" class="w-full">
+            <UInput @input="validateForm" :type="showPassword ? 'text' : 'password'" v-model="password" class="w-full">
               <template #trailing>
                 <UButton
                   color="neutral"
@@ -77,7 +77,7 @@ function handleForgotPassword() {
           </UFormField>
           
           <UFormField class="w-100 py-4" :ui="inputStyling">
-            <UButton @click="handleLogin()" :disabled="!allValuesFilled" color="neutral" :variant="!allValuesFilled ? 'soft' : 'outline'" class="text-[var(--badgey-black)] hover:text-white">Continue</UButton>
+            <UButton @click="handleLogin()" color="neutral" variant="outline" class="text-[var(--badgey-black)] hover:text-white">Continue</UButton>
           </UFormField>
 
           <div v-if="!allValuesFilled" class="px-4 text-error">*Required fields must have a value.</div>

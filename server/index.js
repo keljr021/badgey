@@ -93,6 +93,7 @@ const schema = buildSchema(
     deleteBadge(id: String): String
     createUser(input: UserInfo): User
     updateUser(id: String, input: UserInfo): User
+    updatePassword(id: String, password: String): User
     deleteUser(id: String): String
   }
 `
@@ -216,12 +217,32 @@ const root = {
     return target[0];
   },
 
+  async updatePassword({ id, password }) {
+    console.log('update password triggered.');
+    console.log('id: ', id, ', password: ', password);
+    const encryptedPassword = await bcrypt.hash(password, 10);
+    console.log('encrypted: ', encryptedPassword);
+
+    await db.update(User)
+      .set({ password: encryptedPassword })
+      .where(eq(User.id, id));
+
+    const target = await db.select()
+      .from(User)
+      .where(eq(User.id, id))
+      .limit(1);
+
+    return target[0];
+  },
+
   async deleteUser({ id }) {
     await db.delete(User).where(eq(User.id, id));
     return 'User ' + id + ' deleted.';
   },
 
   async loginUser({ username, password }) {
+    console.log("Login user triggered.")
+    console.log('username: ', username, ' password: ', password);
     let targetUser = await await db.select()
       .from(User)
       .where(
@@ -231,17 +252,21 @@ const root = {
         )
       );
 
+    console.log('target user: ', targetUser);
     if (targetUser.length > 0) {
-      console.log(targetUser);
+      console.log('target user found...');
       targetUser = targetUser[0];
+      console.log('targetUser isLocked: ', targetUser.isLocked);
 
       if (targetUser.isLocked !== true) {
-        let passwordMatches = await bcrypt.compare(password, String(targetUser.password));
+        let passwordMatches = await bcrypt.compare(password, targetUser.password);
+        console.log('password matches: ', passwordMatches);
         if (passwordMatches) {
           await db.update(User)
             .set({ lastLogin:  sql`NOW()` })
             .where(eq(User.id, targetUser.id));
           
+          console.log('target user returned: ', targetUser);
           return targetUser;
         }
       }

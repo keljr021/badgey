@@ -1,4 +1,5 @@
 <script setup>
+import ChangePasswordModal from '../ChangePasswordModal.vue' 
 import { getImageSrc } from '../../assets/js/imgHelpers.js'
 import { defineEmits, ref, h, onMounted } from 'vue'
 
@@ -15,7 +16,7 @@ const totalUsers = ref(0);
 const viewUser = ref(null);
 const updatedUser = ref(null);
 const toggleUpdate = ref(false);
-
+const togglePassword = ref(false);
 
 const userTypeItems = ref([
   {
@@ -104,7 +105,7 @@ const tableColumns = [
   {
     accessoryKey: 'status',
     header: 'Status',
-    cell: ({ row }) => row.original.isLocked ? 'Locked' : 'Active',
+    cell: ({ row }) => row.original.isLocked && row.original.isLocked === true ? 'Locked' : 'Active',
   },
   {
     accessoryKey: 'lastLogin',
@@ -116,7 +117,7 @@ const tableColumns = [
     header: ' ',
     cell: ({ row }) => {
       const buttonClass = 'text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-1 px-2 rounded mx-2';
-      const isUserActive = row.original.isLocked === false;
+      const isUserActive = row.original.isLocked === false || row.original.isLocked === null;
       const lockOrUnlockLabel = isUserActive ? 'Lock' : 'Unlock';
 
       return h('div', [
@@ -194,6 +195,13 @@ async function refreshTable() {
   console.log('Users: ', userStore.users);
 }
 
+function showPasswordModal(input) {
+  togglePassword.value = input;
+
+  if (input === false)
+    toggleUpdate.value = false;
+}
+
 onMounted(async () => {
   await refreshTable();
 })
@@ -223,15 +231,16 @@ onMounted(async () => {
           <div class="modal">
             <div class="modal-options">
               <div class="modal-options-view" v-if="!toggleUpdate">
-                <UButton @click="toggleUpdate = true" class="mx-2" icon="i-lucide-pencil" label="Update user" color="neutral" variant="outline" />
+                <UButton @click="showPasswordModal(true)" class="mx-2" icon="i-lucide-rectangle-ellipsis" label="Change Password" color="neutral" variant="outline" />
+                <UButton @click="toggleUpdate = true" class="mx-2" icon="i-lucide-user-pen" label="Update user" color="neutral" variant="outline" />
                 <UButton @click="toggleLockUser" class="mx-2" :icon="(viewUser.isLocked) ? 'i-lucide-unlock' : 'i-lucide-lock'" :label="(viewUser.isLocked) ? 'Unlock user' : 'Lock user'" color="neutral" variant="outline" />
-                <UButton @click="removeUser" class="mx-2" icon="i-lucide-delete" label="Remove user" color="neutral" variant="outline" />      
+                <UButton @click="removeUser" class="mx-2" icon="i-lucide-user-round-x" label="Remove user" color="neutral" variant="outline" />      
                 <UButton @click="openModal = false" class="mx-2" icon="i-lucide-x" label="Close" color="neutral" variant="outline" />
               </div>
               <div class="modal-options-update" v-if="toggleUpdate">
                 <UButton @click="toggleUpdate = false" class="mx-2" icon="i-lucide-eye" label="View user" color="neutral" variant="outline" />
                 <UButton @click="saveUser" class="mx-2" icon="i-lucide-save" label="Save user" color="neutral" variant="outline" />
-                <UButton @click="toggleLockUser" class="mx-2" :icon="(viewUser.isLocked) ? 'i-lucide-unlock' : 'i-lucide-lock'" :label="(viewUser.isLocked) ? 'Unlock user' : 'Lock user'" color="neutral" variant="outline" />
+                <UButton @click="toggleLockUser" class="mx-2" :icon="(viewUser.isLocked) ? 'i-lucide-unlock' : 'i-lucide-lock'" :label="(viewUser.isLocked && viewUser.isLocked === true) ? 'Unlock user' : 'Lock user'" color="neutral" variant="outline" />
                 <UButton @click="openModal = false" class="mx-2" icon="i-lucide-x" label="Close" color="neutral" variant="outline" />
               </div>              
             </div>
@@ -317,7 +326,7 @@ onMounted(async () => {
             </div>
             <div class="modal-text-view-text">
               <div class="modal-text-view-text-header">Status:</div>
-              <div class="modal-text-view-text-info">{{ updatedUser.isLocked ? 'Locked' : 'Active' }}</div>
+              <div class="modal-text-view-text-info">{{ updatedUser.isLocked && updatedUser.isLocked === true ? 'Locked' : 'Active' }}</div>
             </div>
             <div class="modal-text-view-text">
               <div class="modal-text-view-text-header">Created Date:</div>
@@ -329,6 +338,8 @@ onMounted(async () => {
       </div>
       </template>
     </UModal>
+
+    <change-password-modal :showModal="togglePassword" @toggle-modal="showPasswordModal" />
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 import { ref, reactive, computed, toRaw } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { fetchUsers, findUser, loginUser, searchUsers, createUser, updateUser, deleteUser } from './../gql/userQuery.js'
+import { fetchUsers, findUser, loginUser, searchUsers, createUser, updateUser, updatePassword, deleteUser } from './../gql/userQuery.js'
 
 const { VITE_POST_URL } = import.meta.env;
 
@@ -27,6 +27,7 @@ export const useUserStore = defineStore('user', () => {
 
     const users = ref([]);
     const loggedInUser = ref(null);
+    const passwordModal = ref(false);
 
     const allUsers = computed(() => users.value);
 
@@ -126,9 +127,19 @@ export const useUserStore = defineStore('user', () => {
         return false;
     }
 
+    async function changePassword(password) {
+        const passwordObject = {
+            id: loggedInUser.value.id,
+            password: password
+        };
+
+        const data = await callServer(updatePassword, passwordObject);
+        return data.updateUser;
+    }
+
     async function handleLogout() {
         loggedInUser.value = null;
     }
 
-    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, addUser, modifyUser, removeUser, handleLogin, handleRegister, saveSettings, handleLogout };
+    return { users, loggedInUser, allUsers, fetchAllUsers, fetchUser, addUser, modifyUser, removeUser, handleLogin, handleRegister, saveSettings, changePassword, handleLogout };
 }, { persist: true });
