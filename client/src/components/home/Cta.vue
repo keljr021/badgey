@@ -4,8 +4,8 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
 </script>
 
 <template>
-  <div style="position: relative;">
-    <img class="cta-bg" :src="getImageSrc('home-bg.png')" />
+  <img class="cta-bg" :src="getImageSrc('home-bg.png')" />
+  <div style="position: relative; background: var(--badgey-green);">
 
     <div class="cta">
       <div class="cta-jumbo">
@@ -34,6 +34,7 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
   margin: 0 auto;
   padding-bottom: 100px; 
   text-align: center;
+  z-index: 2;
 }
 
 .cta-jumbo {
@@ -43,14 +44,14 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
   line-height: 140%;
   font-family: var(--badgey-text-title-font);
   font-size: var(--badgey-text-jumbo-size);
-  color: var(--badgey-green);
+  color: var(--badgey-white);
 }
 
 .cta-caption {
   flex: 1;
   flex-basis: 100%;
   font-size: var(--badgey-text-header-size);
-  color: var(--badgey-black);
+  color: var(--badgey-white);
   line-height: 48px;
   padding: 20px 0;
 }

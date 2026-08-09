@@ -50,6 +50,7 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
   width: 60%;
   min-height: 100vh;
   margin: 0 auto;
+  z-index: 9;
 }
 .features-title {
   position: abosolute;
@@ -75,6 +76,7 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
 
 .features-button {
   padding-bottom: 100px; 
+  z-index: 2;
 }
 
 @media all and (max-width: 1023px) {

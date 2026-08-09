@@ -32,13 +32,14 @@
 .cta-bg {
   position: fixed;
   top: 52px;
-  opacity: 0.04;
+  opacity: 0.05;
   width: 100%;
-  z-index: -1;
+  z-index: 1;
 }
 
 .cta-bg img { 
   object-fit: contain;
+  z-index: -1;
 }
 
 .mobile { 

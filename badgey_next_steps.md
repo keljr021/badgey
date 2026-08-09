@@ -2,6 +2,8 @@
 Badgey Next Steps
 ========================================
 
+- Update home page
+
 - Add followers and following workflow
 - Add top badges to profile
 - Upload file system
