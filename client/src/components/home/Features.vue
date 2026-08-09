@@ -1,4 +1,5 @@
 <script setup>
+import FeaturesSection from './FeaturesSection.vue'
 import FeaturesItem from './FeaturesItem.vue'
 import { getImageSrc } from '../../assets/js/imgHelpers.js'
 
@@ -6,37 +7,57 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
 
 <template>
   <div>
-    <div class="features">
-      <div class="features-title">
-        Collect digital badges
-      </div>
+    <FeaturesSection text="Share and create badges online" />
 
+    <div class="features">
       <div class="features-list">
         <FeaturesItem 
-          title="Your profile, your collection" 
-          text="Customize your profile with a list of your favorite badges." 
+          title="Create your own profile" 
+          text="Customize your profile with a list of favorite badges." 
           :imgSrc="getImageSrc('feature1.png')" />
 
         <FeaturesItem 
           title="Collect badges" 
-          text="Get your own badge from a QR Code or badge ID." 
+          text="Get badges from vendors using their QR Code or Badge ID." 
           :imgSrc="getImageSrc('feature2.png')" />
 
         <FeaturesItem 
-          title="Create your own badge" 
-          text="Create your own custom badge for your events." 
+          title="Show off your collection" 
+          text="Share your profile with friends online." 
           :imgSrc="getImageSrc('feature3.png')" />
 
         <FeaturesItem 
-          title="Share online" 
-          text="Share your QR or ID code with your attendees" 
+          title="View your friends' profile" 
+          text="Follow and view badges from your friends." 
           :imgSrc="getImageSrc('feature4.png')" />         
           
       </div>
+    </div>
 
-      <div class="features-button">
-        <UButton @click="$router.push({ name: 'login' })" color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account</UButton>
+    <FeaturesSection text="Create badges for your next event" />
+
+
+    <div class="features">
+      <div class="features-list">
+        <FeaturesItem 
+          title="Create your own badge" 
+          text="Create your own custom badge for your events." 
+          :imgSrc="getImageSrc('feature5.png')" />
+
+        <FeaturesItem 
+          title="Create a company profile" 
+          text="Share your profile with a list of created badges." 
+          :imgSrc="getImageSrc('feature6.png')" /> 
+
+        <FeaturesItem 
+          title="Share your new badge online" 
+          text="Share your QR and ID code with your attendees." 
+          :imgSrc="getImageSrc('feature7.png')" />
+
       </div>
+    </div>
+    <div class="features-button">
+      <UButton @click="$router.push({ name: 'login' })" color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account</UButton>
     </div>
   </div>
 </template>
@@ -47,10 +68,10 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  width: 60%;
+  width: 100%;
   min-height: 100vh;
   margin: 0 auto;
-  z-index: 9;
+  z-index: 2;
 }
 .features-title {
   position: abosolute;
@@ -66,15 +87,18 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
 
 .features-list {
   flex: 1;
-  flex-basis: 100%;
+  flex-basis: 80%;
+  width: 80%;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
   padding-bottom: 50px; 
 }
 
 .features-button {
+  text-align: center;
   padding-bottom: 100px; 
   z-index: 2;
 }

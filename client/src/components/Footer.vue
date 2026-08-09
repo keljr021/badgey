@@ -47,6 +47,7 @@
   justify-content: end;
   align-items: center;
   flex-basis: 50%;
+  z-index: 2;
 }
 
 .footer-copy {

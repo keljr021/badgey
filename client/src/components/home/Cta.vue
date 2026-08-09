@@ -14,9 +14,8 @@ import { getImageSrc } from '../../assets/js/imgHelpers.js'
 
       <div class="cta-caption">
         <b>Badgey</b> is an application to create, redeem, and share digital badges with your community.<br><br>
-        Show off your journey here!<br><br>
 
-        <UButton @click="$router.push({ name: 'login' })" color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account today!</UButton>
+        <UButton @click="$router.push({ name: 'login' })" color="neutral" variant="outline" size="xl" class="text-[var(--badgey-black)] hover:text-white p-3">Create an account</UButton>
       </div>
     </div>
   </div>
