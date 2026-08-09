@@ -3,6 +3,7 @@ Badgey Next Steps
 ========================================
 
 - Update home page
+  - Update CSS and styling for mobile responsiveness
 
 - Add followers and following workflow
 - Add top badges to profile
