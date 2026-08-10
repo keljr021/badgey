@@ -63,12 +63,23 @@ const { imgSrc } = toRefs(props);
 
 .features-list-item img {
     max-height: 180px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 @media all and (max-width: 1023px) {
     .features-list-item {
         flex-basis: calc(100% - 50px);
+        flex-direction: column;
+        padding-top: 0;
+    }
+
+    .features-list-item-text {
+        flex-basis: 100%;
+    }
+
+    .features-list-item-image {
+        width: 100%;
+        order: -1;
     }
 }
 </style>
