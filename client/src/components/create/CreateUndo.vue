@@ -11,8 +11,12 @@ function handleRedo() {
 
 <template>
   <div class="undo-buttons">
-    <UButton @click="handleUndo" class="mx-2" icon="i-lucide-undo" color="neutral" variant="outline" />
-    <UButton @click="handleRedo" class="mx-2" icon="i-lucide-redo" color="neutral" variant="outline" />
+     <UTooltip text="Undo action">
+       <UButton @click="handleUndo" class="mx-2" icon="i-lucide-undo" color="neutral" variant="outline" caption="Undo" />
+     </UTooltip>
+     <UTooltip text="Redo action">
+       <UButton @click="handleRedo" class="mx-2" icon="i-lucide-redo" color="neutral" variant="outline" caption="Redo" />
+     </UTooltip>
   </div>
 </template>
 
