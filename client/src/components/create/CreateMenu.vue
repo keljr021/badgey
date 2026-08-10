@@ -64,10 +64,11 @@ function hideMenuItem() {
 .menu {
     position: absolute;
     top: 100px;
-    background-color: #fff;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     width: 100px;
     height: 550px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
     z-index: 1;
 }
 
