@@ -22,13 +22,13 @@
 
 <style scoped>
 .footer {
-  background: var(--badgey-green);
+  background: var(--badgey-black);
   width: 100%;
   min-height: 100px;
   padding: 30px 50px 0 50px;
   display: flex;
   flex-wrap: wrap;
-  z-index: 1;
+  z-index: 2;
 }
 
 .footer-logo {
@@ -47,6 +47,7 @@
   justify-content: end;
   align-items: center;
   flex-basis: 50%;
+  z-index: 2;
 }
 
 .footer-copy {
