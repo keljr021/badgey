@@ -9,8 +9,8 @@
 
 <style scoped>
 .create-menu-drafts {
-    position: fixed;
-    top: 100px;
+    position: absolute;
+    top: 0;
     left: 100px;
     min-width: 550px;
     min-height: 100px;

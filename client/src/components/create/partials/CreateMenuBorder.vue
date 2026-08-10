@@ -9,8 +9,8 @@
 
 <style scoped>
 .create-menu-border {
-    position: fixed;
-    top: 340px;
+    position: absolute;
+    top: 260px;
     left: 100px;
     min-width: 550px;
     min-height: 100px;

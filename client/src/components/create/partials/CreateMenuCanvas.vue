@@ -9,8 +9,8 @@
 
 <style scoped>
 .create-menu-canvas {
-    position: fixed;
-    top: 180px;
+    position: absolute;
+    top: 100px;
     left: 100px;
     min-width: 550px;
     min-height: 100px;

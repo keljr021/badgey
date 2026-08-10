@@ -9,8 +9,8 @@
 
 <style scoped>
 .create-menu-import {
-    position: fixed;
-    top: 500px;
+    position: absolute;
+    top: 420px;
     left: 100px;
     min-width: 550px;
     min-height: 100px;

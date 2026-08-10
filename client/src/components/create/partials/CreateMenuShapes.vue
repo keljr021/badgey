@@ -9,8 +9,8 @@
 
 <style scoped>
 .create-menu-shapes {
-    position: fixed;
-    top: 420px;
+    position: absolute;
+    top: 340px;
     left: 100px;
     min-width: 550px;
     min-height: 100px;

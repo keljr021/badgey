@@ -9,8 +9,8 @@
 
 <style scoped>
 .create-menu-text {
-    position: fixed;
-    top: 260px;
+    position: absolute;
+    top: 180px;
     left: 100px;
     min-width: 550px;
     min-height: 100px;
