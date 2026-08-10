@@ -27,32 +27,32 @@ function hideMenuItem() {
 
 <template>
   <div class="menu">
-    <div class="menu-item" @click="handleClickMenuItem('drafts')">
+    <div :class="`menu-item ${showMenu === 'drafts' ? 'active' : ''}`" @click="handleClickMenuItem('drafts')">
         <div class="menu-item-icon"><UIcon name="i-lucide-file-pen" class="size-5" /></div>
         <div class="menu-item-text">Drafts</div>
         <create-menu-drafts v-if="showMenu === 'drafts'" />
     </div>
-    <div class="menu-item" @click="handleClickMenuItem('canvas')">
+    <div :class="`menu-item ${showMenu === 'canvas' ? 'active' : ''}`" @click="handleClickMenuItem('canvas')">
         <div class="menu-item-icon"><UIcon name="i-lucide-badge" class="size-5" /></div>
         <div class="menu-item-text">Canvas</div>
         <create-menu-canvas v-if="showMenu === 'canvas'" />
     </div>  
-    <div class="menu-item" @click="handleClickMenuItem('text')">
+    <div :class="`menu-item ${showMenu === 'text' ? 'active' : ''}`" @click="handleClickMenuItem('text')">
         <div class="menu-item-icon"><UIcon name="i-lucide-text" class="size-5" /></div>
         <div class="menu-item-text">Text</div>
         <create-menu-text v-if="showMenu === 'text'" />
     </div>
-    <div class="menu-item" @click="handleClickMenuItem('border')">
+    <div :class="`menu-item ${showMenu === 'border' ? 'active' : ''}`" @click="handleClickMenuItem('border')">
         <div class="menu-item-icon"><UIcon name="i-lucide-circle-dashed" class="size-5" /></div>
         <div class="menu-item-text">Border</div>
         <create-menu-border v-if="showMenu === 'border'" />
     </div>
-    <div class="menu-item" @click="handleClickMenuItem('shapes')">
+    <div :class="`menu-item ${showMenu === 'shapes' ? 'active' : ''}`" @click="handleClickMenuItem('shapes')">
         <div class="menu-item-icon"><UIcon name="i-lucide-diamond" class="size-5" /></div>
         <div class="menu-item-text">Shapes</div>
         <create-menu-shapes v-if="showMenu === 'shapes'" />
     </div>
-    <div class="menu-item" @click="handleClickMenuItem('import')">
+    <div :class="`menu-item ${showMenu === 'import' ? 'active' : ''}`" @click="handleClickMenuItem('import')">
         <div class="menu-item-icon"><UIcon name="i-lucide-import" class="size-5" /></div>
         <div class="menu-item-text">Import</div>
         <create-menu-import v-if="showMenu === 'import'" />
@@ -81,6 +81,19 @@ function hideMenuItem() {
     margin: 0 auto;
     text-align: center;
     cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: #eee;
+}
+
+.menu-item.active{
+    background-color: #ccc;
+    color: var(--badgey-green);
+}
+
+.menu-item.active .menu-item-text {
+    font-weight: bold;
 }
 
 .menu-item-icon {
