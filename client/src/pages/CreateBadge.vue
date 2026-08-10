@@ -59,7 +59,7 @@ import CreateSave from '../components/create/CreateSave.vue'
   flex: 1;
   display: flex;
   flex-direction: column;
-  width: 80%;
+  flex-basis: calc(100% - 220px);
 }
 
 .create-body-canvas-undo {
@@ -68,6 +68,7 @@ import CreateSave from '../components/create/CreateSave.vue'
 
 .create-body-canvas-ui {
   width: 100%;
+  height: calc(80vh - 60px);
 }
 
 .create-body-canvas-save {
