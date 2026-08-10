@@ -20,6 +20,9 @@ import CreateSave from '../components/create/CreateSave.vue'
           <create-canvas />
         </div>
         <div class="create-body-canvas-save">
+          <div class="create-body-canvas-save-autosave">
+            Autosaved at 12/24/2025 02:06PM
+          </div>
           <create-save />
         </div>
       </div>
@@ -60,6 +63,7 @@ import CreateSave from '../components/create/CreateSave.vue'
   display: flex;
   flex-direction: column;
   flex-basis: calc(100% - 220px);
+  padding: 20px 50px;
 }
 
 .create-body-canvas-undo {
@@ -73,5 +77,11 @@ import CreateSave from '../components/create/CreateSave.vue'
 
 .create-body-canvas-save {
   width: 100%;
+}
+
+.create-body-canvas-save-autosave {
+  text-align: right;
+  font-style: italic;
+  opacity: 0.7;
 }
 </style>
