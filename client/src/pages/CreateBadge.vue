@@ -72,7 +72,7 @@ import CreateSave from '../components/create/CreateSave.vue'
 
 .create-body-canvas-ui {
   width: 100%;
-  height: calc(80vh - 60px);
+  height: calc(80vh - 100px);
 }
 
 .create-body-canvas-save {
