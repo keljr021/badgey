@@ -8,27 +8,27 @@ import CreateMenuBorder from './partials/CreateMenuBorder.vue'
 import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 
-const emit = defineEmits(['open-draft'])
+const emit = defineEmits(['draft'])
 
 const showMenu = ref('');
 
-function openDraft(id) {
+const openDraft = id => {
     console.log('open draft: ', id);
-    emit('open-draft', id);
+    emit('draft', id);
 }
 
-function handleClickMenuItem(menuItem) {
+const handleClickMenuItem = (menuItem) => {
     if (showMenu.value === menuItem) 
         hideMenuItem();
     else 
         showMenuItem(menuItem);
 }
 
-function showMenuItem(menuItem) {
+const showMenuItem = (menuItem) => {
     showMenu.value = menuItem;
 }
 
-function hideMenuItem() {
+const hideMenuItem = () => {
     showMenu.value = '';
 }
 </script>
@@ -56,14 +56,14 @@ function hideMenuItem() {
         <div class="menu-item-text">Import</div>
     </div> 
     
-    <create-menu-drafts v-if="showMenu === 'drafts'" @close="hideMenuItem()" @open-draft="openDraft(id)" />
-    <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem()" />
-    <create-menu-canvas v-if="showMenu === 'canvas'" @close="hideMenuItem()" />
-    <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem()" />
-    <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem()" />
+    <create-menu-drafts v-if="showMenu === 'drafts'" @close="hideMenuItem" @draft="openDraft" />
+    <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" />
+    <create-menu-canvas v-if="showMenu === 'canvas'" @close="hideMenuItem" />
+    <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem" />
+    <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" />
     
-    <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem()" />
-    <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem()" />
+    <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem" />
+    <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem" />
   </div>
 </template>
 

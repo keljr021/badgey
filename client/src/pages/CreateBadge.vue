@@ -13,7 +13,7 @@ const redo = () => {
 };
 
 const openDraft = (id) => {
-  console.log('open draft: ', id)
+  console.log('open draft: ', id);
 }
 
 const saveDraft = () => {
@@ -29,7 +29,7 @@ const publishBadge = () => {
   <div class="create">
     <div class="create-body">
       <div class="create-body-menu">
-        <create-menu @open-draft="openDraft" />
+        <create-menu @draft="openDraft" />
       </div>
       <div class="create-body-canvas">
         <div class="create-body-canvas-undo">

@@ -54,7 +54,7 @@ const borderStrokeColor = computed(() => ({ backgroundColor: borderStrokeValue.v
 
         <div class="createmenu-border-header-menu-buttons-size">
           Size:
-          <UInputNumber class="w-25 mx-2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" v-model="borderSizeValue" min="1" />
+          <UInputNumber class="w-25 mx-2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" v-model="borderSizeValue" :min="1" />
         </div>
 
         <div class="createmenu-border-header-menu-buttons-color">
