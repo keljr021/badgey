@@ -7,7 +7,7 @@ import CreateMenuBorder from './partials/CreateMenuBorder.vue'
 import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 
-const showMenu = ref('');
+const showMenu = ref('border');
 
 function handleClickMenuItem(menuItem) {
     if (showMenu.value === menuItem) 
@@ -30,33 +30,35 @@ function hideMenuItem() {
     <div :class="`menu-item ${showMenu === 'drafts' ? 'active' : ''}`" @click="handleClickMenuItem('drafts')">
         <div class="menu-item-icon"><UIcon name="i-lucide-file-pen" class="size-5" /></div>
         <div class="menu-item-text">Drafts</div>
-        <create-menu-drafts v-if="showMenu === 'drafts'" />
     </div>
     <div :class="`menu-item ${showMenu === 'canvas' ? 'active' : ''}`" @click="handleClickMenuItem('canvas')">
         <div class="menu-item-icon"><UIcon name="i-lucide-badge" class="size-5" /></div>
         <div class="menu-item-text">Canvas</div>
-        <create-menu-canvas v-if="showMenu === 'canvas'" />
     </div>  
     <div :class="`menu-item ${showMenu === 'text' ? 'active' : ''}`" @click="handleClickMenuItem('text')">
         <div class="menu-item-icon"><UIcon name="i-lucide-text" class="size-5" /></div>
         <div class="menu-item-text">Text</div>
-        <create-menu-text v-if="showMenu === 'text'" />
     </div>
     <div :class="`menu-item ${showMenu === 'border' ? 'active' : ''}`" @click="handleClickMenuItem('border')">
         <div class="menu-item-icon"><UIcon name="i-lucide-circle-dashed" class="size-5" /></div>
         <div class="menu-item-text">Border</div>
-        <create-menu-border v-if="showMenu === 'border'" />
     </div>
     <div :class="`menu-item ${showMenu === 'shapes' ? 'active' : ''}`" @click="handleClickMenuItem('shapes')">
         <div class="menu-item-icon"><UIcon name="i-lucide-diamond" class="size-5" /></div>
         <div class="menu-item-text">Shapes</div>
-        <create-menu-shapes v-if="showMenu === 'shapes'" />
     </div>
     <div :class="`menu-item ${showMenu === 'import' ? 'active' : ''}`" @click="handleClickMenuItem('import')">
         <div class="menu-item-icon"><UIcon name="i-lucide-import" class="size-5" /></div>
         <div class="menu-item-text">Import</div>
-        <create-menu-import v-if="showMenu === 'import'" />
-    </div>   
+    </div> 
+    
+    <create-menu-drafts v-if="showMenu === 'drafts'" />
+    <create-menu-canvas v-if="showMenu === 'canvas'" />
+    <create-menu-text v-if="showMenu === 'text'" />
+    <create-menu-border v-if="showMenu === 'border'" />
+    <create-menu-shapes v-if="showMenu === 'shapes'" />
+    <create-menu-import v-if="showMenu === 'import'" />
+
   </div>
 </template>
 
@@ -89,19 +91,26 @@ function hideMenuItem() {
 
 .menu-item.active{
     background-color: #ccc;
-    color: var(--badgey-green);
-}
-
-.menu-item.active .menu-item-text {
-    font-weight: bold;
 }
 
 .menu-item-icon {
     text-align: center;
     margin: 5px auto;
+    opacity: 0.5;
 }
 
 .menu-item-text {
     font-size: 16px;
 }
+
+.menu-item.active .menu-item-icon {
+    color: var(--badgey-green);
+    opacity: 1;
+}
+
+.menu-item.active .menu-item-text {
+    color: var(--badgey-green);
+    font-weight: bold;
+}
+
 </style>

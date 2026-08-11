@@ -5,7 +5,6 @@ Badgey Next Steps
 - Add followers and following workflow
 - Add top badges to profile
 - Upload file system
-- Create Badge system
 - Add image workflow
 
 - Navbar
@@ -25,3 +24,56 @@ Badgey Next Steps
 - Admin
   - Add auto-signout when a user is locked or deleted
   - Add author functionality to badges
+
+
+- Create Badge system
+  - Drafts
+    - id, date updated, draft name
+
+  - Canvas
+    - Square
+    - Circle
+    - Octagon
+
+  - Text
+    - Add New Text
+
+    - New Text menu
+      - Textbox to change text
+      - Font
+      - Size
+      - Bold
+      - Italic
+      - Underline
+
+      - Double click to edit later?
+
+  - Border
+    - Stroke
+    - Fill
+
+  - Shapes
+    - Circle
+    - Square
+    - Custom
+
+    - New Shape
+      - Fill
+      - Stroke
+      - Width
+      - Height
+      - Rotate
+      - Shadows
+
+  - Import badge
+
+  - Undo
+
+  - Redo
+
+  - Save as draft
+
+  - Publish badge
+    - Modal
+
+  - Autosave functionality
