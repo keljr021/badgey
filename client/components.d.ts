@@ -21,6 +21,7 @@ declare module 'vue' {
     CreateMenuCanvas: typeof import('./src/components/create/partials/CreateMenuCanvas.vue')['default']
     CreateMenuDrafts: typeof import('./src/components/create/partials/CreateMenuDrafts.vue')['default']
     CreateMenuImport: typeof import('./src/components/create/partials/CreateMenuImport.vue')['default']
+    CreateMenuInsert: typeof import('./src/components/create/partials/CreateMenuInsert.vue')['default']
     CreateMenuShapes: typeof import('./src/components/create/partials/CreateMenuShapes.vue')['default']
     CreateMenuText: typeof import('./src/components/create/partials/CreateMenuText.vue')['default']
     CreateSave: typeof import('./src/components/create/CreateSave.vue')['default']

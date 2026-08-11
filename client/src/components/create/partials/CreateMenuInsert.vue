@@ -1,8 +1,12 @@
 <script setup>
-import { ref, defineEmits, computed } from 'vue'
+import { defineEmits } from 'vue'
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'insert']);
 
+const insertItem = (input) => {
+  console.log('insert: ', input);
+  emit('insert', input);
+};
 </script>
 
 <template>
@@ -13,11 +17,11 @@ const emit = defineEmits(['close']);
     </div>
     <div class="create-menu-insert-header-menu">
       <div class="create-menu-insert-header-menu-list">
-        <div class="create-menu-insert-list-item">
+        <div class="create-menu-insert-list-item" @click="insertItem('shape')">
           <div class="create-menu-insert-list-item-icon"><UIcon name="i-lucide-diamond-plus" class="size-5" /></div>
           <div class="create-menu-insert-list-item-text">Shapes</div>
         </div> 
-        <div class="create-menu-insert-list-item">
+        <div class="create-menu-insert-list-item" @click="insertItem('text')">
           <div class="create-menu-insert-list-item-icon"><UIcon name="i-lucide-list-plus" class="size-5" /></div>
           <div class="create-menu-insert-list-item-text">Text</div>
         </div> 
