@@ -75,6 +75,7 @@ const handleCanvasClick = (item) => {
 
 .create-menu-canvas-list-item-icon {
     margin: 0 auto;
+    padding: 10px 0;
     opacity: 0.5;
 }
 

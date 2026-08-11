@@ -7,7 +7,7 @@ import CreateMenuBorder from './partials/CreateMenuBorder.vue'
 import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 
-const showMenu = ref('border');
+const showMenu = ref('');
 
 function handleClickMenuItem(menuItem) {
     if (showMenu.value === menuItem) 
