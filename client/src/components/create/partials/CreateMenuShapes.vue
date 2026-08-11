@@ -1,10 +1,15 @@
 <script setup>
+import { defineEmits } from 'vue'
+
+const emit = defineEmits(['close']);
 </script>
 
 <template>
   <div class="create-menu-shapes">
     <div class="create-menu-shapes-header">
       Add shape
+
+      <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
     </div>
     <div class="create-menu-shapes-list">
       <div class="create-menu-shapes-list-item">

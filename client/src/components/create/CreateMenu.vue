@@ -52,12 +52,12 @@ function hideMenuItem() {
         <div class="menu-item-text">Import</div>
     </div> 
     
-    <create-menu-drafts v-if="showMenu === 'drafts'" />
-    <create-menu-canvas v-if="showMenu === 'canvas'" />
-    <create-menu-text v-if="showMenu === 'text'" />
-    <create-menu-border v-if="showMenu === 'border'" />
-    <create-menu-shapes v-if="showMenu === 'shapes'" />
-    <create-menu-import v-if="showMenu === 'import'" />
+    <create-menu-drafts v-if="showMenu === 'drafts'" @close="hideMenuItem()" />
+    <create-menu-canvas v-if="showMenu === 'canvas'" @close="hideMenuItem()" />
+    <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem()" />
+    <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem()" />
+    <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem()" />
+    <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem()" />
 
   </div>
 </template>

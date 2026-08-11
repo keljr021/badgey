@@ -1,10 +1,15 @@
 <script setup>
+import { defineEmits } from 'vue';
+
+const emit = defineEmits(['close']);
 </script>
 
 <template>
   <div class="create-menu-import">
     <div class="create-menu-import-header">
       Import image
+
+      <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
     </div>
     <div class="create-menu-import-box">
       <UFileUpload

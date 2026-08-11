@@ -1,5 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, defineEmits, computed } from 'vue';
+
+const emit = defineEmits(['close']);
 
 const textValue = ref('');
 const textSize = ref(16);
@@ -32,6 +34,8 @@ const toggleButton = (button) => {
   <div class="create-menu-text">
     <div class="create-menu-text-header">
       Text
+
+      <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
     </div>
     <div class="create-menu-text-content">
       <div class="create-menu-text-content-text">

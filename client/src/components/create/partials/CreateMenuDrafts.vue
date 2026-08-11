@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 
 const selectedDraft = ref(null);
+const emit = defineEmits(['close']);
 
 const searchTerm = ref('');
 const items = [
@@ -30,6 +31,8 @@ const items = [
   <div class="create-menu-drafts">
     <div class="create-menu-drafts-header">
       Drafts List
+
+      <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
     </div>
     <div class="create-menu-drafts-list">
       <UListbox v-model="selectedDraft" :search-term="searchTerm" filter :items="items" />

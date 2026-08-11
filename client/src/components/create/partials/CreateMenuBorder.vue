@@ -1,5 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, defineEmits, computed } from 'vue'
+
+const emit = defineEmits(['close']);
 
 const borderStyles = ref([
   {
@@ -41,6 +43,7 @@ const borderStrokeColor = computed(() => ({ backgroundColor: borderStrokeValue.v
   <div class="create-menu-border">
     <div class="create-menu-border-header">
       Border
+      <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
     </div>
     <div class="create-menu-border-header-menu">
       <div class="create-menu-border-header-menu-list">

@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 
 const activeItem = ref('');
+const emit = defineEmits(['close']);
 
 const handleCanvasClick = (item) => {
   activeItem.value = item;
@@ -12,6 +13,8 @@ const handleCanvasClick = (item) => {
   <div class="create-menu-canvas">
     <div class="create-menu-canvas-header">
       Canvas shape
+
+      <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
     </div>
     <div class="create-menu-canvas-list">
       <div class="create-menu-canvas-list-item" :class="{ 'active': activeItem === 'circle' }" @click="handleCanvasClick('circle')">
