@@ -36,7 +36,30 @@ Badgey Next Steps
     - Octagon
 
   - Text
-    - Add New Text
+    
+
+  - Border
+    - Stroke
+    - Fill
+
+
+  - Insert
+
+    - Shapes
+      - Circle
+      - Square
+      - Custom
+
+      - New Shape
+        - Fill
+        - Stroke
+        - Width
+        - Height
+        - Rotate
+        - Shadows
+
+
+  - Text
 
     - New Text menu
       - Textbox to change text
@@ -48,22 +71,8 @@ Badgey Next Steps
 
       - Double click to edit later?
 
-  - Border
-    - Stroke
-    - Fill
 
-  - Shapes
-    - Circle
-    - Square
-    - Custom
 
-    - New Shape
-      - Fill
-      - Stroke
-      - Width
-      - Height
-      - Rotate
-      - Shadows
 
   - Import badge
 

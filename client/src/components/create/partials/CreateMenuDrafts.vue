@@ -1,8 +1,8 @@
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, watch } from 'vue';
 
 const selectedDraft = ref(null);
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'open-draft']);
 
 const searchTerm = ref('');
 const items = [
@@ -25,6 +25,12 @@ const items = [
     value: 'draft3'
   },
 ];
+
+watch(selectedDraft, (newValue) => {
+  const id = newValue.value;
+  console.log('Selected draft: ', id);
+  emit('open-draft', id);
+});
 </script>
 
 <template>

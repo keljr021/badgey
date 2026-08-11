@@ -92,7 +92,7 @@ const borderStrokeColor = computed(() => ({ backgroundColor: borderStrokeValue.v
 <style scoped>
 .create-menu-border {
     position: absolute;
-    top: 260px;
+    top: 130px;
     left: 100px;
     min-width: 350px;
     min-height: 100px;

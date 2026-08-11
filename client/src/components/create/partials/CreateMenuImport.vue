@@ -24,7 +24,7 @@ const emit = defineEmits(['close']);
 <style scoped>
 .create-menu-import {
     position: absolute;
-    top: 220px;
+    top: 130px;
     left: 100px;
     min-width: 350px;
     min-height: 100px;

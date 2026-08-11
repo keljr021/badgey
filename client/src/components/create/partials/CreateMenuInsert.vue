@@ -1,0 +1,90 @@
+<script setup>
+import { ref, defineEmits, computed } from 'vue'
+
+const emit = defineEmits(['close']);
+
+</script>
+
+<template>
+  <div class="create-menu-insert">
+    <div class="create-menu-insert-header">
+      Insert
+      <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
+    </div>
+    <div class="create-menu-insert-header-menu">
+      <div class="create-menu-insert-header-menu-list">
+        <div class="create-menu-insert-list-item">
+          <div class="create-menu-insert-list-item-icon"><UIcon name="i-lucide-diamond-plus" class="size-5" /></div>
+          <div class="create-menu-insert-list-item-text">Shapes</div>
+        </div> 
+        <div class="create-menu-insert-list-item">
+          <div class="create-menu-insert-list-item-icon"><UIcon name="i-lucide-list-plus" class="size-5" /></div>
+          <div class="create-menu-insert-list-item-text">Text</div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.create-menu-insert {
+    position: absolute;
+    top: 170px;
+    left: 100px;
+    min-width: 350px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-insert-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.create-menu-insert-list {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 15px 0;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+
+.create-menu-insert-list-item {
+    flex: 1;
+    width: 33%;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 0;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.create-menu-insert-list-item:hover {
+    background-color: #eee;
+}
+
+.create-menu-insert-list-item-icon {
+    margin: 0 auto;
+    padding: 10px 0;
+    opacity: 0.5;
+}
+
+.create-menu-insert-list-item.active .create-menu-insert-list-item-icon {
+    color: var(--badgey-green);
+    opacity: 1;
+}
+
+.create-menu-insert-list-item.active .create-menu-insert-list-item-text {
+    color: var(--badgey-green);
+    font-weight: bold;
+}
+
+</style>
