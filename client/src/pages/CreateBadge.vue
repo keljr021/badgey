@@ -4,17 +4,32 @@ import CreateUndo from '../components/create/CreateUndo.vue'
 import CreateCanvas from '../components/create/CreateCanvas.vue'
 import CreateSave from '../components/create/CreateSave.vue'
 
+const handleUndo = () => {
+  console.log('undo button clicked.');
+};
+
+const handleRedo = () => {
+  console.log('redo button clicked.');
+};
+
+const handleSaveDraft = () => {
+  console.log('save draft clicked.');
+};
+
+const handlePublish = () => {
+  console.log('publish badge clicked.');
+};
 </script>
 
 <template>
   <div class="create">
-    <div class="create-body">
+    <div class="create-body" @keypress.ctrl.z="handleUndo" @keypress.ctrl.shift.z="handleRedo" @keypress.ctrl.y="handleRedo">
       <div class="create-body-menu">
         <create-menu />
       </div>
       <div class="create-body-canvas">
         <div class="create-body-canvas-undo">
-          <create-undo />
+          <create-undo @undo="handleUndo" @redo="handleRedo" />
         </div>
         <div class="create-body-canvas-ui">
           <create-canvas />
@@ -23,7 +38,7 @@ import CreateSave from '../components/create/CreateSave.vue'
           <div class="create-body-canvas-save-autosave">
             Autosaved at 12/24/2025 02:06PM
           </div>
-          <create-save />
+          <create-save @save="handleSaveDraft" @publish="handlePublish" />
         </div>
       </div>
     </div>

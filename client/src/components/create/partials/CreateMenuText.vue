@@ -50,7 +50,7 @@ const toggleButton = (button) => {
           </UFieldGroup>
         </div>
         <div class="create-menu-text-content-menu-size">
-          <UInputNumber v-model="textSize" :min="1" icon="i-lucide-a-large-small" label="Size" />
+          <UInputNumber :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" v-model="textSize" :min="1" icon="i-lucide-a-large-small" label="Size" />
         </div>
         <div class="create-menu-text-content-menu-color">
           <UPopover>

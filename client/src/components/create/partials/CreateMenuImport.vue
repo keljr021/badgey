@@ -41,6 +41,7 @@ const emit = defineEmits(['close']);
 
 .create-menu-import-box {
   padding: 20px 0;
+  cursor: pointer;
 }
 
 </style>
