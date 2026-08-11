@@ -1,5 +1,6 @@
 <script setup>
 import { defineEmits } from 'vue';
+import './create.css'
 
 const emit = defineEmits(['undo', 'redo']);
 </script>
@@ -15,9 +16,3 @@ const emit = defineEmits(['undo', 'redo']);
   </div>
 </template>
 
-<style scoped>
-.undo-buttons {
-  display: flex;
-  justify-content: space-evenly;
-}
-</style>

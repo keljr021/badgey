@@ -1,0 +1,380 @@
+/* CreateCanvas.vue */
+.canvas {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.canvas-container {
+  width: 50%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+/* CreateUndo.vue */
+.undo-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* CreateSave.vue */
+.save-buttons {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    z-index: 9;
+}
+
+/* CreateMenu.vue */
+.menu {
+    position: absolute;
+    top: 100px;
+    width: 100px;
+    height: 450px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 0;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: #eee;
+}
+
+.menu-item.active{
+    background-color: #ccc;
+}
+
+.menu-item-icon {
+    text-align: center;
+    margin: 5px auto;
+    opacity: 0.5;
+}
+
+.menu-item-text {
+    font-size: 16px;
+}
+
+.menu-item.active .menu-item-icon {
+    color: var(--badgey-green);
+    opacity: 1;
+}
+
+.menu-item.active .menu-item-text {
+    color: var(--badgey-green);
+    font-weight: bold;
+}
+
+/* CreateMenuBorder.vue */
+.create-menu-border {
+    position: absolute;
+    top: 130px;
+    left: 100px;
+    min-width: 350px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-border-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.create-menu-border-header-menu-list,
+.create-menu-border-header-menu-buttons {
+  padding: 15px 0;
+}
+
+.create-menu-border-header-menu-buttons-size,
+.create-menu-border-header-menu-buttons-color {
+  padding: 15px 0;
+  margin: 0 auto;
+}
+
+/* CreateMenuCanvas.vue */
+.create-menu-canvas {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    min-width: 350px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-canvas-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.create-menu-canvas-list {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 0;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+
+.create-menu-canvas-list-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 0;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.create-menu-canvas-list-item:hover {
+    background-color: #eee;
+}
+
+.create-menu-canvas-list-item-icon {
+    margin: 0 auto;
+    padding: 10px 0;
+    opacity: 0.5;
+}
+
+.create-menu-canvas-list-item.active .create-menu-canvas-list-item-icon {
+    color: var(--badgey-green);
+    opacity: 1;
+}
+
+.create-menu-canvas-list-item.active .create-menu-canvas-list-item-text {
+    color: var(--badgey-green);
+    font-weight: bold;
+}
+
+/* CreateMenuDrafts.vue */
+.create-menu-drafts {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    min-width: 350px;
+    min-height: 200px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-drafts-header,
+.create-menu-drafts-list {
+  text-align: left;
+}
+
+.create-menu-drafts-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+/* CreateMenuImport.vue */
+.create-menu-import {
+    position: absolute;
+    top: 130px;
+    left: 100px;
+    min-width: 350px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-import-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.create-menu-import-box {
+  padding: 20px 0;
+  cursor: pointer;
+  text-align: right;
+}
+
+/* CreateMenuInsert.vue */
+.create-menu-insert {
+    position: absolute;
+    top: 170px;
+    left: 100px;
+    min-width: 350px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-insert-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.create-menu-insert-list {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 15px 0;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+
+.create-menu-insert-list-item {
+    flex: 1;
+    width: 33%;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 0;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.create-menu-insert-list-item:hover {
+    background-color: #eee;
+}
+
+.create-menu-insert-list-item-icon {
+    margin: 0 auto;
+    padding: 10px 0;
+    opacity: 0.5;
+}
+
+.create-menu-insert-list-item.active .create-menu-insert-list-item-icon {
+    color: var(--badgey-green);
+    opacity: 1;
+}
+
+.create-menu-insert-list-item.active .create-menu-insert-list-item-text {
+    color: var(--badgey-green);
+    font-weight: bold;
+}
+
+/* CreateMenuShapes.vue */
+.create-menu-shapes {
+    position: absolute;
+    top: 300px;
+    left: 100px;
+    min-width: 350px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-shapes-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.create-menu-shapes-list {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 0;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+
+.create-menu-shapes-list-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 0;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.create-menu-shapes-list-item:hover {
+    background-color: #eee;
+}
+
+.create-menu-shapes-list-item-icon {
+    margin: 0 auto;
+    padding: 10px 0;
+    opacity: 0.5;
+}
+
+.create-menu-shapes-list-item.active .create-menu-shapes-list-item-icon {
+    color: var(--badgey-green);
+    opacity: 1;
+}
+
+.create-menu-shapes-list-item.active .create-menu-shapes-list-item-text {
+    color: var(--badgey-green);
+    font-weight: bold;
+}
+
+/* CreateMenuText.vue */
+.create-menu-text {
+    position: absolute;
+    top: 180px;
+    left: 100px;
+    min-width: 350px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-text-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.create-menu-text-content-text {
+  width: 100%;
+}
+
+.create-menu-text-content-menu {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.create-menu-text-content-menu-size, 
+.create-menu-text-content-menu-color, 
+.create-menu-text-content-menu-buttons {
+  flex: 1;
+  flex-basis: 33%;
+  padding: 15px 0;
+}
+
+.create-menu-text-content-menu-buttons button {
+  opacity: 0.5;
+}
+
+.create-menu-text-content-menu-buttons button:hover {
+  opacity: 0.8;
+}
+
+.create-menu-text-content-menu-buttons .active {
+  opacity: 1;
+}

@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
+import './create.css'
 
 const konvaConfig = reactive({
   width: 400,
@@ -20,15 +21,5 @@ const konvaConfig = reactive({
 </template>
 
 <style scoped>
-.canvas {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-}
 
-.canvas-container {
-  width: 50%;
-  height: 100%;
-  margin: 0 auto;
-}
 </style>

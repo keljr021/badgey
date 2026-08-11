@@ -1,5 +1,6 @@
 <script setup>
 import { ref, defineEmits, computed, watch } from 'vue'
+import './../create.css'
 
 const emit = defineEmits(['close', 'border']);
 
@@ -107,34 +108,3 @@ const setBorderStroke = () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.create-menu-border {
-    position: absolute;
-    top: 130px;
-    left: 100px;
-    min-width: 350px;
-    min-height: 100px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-}
-
-.create-menu-border-header {
-  font-weight: 600;
-  padding: 15px 0;
-}
-
-.create-menu-border-header-menu-list,
-.create-menu-border-header-menu-buttons {
-  padding: 15px 0;
-}
-
-.create-menu-border-header-menu-buttons-size,
-.create-menu-border-header-menu-buttons-color {
-  padding: 15px 0;
-  margin: 0 auto;
-}
-
-</style>

@@ -1,5 +1,6 @@
 <script setup>
 import { defineEmits } from 'vue';
+import './create.css'
 
 const emit = defineEmits(['save', 'publish']);
 </script>
@@ -10,12 +11,3 @@ const emit = defineEmits(['save', 'publish']);
     <UButton @click="emit('publish')" class="mx-2 cursor-pointer" icon="i-lucide-upload" label="Publish badge" color="neutral" variant="outline" />
   </div>
 </template>
-
-<style scoped>
-.save-buttons {
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
-    z-index: 9;
-}
-</style>

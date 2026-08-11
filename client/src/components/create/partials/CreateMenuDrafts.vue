@@ -1,5 +1,6 @@
 <script setup>
 import { ref, defineEmits, watch } from 'vue';
+import './../create.css'
 
 const selectedDraft = ref(null);
 const emit = defineEmits(['close', 'draft']);
@@ -47,25 +48,5 @@ watch(selectedDraft, (newValue) => {
 </template>
 
 <style scoped>
-.create-menu-drafts {
-    position: absolute;
-    top: 0;
-    left: 100px;
-    min-width: 350px;
-    min-height: 200px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-}
 
-.create-menu-drafts-header,
-.create-menu-drafts-list {
-  text-align: left;
-}
-
-.create-menu-drafts-header {
-  font-weight: 600;
-  padding: 15px 0;
-}
 </style>

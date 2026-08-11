@@ -7,6 +7,7 @@ import CreateMenuText from './partials/CreateMenuText.vue'
 import CreateMenuBorder from './partials/CreateMenuBorder.vue'
 import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
+import './create.css'
 
 const emit = defineEmits(['draft', 'canvas', 'insert', 'border', 'import', 'import-confirm'])
 
@@ -93,54 +94,6 @@ const hideMenuItem = () => {
 </template>
 
 <style scoped>
-.menu {
-    position: absolute;
-    top: 100px;
-    width: 100px;
-    height: 450px;
-    background-color: #fff;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    z-index: 1;
-}
 
-.menu-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    padding: 15px 0;
-    margin: 0 auto;
-    text-align: center;
-    cursor: pointer;
-}
-
-.menu-item:hover {
-    background-color: #eee;
-}
-
-.menu-item.active{
-    background-color: #ccc;
-}
-
-.menu-item-icon {
-    text-align: center;
-    margin: 5px auto;
-    opacity: 0.5;
-}
-
-.menu-item-text {
-    font-size: 16px;
-}
-
-.menu-item.active .menu-item-icon {
-    color: var(--badgey-green);
-    opacity: 1;
-}
-
-.menu-item.active .menu-item-text {
-    color: var(--badgey-green);
-    font-weight: bold;
-}
 
 </style>

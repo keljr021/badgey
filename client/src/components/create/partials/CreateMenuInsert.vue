@@ -1,5 +1,6 @@
 <script setup>
 import { defineEmits } from 'vue'
+import './../create.css'
 
 const emit = defineEmits(['close', 'insert']);
 
@@ -29,66 +30,3 @@ const insertItem = (input) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.create-menu-insert {
-    position: absolute;
-    top: 170px;
-    left: 100px;
-    min-width: 350px;
-    min-height: 100px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-}
-
-.create-menu-insert-header {
-  font-weight: 600;
-  padding: 15px 0;
-}
-
-.create-menu-insert-list {
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  padding: 15px 0;
-  margin: 0 auto;
-  text-align: center;
-  cursor: pointer;
-}
-
-.create-menu-insert-list-item {
-    flex: 1;
-    width: 33%;
-    float: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 15px 0;
-    margin: 0 auto;
-    text-align: center;
-    cursor: pointer;
-}
-
-.create-menu-insert-list-item:hover {
-    background-color: #eee;
-}
-
-.create-menu-insert-list-item-icon {
-    margin: 0 auto;
-    padding: 10px 0;
-    opacity: 0.5;
-}
-
-.create-menu-insert-list-item.active .create-menu-insert-list-item-icon {
-    color: var(--badgey-green);
-    opacity: 1;
-}
-
-.create-menu-insert-list-item.active .create-menu-insert-list-item-text {
-    color: var(--badgey-green);
-    font-weight: bold;
-}
-
-</style>
