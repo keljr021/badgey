@@ -1,7 +1,7 @@
 <script setup>
-import { ref, defineEmits, computed } from 'vue'
+import { ref, defineEmits, computed, watch } from 'vue'
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'border']);
 
 const borderStyles = ref([
   {
@@ -37,6 +37,25 @@ const borderStylesIcon = computed(() => borderStyles.value.find(item => item.val
 const borderFillColor = computed(() => ({ backgroundColor: borderFillValue.value }));
 const borderStrokeColor = computed(() => ({ backgroundColor: borderStrokeValue.value }));
 
+const setBorderStyle = () => {
+  console.log('set border style: ', borderStylesValue.value);
+  emit('border', { style: borderStylesValue.value });
+};
+
+const setBorderSize = () => {
+  console.log('set border size: ', borderSizeValue.value);
+  emit('border', { size: borderSizeValue.value })
+};
+
+const setBorderFill = () => {
+  console.log('set border fill: ', borderFillValue.value);
+  emit('border', { fill: borderFillValue.value })
+};
+
+const setBorderStroke = () => {
+  console.log('set border stroke: ', borderStrokeValue.value);
+  emit('border', { stroke: borderStrokeValue.value })
+};
 </script>
 
 <template>
@@ -48,13 +67,13 @@ const borderStrokeColor = computed(() => ({ backgroundColor: borderStrokeValue.v
     <div class="create-menu-border-header-menu">
       <div class="create-menu-border-header-menu-list">
         Style: 
-        <USelect v-model="borderStylesValue" :items="borderStyles" value-key="value" :icon="borderStylesIcon" class="w-30 mx-2" />
+        <USelect v-model="borderStylesValue" @change="setBorderStyle" :items="borderStyles" value-key="value" :icon="borderStylesIcon" class="w-30 mx-2" />
       </div>
       <div class="create-menu-border-header-menu-buttons">
 
         <div class="createmenu-border-header-menu-buttons-size">
           Size:
-          <UInputNumber class="w-25 mx-2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" v-model="borderSizeValue" :min="1" />
+          <UInputNumber v-model="borderSizeValue" @change="setBorderSize" class="w-25 mx-2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" :min="1" />
         </div>
 
         <div class="createmenu-border-header-menu-buttons-color">
@@ -67,7 +86,7 @@ const borderStrokeColor = computed(() => ({ backgroundColor: borderStrokeValue.v
               </UButton>
   
               <template #content>
-                <UColorPicker v-model="borderFillValue" class="p-2" />
+                <UColorPicker v-model="borderFillValue" @update:modelValue="setBorderFill" class="p-2" />
               </template>
             </UPopover>
   
@@ -80,7 +99,7 @@ const borderStrokeColor = computed(() => ({ backgroundColor: borderStrokeValue.v
               </UButton>
   
               <template #content>
-                <UColorPicker v-model="borderStrokeValue" class="p-2" />
+                <UColorPicker v-model="borderStrokeValue" @update:modelValue="setBorderStroke" class="p-2" />
               </template>
             </UPopover>
         </div>

@@ -24,6 +24,10 @@ const insertItem = (input) => {
   console.log('insert shape: ', input);
 }
 
+const setBorder = (input) => {
+  console.log('set border: ', input);
+}
+
 const saveDraft = () => {
   console.log('save draft clicked.');
 };
@@ -37,7 +41,12 @@ const publishBadge = () => {
   <div class="create">
     <div class="create-body">
       <div class="create-body-menu">
-        <create-menu @draft="openDraft" @canvas="setCanvas" @insert="insertItem"/>
+        <create-menu 
+          @draft="openDraft" 
+          @canvas="setCanvas" 
+          @insert="insertItem"
+          @border="setBorder"
+        />
       </div>
       <div class="create-body-canvas">
         <div class="create-body-canvas-undo">
