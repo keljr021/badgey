@@ -8,7 +8,7 @@ import CreateMenuBorder from './partials/CreateMenuBorder.vue'
 import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 
-const emit = defineEmits(['draft', 'canvas', 'insert', 'border'])
+const emit = defineEmits(['draft', 'canvas', 'insert', 'border', 'import', 'import-confirm'])
 
 const showMenu = ref('');
 
@@ -37,6 +37,16 @@ const insertItem = (input) => {
 const setBorder = (input) => {
     console.log('set border: ', input);
     emit('border', input);
+}
+
+const importFile = (input) => {
+    console.log('import: ', input);
+    emit('import', input);
+}
+
+const confirmImport = () => {
+    emit('import-confirm');
+    hideMenuItem();
 }
 
 const showMenuItem = (menuItem) => {
@@ -74,13 +84,8 @@ const hideMenuItem = () => {
     <create-menu-drafts v-if="showMenu === 'drafts'" @close="hideMenuItem" @draft="openDraft" />
     <create-menu-canvas v-if="showMenu === 'canvas'" @close="hideMenuItem" @canvas="setCanvas" />
     <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
-    <create-menu-border 
-        v-if="showMenu === 'border'" 
-        @close="hideMenuItem"
-        @border="setBorder" 
-    />
-    
-        <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" />
+    <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem" @border="setBorder" />
+    <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" @import-confirm="confirmImport" />
     
     <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem" />
     <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem" />

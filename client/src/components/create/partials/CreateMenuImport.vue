@@ -1,7 +1,17 @@
 <script setup>
-import { defineEmits } from 'vue';
+import { defineEmits, ref } from 'vue';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'import', 'import-confirm']);
+
+const upload = ref(null);
+
+const setImportedFile = () => {
+  emit('import', upload.value);
+}
+
+const confirmImport = () => {
+  emit('import-confirm');
+};
 </script>
 
 <template>
@@ -13,10 +23,13 @@ const emit = defineEmits(['close']);
     </div>
     <div class="create-menu-import-box">
       <UFileUpload
+        v-model="upload"
+        @update:modelValue="setImportedFile"
         label="Drop your image here"
         description="SVG, PNG, JPG or GIF (max. 2MB)"
         class="w-96 min-h-48"
       />
+      <UButton class="mt-6" color="neutral" variant="outline" size="md" icon="i-lucide-upload" @click="confirmImport" label="Confirm" />
     </div>
   </div>
 </template>
@@ -42,6 +55,7 @@ const emit = defineEmits(['close']);
 .create-menu-import-box {
   padding: 20px 0;
   cursor: pointer;
+  text-align: right;
 }
 
 </style>

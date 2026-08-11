@@ -28,6 +28,14 @@ const setBorder = (input) => {
   console.log('set border: ', input);
 }
 
+const importFile = (input) => {
+  console.log('import file: ', input);
+}
+
+const confirmImport = () => {
+  console.log('import confirmed');
+}
+
 const saveDraft = () => {
   console.log('save draft clicked.');
 };
@@ -46,6 +54,8 @@ const publishBadge = () => {
           @canvas="setCanvas" 
           @insert="insertItem"
           @border="setBorder"
+          @import="importFile"
+          @import-confirm="confirmImport"
         />
       </div>
       <div class="create-body-canvas">
