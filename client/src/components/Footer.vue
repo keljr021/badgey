@@ -72,7 +72,7 @@
   text-decoration: underline;
 }
 
-@media all and (max-width: 1023px) {
+@media all and (max-width: 768px) {
   .footer {
     padding-top: 25px;
     flex-direction: column;

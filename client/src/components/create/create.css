@@ -8,15 +8,8 @@
 .canvas-container {
   width: 50%;
   height: 100%;
-  margin: 0 auto;
-}
-
-.canvas-container-input {
-  width: 70%; 
-  height: 100%; 
-  margin: 0 auto; 
-  background-color: #eee; 
-  border-radius: 50%;
+  margin:  0 auto;
+  padding-left: 100px;
 }
 
 /* CreateUndo.vue */
@@ -387,7 +380,22 @@
   opacity: 1;
 }
 
-@media all and (max-width: 1023px) {
+@media all and (min-width: 769px) and (max-width: 1023px) {
+  .canvas {
+    display: flex;
+    justify-content: center;
+  }
+
+  .canvas-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    padding-left: initial;
+  }
+}
+
+@media all and (max-width: 768px) {
 
   .undo-buttons-mobile {
     display: initial;
@@ -397,6 +405,16 @@
     display: none;
   }
 
+  .canvas {
+    max-width: 100%;
+    overflow: auto;
+  }
+
+  .canvas-container {
+    width: initial;
+    padding-left: initial;
+  }
+
   .menu {
     position: fixed;
     top: auto;
@@ -404,6 +422,7 @@
     width: 100%;
     height: 90px;
     border-radius: 0;
+    z-index: 3;
   }
 
   .menu-item {

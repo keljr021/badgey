@@ -106,6 +106,7 @@ const publishBadge = () => {
   display: flex;
   flex-direction: column;
   flex-basis: calc(100% - 220px);
+  justify-content: center;
   padding: 20px 50px;
 }
 
@@ -115,22 +116,38 @@ const publishBadge = () => {
 
 .create-body-canvas-ui {
   width: 100%;
-  height: calc(80vh - 100px);
 }
 
 .create-body-canvas-save {
   width: 100%;
 }
 
+@media all and (max-width: 1023px) and (min-width: 769px) {
 
-@media all and (max-width: 1023px) {
+}
+
+
+@media all and (max-width: 768px) {
+
+  .create,
+  .create-body {
+    display: initial;
+  }
 
   .create-body-canvas {
     padding: 20px;
   }
 
   .create-body-menu {
+    flex: initial;
+    display: initial;
+    flex-basis: initial;
+    width: initial;
     z-index: 9;
+  }
+
+  .create-body-canvas-ui {
+    height: initial;
   }
 }
 </style>

@@ -90,3 +90,10 @@
 [data-nuxt-ui-toast] text {
   fill: var(--badgey-black) !important;
 }
+
+@media all and (max-width: 1023px) {
+  .page {
+    padding-top: initial;
+    min-height: initial;
+  }
+}
