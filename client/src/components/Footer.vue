@@ -8,11 +8,11 @@
       <img src="./../assets/img/logo_full_white.png" />
     </div>
     <div class="footer-links">
-      <ULink class="footer-links-item hover:text-white mx-4" activeClass="text-white" target="_top" to="/about">About</ULink>
-      <ULink class="footer-links-item hover:text-white mx-4" activeClass="text-white" target="_top" to="/terms">Terms and Conditions</ULink>
-      <ULink class="footer-links-item hover:text-white mx-4" activeClass="text-white" target="_top" to="/privacy">Privacy Policy</ULink>
-      <ULink class="footer-links-item hover:text-white mx-4" activeClass="text-white" target="_top" to="/release">Release Notes</ULink>
-      <ULink class="footer-links-item hover:text-white mx-4" activeClass="text-white" target="_top" to="/contact">Contact</ULink>
+      <ULink class="footer-links-item mx-4" activeClass="text-white" target="_top" to="/about">About</ULink>
+      <ULink class="footer-links-item mx-4" activeClass="text-white" target="_top" to="/terms">Terms and Conditions</ULink>
+      <ULink class="footer-links-item mx-4" activeClass="text-white" target="_top" to="/privacy">Privacy Policy</ULink>
+      <ULink class="footer-links-item mx-4" activeClass="text-white" target="_top" to="/release">Release Notes</ULink>
+      <ULink class="footer-links-item mx-4" activeClass="text-white" target="_top" to="/contact">Contact</ULink>
     </div>
     <div class="footer-copy">
       Copyright 2025. Website done by <a href="https://kelvin-m.com/#/">Kelvin Morrisey Jr</a>.
@@ -48,6 +48,14 @@
   align-items: center;
   flex-basis: 50%;
   z-index: 2;
+}
+
+.footer-links-item {
+  color: #b3b3b3;
+}
+
+.footer-links-item:hover {
+  color: white;
 }
 
 .footer-copy {
