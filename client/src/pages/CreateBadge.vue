@@ -130,4 +130,10 @@ const publishBadge = () => {
   font-style: italic;
   opacity: 0.7;
 }
+
+@media all and (max-width: 1023px) {
+  .create-body-menu {
+    z-index: 9;
+  }
+}
 </style>

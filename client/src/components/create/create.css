@@ -378,3 +378,21 @@
 .create-menu-text-content-menu-buttons .active {
   opacity: 1;
 }
+
+@media all and (max-width: 1023px) {
+
+  .menu {
+    position: fixed;
+    top: 85%;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    border-radius: 0;
+  }
+
+  .menu-item {
+    width: 20%;
+    float: left;
+  }
+  
+}
