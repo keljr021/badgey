@@ -429,5 +429,19 @@
     width: 20%;
     float: left;
   }
+
+  .create-menu-drafts,
+  .create-menu-canvas,
+  .create-menu-insert,
+  .create-menu-shapes,
+  .create-menu-border,
+  .create-menu-import {
+    position: fixed;
+    top: auto;
+    bottom: 10vh;
+    left: 0;
+    width: 100%;
+    height: initial;
+  }
   
 }
