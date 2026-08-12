@@ -12,7 +12,7 @@ const konvaConfig = reactive({
 <template>
   <div class="canvas">
     <div class="canvas-container">
-      <v-stage :config="konvaConfig" style="width: 100%; height: 100%; background-color: #eee;">
+      <v-stage :config="konvaConfig" style="width: 70%; height: 100%; margin: 0 auto; background-color: #eee">
         <v-layer>
         </v-layer>
       </v-stage>

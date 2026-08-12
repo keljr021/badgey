@@ -62,7 +62,7 @@ const hideMenuItem = () => {
 <template>
   <div class="menu">
     <div :class="`menu-item ${showMenu === 'drafts' ? 'active' : ''}`" @click="handleClickMenuItem('drafts')">
-        <div class="menu-item-icon"><UIcon name="i-lucide-file-pen" class="size-5" /></div>
+        <div class="menu-item-icon"><UIcon name="i-lucide-folder-pen" class="size-5" /></div>
         <div class="menu-item-text">Drafts</div>
     </div>
     <div :class="`menu-item ${showMenu === 'canvas' ? 'active' : ''}`" @click="handleClickMenuItem('canvas')">
