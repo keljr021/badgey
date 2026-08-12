@@ -86,6 +86,7 @@ const publishBadge = () => {
   flex: 1;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   width: 100%;
 }
 
