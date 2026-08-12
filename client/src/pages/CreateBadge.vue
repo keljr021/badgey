@@ -61,17 +61,11 @@ const publishBadge = () => {
       <div class="create-body-canvas">
         <div class="create-body-canvas-undo">
           <create-undo @undo="undo" @redo="redo" @save="saveDraft" @publish="publishBadge" />
-          <div class="create-body-canvas-save-autosave-mobile">
-            Autosaved at 12/24/2025 02:06PM
-          </div>
         </div>
         <div class="create-body-canvas-ui">
           <create-canvas />
         </div>
         <div class="create-body-canvas-save">
-          <div class="create-body-canvas-save-autosave">
-            Autosaved at 12/24/2025 02:06PM
-          </div>
           <create-save @save="saveDraft" @publish="publishBadge" />
         </div>
       </div>
@@ -128,33 +122,11 @@ const publishBadge = () => {
   width: 100%;
 }
 
-.create-body-canvas-save-autosave,
-.create-body-canvas-save-autosave-mobile {
-  text-align: right;
-  font-style: italic;
-  opacity: 0.7;
-}
-
-  .create-body-canvas-save-autosave-mobile {
-    margin: 0 auto;
-    display: none;
-  }
-
 
 @media all and (max-width: 1023px) {
 
   .create-body-canvas {
     padding: 20px;
-  }
-
-  .create-body-canvas-save-autosave {
-    display: none;
-  }
-
-  .create-body-canvas-save-autosave-mobile {
-    display: flex;
-    justify-content: center;
-    padding: 20px 0 40px 0;
   }
 
   .create-body-menu {
