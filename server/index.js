@@ -11,6 +11,7 @@ import cors from 'cors';
 
 import { User } from './models/user.js';
 import { Badge } from './models/badge.js';
+import { Draft } from './models/drafts.js';
 
  
 // Construct a schema, using GraphQL schema language
@@ -78,6 +79,24 @@ const schema = buildSchema(
     isLocked: Boolean
   }
 
+  input Draft {
+    id: String
+    userId: String
+    name: String
+    canvas: JSON
+    createdAt: String
+    updatedAt: String
+  }
+
+  input DraftInfo {
+    id: String
+    userId: String
+    name: String
+    canvas: JSON
+    createdAt: String
+    updatedAt: String
+  }
+
   type Query {
     badges: [Badge]
     badge(id: String): Badge
@@ -85,6 +104,8 @@ const schema = buildSchema(
     user(id: String): User
     searchUsers(query: String): [User]
     loginUser(username: String, password: String): User
+    drafts: [Draft]
+    draft(id: String): Draft
   }
 
   type Mutation {
@@ -95,6 +116,10 @@ const schema = buildSchema(
     updateUser(id: String, input: UserInfo): User
     updatePassword(id: String, password: String): User
     deleteUser(id: String): String
+    createDraft(input: DraftInfo): Draft
+    updateDraft(id: String): Draft
+    deleteDraft(id: String): Draft
+
   }
 `
 );
@@ -267,6 +292,47 @@ const root = {
 
     return null;
   },
+
+  async createDraft({ input }) {
+    const newDraftId = uuidv4();
+
+    const draftInfo = {
+      id: newDraftId,
+      userId: input.userId,
+      name: input.name,
+      canvas: input.canvas,
+      createdAt: sql`NOW()`,
+      updatedAt = sql`NOW()`,
+    };
+
+    await db.insert(Draft).values(draftInfo);
+
+    const target = await db.select()
+      .from(Draft)
+      .where(eq(Draft.id, newDraftId))
+      .limit(1);
+
+    return target[0];
+  },
+
+  async updateUser({ id, input }) {   
+    await db.update(Draft)
+      .set(input)
+      .where(eq(Draft.id, id));
+
+    const target = await db.select()
+      .from(User)
+      .where(eq(Draft.id, id))
+      .limit(1);
+
+    return target[0];
+  },
+
+  async deleteUser({ id }) {
+    await db.delete(Draft).where(eq(Draft.id, id));
+    return 'Draft ' + id + ' deleted.';
+  },
+
 };
  
 const app = express();
