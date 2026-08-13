@@ -3,6 +3,14 @@ import CreateMenu from '../components/create/CreateMenu.vue'
 import CreateUndo from '../components/create/CreateUndo.vue'
 import CreateCanvas from '../components/create/CreateCanvas.vue'
 import CreateSave from '../components/create/CreateSave.vue'
+import { reactive } from 'vue'
+
+const border = reactive({
+  style: 'none',
+  size: null,
+  fill: null,
+  stroke: null
+});
 
 const undo = () => {
   console.log('undo button clicked.');
@@ -26,7 +34,8 @@ const insertItem = (input) => {
 
 const setBorder = (input) => {
   console.log('set border: ', input);
-}
+  Object.assign(border, input);
+};
 
 const importFile = (input) => {
   console.log('import file: ', input);
@@ -38,10 +47,6 @@ const confirmImport = () => {
 
 const saveDraft = () => {
   console.log('save draft clicked.');
-};
-
-const publishBadge = () => {
-  console.log('publish badge clicked.');
 };
 </script>
 
@@ -63,7 +68,9 @@ const publishBadge = () => {
           <create-undo @undo="undo" @redo="redo" @save="saveDraft" @publish="publishBadge" />
         </div>
         <div class="create-body-canvas-ui">
-          <create-canvas />
+          <create-canvas  
+
+          />
         </div>
         <div class="create-body-canvas-save">
           <create-save @save="saveDraft" @publish="publishBadge" />

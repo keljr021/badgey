@@ -38,8 +38,11 @@ const borderStylesIcon = computed(() => borderStyles.value.find(item => item.val
 const borderFillColor = computed(() => ({ backgroundColor: borderFillValue.value }));
 const borderStrokeColor = computed(() => ({ backgroundColor: borderStrokeValue.value }));
 
+const showBorderOptions = ref(false);
+
 const setBorderStyle = () => {
   console.log('set border style: ', borderStylesValue.value);
+  showBorderOptions.value = borderStylesValue.value !== 'none';
   emit('border', { style: borderStylesValue.value });
 };
 
@@ -70,7 +73,7 @@ const setBorderStroke = () => {
         Style: 
         <USelect v-model="borderStylesValue" @change="setBorderStyle" :items="borderStyles" value-key="value" :icon="borderStylesIcon" class="w-30 mx-2" />
       </div>
-      <div class="create-menu-border-header-menu-buttons">
+      <div class="create-menu-border-header-menu-buttons" v-if="showBorderOptions">
 
         <div class="createmenu-border-header-menu-buttons-size">
           Size:
