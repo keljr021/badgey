@@ -1,6 +1,8 @@
 
 Badgey Next Steps
 ========================================
+- Create Canvas store for functions
+
 
 - Add followers and following workflow
 - Add top badges to profile
