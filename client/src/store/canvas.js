@@ -4,11 +4,11 @@ import { defnieStore } from 'pinia';
 const { VITE_POST_URL } = import.meta.env;
 
 export const useCanvasStore = defineStore('canvas', () => {
+    const canvas = ref([]);
 
+    const loading = ref(false);
     const undoStep = ref([]);
     const redoStep = ref([]);
-
-    const canvas = ref([]);
 
     async function changeCanvas() {
         console.log('-- canvas store - changeCanvas triggered');
