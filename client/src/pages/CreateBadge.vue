@@ -22,13 +22,18 @@ const border = reactive({
 
 const undo = () => {
   console.log('undo button clicked.');
-  canvasStore.undo();
+  canvasStore.undoCanvas();
 };
 
 const redo = () => {
   console.log('redo button clicked.');
-  canvasStore.redo();
+  canvasStore.redoCanvas();
 };
+
+const reset = () => {
+  console.log('reset button clicked.');
+  canvasStore.resetCanvas();
+}
 
 const openDraft = (id) => {
   console.log('open draft: ', id);
