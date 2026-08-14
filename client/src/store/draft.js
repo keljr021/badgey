@@ -47,8 +47,8 @@ export const useDraftStore = defineStore('draft', () => {
     }
 
     async function saveDraft(input) {
-        if (selectedDraft)
-            updateDraft(selectedDraft.id, input);
+        if (selectedDraft.value)
+            modifyDraft(input);
         else
             addDraft(input);
     }
@@ -76,5 +76,5 @@ export const useDraftStore = defineStore('draft', () => {
         // return data.deleteDraft;
     }
 
-    return { drafts, fetchAllDrafts, fetchDraft, addDraft, modifyDraft, removeDraft };
+    return { drafts, fetchAllDrafts, fetchDraft, saveDraft, addDraft, modifyDraft, removeDraft };
 }, { persist: true });

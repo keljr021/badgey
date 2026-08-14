@@ -41,7 +41,8 @@ const openDraft = (id) => {
 }
 
 const setCanvas = (input) => {
-  console.log('set canvas: ', input);
+  let id = 'background';
+  console.log('set canvas: - id: ', id, ' - input: ', input);
   canvasStore.updateItem(id, input);
 }
 
@@ -51,8 +52,8 @@ const insertItem = (input) => {
 }
 
 const setBorder = (input) => {
-  console.log('set border: ', input);
-  Object.assign(border, input);
+  let id = 'background';
+  console.log('set border: - id: ', id, ' - input: ', input);
   canvasStore.updateItem(id, border);
 };
 

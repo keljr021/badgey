@@ -25,14 +25,14 @@ const setCanvas = (input) => {
         <div class="create-menu-canvas-list-item-icon"><UIcon name="i-lucide-circle" class="size-5" /></div>
         <div class="create-menu-canvas-list-item-text">Circle</div>
       </div> 
-      <div class="create-menu-canvas-list-item" :class="{ 'active': activeItem === 'octagon' }" @click="setCanvas('octagon')">
-        <div class="create-menu-canvas-list-item-icon"><UIcon name="i-lucide-octagon" class="size-5" /></div>
-        <div class="create-menu-canvas-list-item-text">Octagon</div>
-      </div> 
       <div class="create-menu-canvas-list-item" :class="{ 'active': activeItem === 'square' }" @click="setCanvas('square')">
         <div class="create-menu-canvas-list-item-icon"><UIcon name="i-lucide-square" class="size-5" /></div>
         <div class="create-menu-canvas-list-item-text">Square</div>
-      </div> 
+      </div>
+      <div class="create-menu-canvas-list-item" :class="{ 'active': activeItem === 'octagon' }" @click="setCanvas('octagon')">
+        <div class="create-menu-canvas-list-item-icon"><UIcon name="i-lucide-octagon" class="size-5" /></div>
+        <div class="create-menu-canvas-list-item-text">Octagon</div>
+      </div>  
     </div>
   </div>
 </template>
