@@ -30,16 +30,20 @@ export const useDraftStore = defineStore('draft', () => {
     const selectedDraft = ref(null);
 
     async function fetchAllDrafts() {
-        const data = await callServer(fetchDrafts);
-        drafts.value = data.drafts;
+        console.log('-- drafts store - fetchAllDrafts triggered');
+
+        // const data = await callServer(fetchDrafts);
+        // drafts.value = data.drafts;
     }
 
     async function fetchDraft(id) {
-        const findDraftCall = await callServer(findDraft, { id: id });
-        if (findDraftCall && findDraftCall.draft !== null) {
-            return findDraftCall.draft;
-        }
-        return null;
+        console.log('-- drafts store - fetchDraft triggered - id: ', id);
+
+        // const findDraftCall = await callServer(findDraft, { id: id });
+        // if (findDraftCall && findDraftCall.draft !== null) {
+        //     return findDraftCall.draft;
+        // }
+        // return null;
     }
 
     async function saveDraft(input) {
@@ -50,20 +54,26 @@ export const useDraftStore = defineStore('draft', () => {
     }
 
     async function addDraft(input) {
-        const data = await callServer(createDraft, { input });
-        const targetDraft = data.createDraft;
-        return targetDraft;
+        console.log('-- drafts store - addDraft triggered - input: ', input);
+
+        // const data = await callServer(createDraft, { input });
+        // const targetDraft = data.createDraft;
+        // return targetDraft;
     }
 
     async function modifyDraft(id, input) {
-        const data = await callServer(updateDraft, { id, input });
-        const targetDraft = data.updateDraft;
-        return targetDraft;
+        console.log('-- drafts store - modifyDraft triggered - id: ', id, ' - input: ', input);
+
+        // const data = await callServer(updateDraft, { id, input });
+        // const targetDraft = data.updateDraft;
+        // return targetDraft;
     }
 
     async function removeDraft(id) {
-        const data = await callServer(deleteDraft, { id });
-        return data.deleteDraft;
+        console.log('-- drafts store - removeDraft triggered - id: ', id);
+
+        // const data = await callServer(deleteDraft, { id });
+        // return data.deleteDraft;
     }
 
     return { drafts, fetchAllDrafts, fetchDraft, addDraft, modifyDraft, removeDraft };

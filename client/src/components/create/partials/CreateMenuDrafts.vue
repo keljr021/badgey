@@ -37,7 +37,7 @@ watch(selectedDraft, (newValue) => {
 <template>
   <div class="create-menu-drafts">
     <div class="create-menu-drafts-header">
-      Drafts List
+      Saved drafts
 
       <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
     </div>
