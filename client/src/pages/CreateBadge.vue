@@ -1,9 +1,15 @@
 <script setup>
+import { reactive } from 'vue'
 import CreateMenu from '../components/create/CreateMenu.vue'
 import CreateUndo from '../components/create/CreateUndo.vue'
 import CreateCanvas from '../components/create/CreateCanvas.vue'
 import CreateSave from '../components/create/CreateSave.vue'
-import { reactive } from 'vue'
+import { useCanvasStore } from './../store/canvas.js';
+import { useDraftStore } from './../store/draft.js';
+
+
+const canvasStore = useCanvasStore();
+const draftStore = useDraftStore();
 
 const border = reactive({
   style: 'none',
@@ -14,27 +20,33 @@ const border = reactive({
 
 const undo = () => {
   console.log('undo button clicked.');
+  canvasStore.undo();
 };
 
 const redo = () => {
   console.log('redo button clicked.');
+  canvasStore.redo();
 };
 
 const openDraft = (id) => {
   console.log('open draft: ', id);
+  draftStore.fetchDraft(id);
 }
 
 const setCanvas = (input) => {
   console.log('set canvas: ', input);
+  canvasStore.updateItem(id, input);
 }
 
 const insertItem = (input) => {
   console.log('insert shape: ', input);
+  canvasStore.addItem(input);
 }
 
 const setBorder = (input) => {
   console.log('set border: ', input);
   Object.assign(border, input);
+  canvasStore.updateItem(id, border);
 };
 
 const importFile = (input) => {
@@ -43,11 +55,18 @@ const importFile = (input) => {
 
 const confirmImport = () => {
   console.log('import confirmed');
+  canvasStore.importFile(input);
 }
 
-const saveDraft = () => {
+const saveDraft = (input) => {
   console.log('save draft clicked.');
+  draftStore.saveDraft(input);
 };
+
+const publishBadge = () => {
+  console.log('publish badge clicked.');
+  
+}
 </script>
 
 <template>

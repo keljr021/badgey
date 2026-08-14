@@ -27,6 +27,7 @@ const callServer = async (query, variables = null) => {
 export const useDraftStore = defineStore('draft', () => {
 
     const drafts = ref([]);
+    const selectedDraft = ref(null);
 
     async function fetchAllDrafts() {
         const data = await callServer(fetchDrafts);
@@ -39,6 +40,13 @@ export const useDraftStore = defineStore('draft', () => {
             return findDraftCall.draft;
         }
         return null;
+    }
+
+    async function saveDraft(input) {
+        if (selectedDraft)
+            updateDraft(selectedDraft.id, input);
+        else
+            addDraft(input);
     }
 
     async function addDraft(input) {

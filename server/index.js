@@ -83,7 +83,7 @@ const schema = buildSchema(
     id: String
     userId: String
     name: String
-    canvas: JSON
+    canvas: String
     createdAt: String
     updatedAt: String
   }
@@ -92,7 +92,7 @@ const schema = buildSchema(
     id: String
     userId: String
     name: String
-    canvas: JSON
+    canvas: String
     createdAt: String
     updatedAt: String
   }
@@ -301,8 +301,6 @@ const root = {
       userId: input.userId,
       name: input.name,
       canvas: input.canvas,
-      createdAt: sql`NOW()`,
-      updatedAt = sql`NOW()`,
     };
 
     await db.insert(Draft).values(draftInfo);

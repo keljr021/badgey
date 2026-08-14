@@ -20,12 +20,10 @@ export const useCanvasStore = defineStore('canvas', () => {
 
     async function updateItem(id, input) {
         console.log('-- canvas store - updateItem triggered - id: ', id, ' - input: ', input);
-
     }
 
     async function deleteItem(id) {
         console.log('-- canvas store - deleteItem triggered - id: ', id);
-
     }
 
     async function selectItem(id) {
@@ -44,5 +42,9 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - redoCanvas triggered');
     }
 
-    return { canvas, changeCanvas, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas };
+    async function importFile() {
+        console.log('-- canvas store - importFile triggered');
+    }
+
+    return { canvas, changeCanvas, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
 }, { persist: true });
