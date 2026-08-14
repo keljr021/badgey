@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import ManageBadgeItem from '../components/badges/ManageBadgeItem.vue'
+import DraftItem from '../components/badges/DraftItem.vue'
 
 const pageTabs = ref([
   {
@@ -10,6 +11,10 @@ const pageTabs = ref([
   {
     label: 'Badges you created',
     slot: 'created'
+  },
+  {
+    label: 'Drafts',
+    slot: 'drafts'
   }
 ]);
 
@@ -45,6 +50,16 @@ function handleClick() {
                 <ManageBadgeItem :image="'custom_badge1.png'" name="Custom Badge 1" @handleClick="handleClick"/>
                 <ManageBadgeItem :image="'custom_badge2.png'" name="Custom Badge 2" @handleClick="handleClick"/>
                 <ManageBadgeItem :image="'custom_badge3.png'" name="Custom Badge 3" @handleClick="handleClick"/>
+              </template>
+            </div>
+          </template>
+
+          <template #drafts>
+            <div class="manage-body-badges">
+               <template v-for="i in 5" :key="i">
+                <DraftItem :image="'custom_badge1.png'" name="Custom Badge 1" @handleClick="handleClick"/>
+                <DraftItem :image="'custom_badge2.png'" name="Custom Badge 2" @handleClick="handleClick"/>
+                <DraftItem :image="'custom_badge3.png'" name="Custom Badge 3" @handleClick="handleClick"/>
               </template>
             </div>
           </template>

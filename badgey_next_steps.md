@@ -2,7 +2,6 @@
 Badgey Next Steps
 ========================================
 - Create Canvas store for functions
-  - Add Reset button
   - Add Konva methods to store
 
 
