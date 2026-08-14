@@ -6,10 +6,12 @@ import CreateCanvas from '../components/create/CreateCanvas.vue'
 import CreateSave from '../components/create/CreateSave.vue'
 import { useCanvasStore } from './../store/canvas.js';
 import { useDraftStore } from './../store/draft.js';
+import { useBadgeStore } from './../store/badge.js';
 
 
 const canvasStore = useCanvasStore();
 const draftStore = useDraftStore();
+const badgeStore = useBadgeStore();
 
 const border = reactive({
   style: 'none',
@@ -64,8 +66,12 @@ const saveDraft = (input) => {
 };
 
 const publishBadge = () => {
+  const input = null; //temporary
   console.log('publish badge clicked.');
-  
+
+  //Convert to image first?
+
+  // badgeStore.addBadge(input);
 }
 </script>
 
