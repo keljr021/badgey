@@ -4,6 +4,9 @@ Badgey Next Steps
 - Create Canvas store for functions
   - Add Konva methods to store
 
+  - Canvas
+    - Add Canvas as vanilla Javascript methods to store
+
 
 - Add followers and following workflow
 - Add top badges to profile

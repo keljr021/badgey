@@ -4,7 +4,9 @@ import { defineStore } from 'pinia';
 const { VITE_POST_URL } = import.meta.env;
 
 export const useCanvasStore = defineStore('canvas', () => {
+    const canvasLayer = ref(null);
     const canvas = ref([]);
+    const backgroundLayer = ref('circle');
 
     const loading = ref(false);
     const undoStep = ref([]);
@@ -46,5 +48,5 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - importFile triggered');
     }
 
-    return { canvas, changeCanvas, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
+    return { canvas, canvasLayer, backgroundLayer, changeCanvas, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
 }, { persist: true });
