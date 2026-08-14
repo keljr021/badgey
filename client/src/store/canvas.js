@@ -5,6 +5,9 @@ const { VITE_POST_URL } = import.meta.env;
 
 export const useCanvasStore = defineStore('canvas', () => {
 
+    const undoStep = ref([]);
+    const redoStep = ref([]);
+
     const canvas = ref([]);
 
     async function changeCanvas() {
@@ -33,5 +36,13 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - resetCanvas triggered');
     }
 
-    return { canvas, changeCanvas, addItem, updateItem, deleteItem, selectItem, resetCanvas };
+    async function undoCanvas() {
+        console.log('-- canvas store - undoCanvas triggered');
+    }
+
+    async function redoCanvas() {
+        console.log('-- canvas store - redoCanvas triggered');
+    }
+
+    return { canvas, changeCanvas, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas };
 }, { persist: true });
