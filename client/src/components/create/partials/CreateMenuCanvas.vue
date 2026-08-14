@@ -44,7 +44,7 @@ const setCanvasPolygonSides = () => {
         <div class="create-menu-canvas-list-item-text">Polygon</div>
       </div>  
     </div>
-    <div class="create-menu-canvas-options">
+    <div class="create-menu-canvas-options" v-if="activeItem === 'polygon'">
       Sides:
       <UInputNumber v-model="canvasPolygonSides" @change="setCanvasPolygonSides" class="w-25 mx-2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" :min="3" />
     </div>
