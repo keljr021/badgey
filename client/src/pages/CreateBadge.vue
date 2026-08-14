@@ -46,6 +46,11 @@ const setCanvas = (input) => {
   canvasStore.updateItem(id, input);
 }
 
+const setCanvasPolygonSides = input => {
+  console.log('set polygon sides to: ', input);
+  canvasStore.changeCanvasSides(input);
+}
+
 const insertItem = (input) => {
   console.log('insert shape: ', input);
   canvasStore.addItem(input);
@@ -90,6 +95,7 @@ const publishBadge = () => {
           @canvas="setCanvas" 
           @insert="insertItem"
           @border="setBorder"
+          @sides="setCanvasPolygonSides"
           @import="importFile"
           @import-confirm="confirmImport"
         />

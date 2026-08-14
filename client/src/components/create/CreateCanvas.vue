@@ -68,7 +68,7 @@ const bgSquareConfig = {
   shadowBlur: 4,
   shadowOffsetY: 4,
 };
-const bgOctConfig = {
+const bgPolyConfig = {
   x: 200,
   y: 200,
   sides: 8,
@@ -87,7 +87,7 @@ onMounted(() => {
   resizeCanvas();
   canvasLayer.value = layerRef.value;
   console.log('canvas layer: ', canvasLayer.value);
-  console.log('canvas config: ', backgroundLayer.value, ' - ', bgOctConfig);
+  console.log('canvas config: ', backgroundLayer.value, ' - ', bgPolyConfig);
   window.addEventListener('resize', resizeCanvas);
 });
 
@@ -111,7 +111,7 @@ onBeforeUnmount(() => {
         <v-layer ref="layerRef">
           <v-circle v-if="false" :config="bgCircleConfig" />
           <v-rect v-if="false" :config="bgSquareConfig" />
-          <v-regular-polygon v-if="true" :config="bgOctConfig" />
+          <v-regular-polygon v-if="true" :config="bgPolyConfig" />
         </v-layer>
       </v-stage>
     </div>

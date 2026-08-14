@@ -9,7 +9,7 @@ import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 import './create.css'
 
-const emit = defineEmits(['draft', 'canvas', 'insert', 'border', 'import', 'import-confirm'])
+const emit = defineEmits(['draft', 'canvas', 'sides', 'insert', 'border', 'import', 'import-confirm'])
 
 const showMenu = ref('');
 
@@ -21,6 +21,11 @@ const openDraft = id => {
 const setCanvas = input => {
     console.log('set canvas: ', input);
     emit('canvas', input);
+}
+
+const setCanvasPolygonSides = input => {
+  console.log('set polygon sides to: ', input);
+  emit('sides', input);
 }
 
 const handleClickMenuItem = (menuItem) => {
@@ -83,7 +88,7 @@ const hideMenuItem = () => {
     </div> 
     
     <create-menu-drafts v-if="showMenu === 'drafts'" @close="hideMenuItem" @draft="openDraft" />
-    <create-menu-canvas v-if="showMenu === 'canvas'" @close="hideMenuItem" @canvas="setCanvas" />
+    <create-menu-canvas v-if="showMenu === 'canvas'" @close="hideMenuItem" @canvas="setCanvas" @sides="setCanvasPolygonSides" />
     <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
     <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem" @border="setBorder" />
     <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" @import-confirm="confirmImport" />

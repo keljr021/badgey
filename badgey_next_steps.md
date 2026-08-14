@@ -6,6 +6,8 @@ Badgey Next Steps
 
   - Canvas
     - Add Canvas as vanilla Javascript methods to store
+    - Replace octogon with polygon shapes to canvas step
+      - Add number of shapes option as number
 
 
 - Add followers and following workflow

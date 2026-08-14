@@ -16,6 +16,10 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - changeCanvas triggered');
     }
 
+    async function changeCanvasSides(input) {
+        console.log('-- canvas store - changeCanvasSides - ', input);
+    }
+
     async function addItem(type) {
         console.log('-- canvas store - addItem triggered: type - ', type);
     }
@@ -48,5 +52,5 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - importFile triggered');
     }
 
-    return { canvas, canvasLayer, backgroundLayer, changeCanvas, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
+    return { canvas, canvasLayer, backgroundLayer, changeCanvas, changeCanvasSides, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
 }, { persist: true });
