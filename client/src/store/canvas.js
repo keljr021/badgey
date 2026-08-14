@@ -1,5 +1,5 @@
 import { ref, toRaw } from 'vue';
-import { defnieStore } from 'pinia';
+import { defineStore } from 'pinia';
 
 const { VITE_POST_URL } = import.meta.env;
 

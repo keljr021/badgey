@@ -13,7 +13,7 @@ const backgroundRef = ref(null);
 
 const stageWidth = computed(() => width.value * scaleX.value);
 const stageHeight = computed(() => height.value * scaleY.value);
-const stageRadius = ref(40);
+const stageRadius = ref(185);
 
 const resizeCanvas = () => {
   if (!containerRef.value) return;
@@ -31,8 +31,8 @@ const resizeCanvas = () => {
     scaleY.value = containerWidth / width.value * 1.05;
   } 
 
-  console.log('stage radius: ', stageRadius.value);
-  stageRadius.value = scaleX.value * 120;
+  // console.log('stage radius: ', stageRadius.value);
+  // stageRadius.value = scaleX.value;
 };
 
 onMounted(() => {
@@ -62,7 +62,7 @@ onBeforeUnmount(() => {
             ref="backgroundRef"
             :config="{
               x: stageWidth / 2,
-              y: stageHeight / 2 ,
+              y: stageHeight / 2,
               radius: stageRadius,
               fill: '#fff',
               stroke: '#d9d9d9',

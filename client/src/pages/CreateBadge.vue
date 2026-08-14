@@ -95,7 +95,7 @@ const publishBadge = () => {
       </div>
       <div class="create-body-canvas">
         <div class="create-body-canvas-undo">
-          <create-undo @undo="undo" @redo="redo" @save="saveDraft" @publish="publishBadge" />
+          <create-undo @reset="reset" @undo="undo" @redo="redo" @save="saveDraft" @publish="publishBadge" />
         </div>
         <div class="create-body-canvas-ui">
           <create-canvas  
@@ -103,7 +103,7 @@ const publishBadge = () => {
           />
         </div>
         <div class="create-body-canvas-save">
-          <create-save @save="saveDraft" @publish="publishBadge" />
+          <create-save @reset="reset" @save="saveDraft" @publish="publishBadge" />
         </div>
       </div>
     </div>

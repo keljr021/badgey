@@ -1,5 +1,5 @@
 import { ref, toRaw } from 'vue';
-import { defnieStore } from 'pinia';
+import { defineStore } from 'pinia';
 import axios from 'axios';
 import { fetchDrafts, findDraft, createDraft, updateDraft, deleteDraft } from './../gql/draftQuery.js'
 

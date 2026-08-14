@@ -12,6 +12,7 @@ const emit = defineEmits(['undo', 'redo', 'save', 'publish']);
      </UTooltip>
 
      <template class="undo-buttons-mobile">
+      <UButton @click="emit('reset')" class="mx-2 cursor-pointer" icon="i-lucide-trash-2" color="neutral" variant="outline" />
        <UButton @click="emit('save')" class="mx-2 cursor-pointer" icon="i-lucide-file-plus" label="Save" color="neutral" variant="outline" />
        <UButton @click="emit('publish')" class="mx-2 cursor-pointer" icon="i-lucide-upload" label="Publish" color="neutral" variant="outline" />
      </template>
