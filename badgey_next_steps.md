@@ -4,11 +4,8 @@ Badgey Next Steps
 - Create Canvas store for functions
   - Add Konva methods to store
 
-  - Canvas
-    - Add Canvas as vanilla Javascript methods to store
-    - Replace octogon with polygon shapes to canvas step
-      - Add number of shapes option as number
 
+- Add version of site on the bottom of Footer
 
 - Add followers and following workflow
 - Add top badges to profile
