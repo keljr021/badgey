@@ -6,12 +6,14 @@ const { VITE_POST_URL } = import.meta.env;
 
 export const useCanvasStore = defineStore('canvas', () => {
     const loading = ref(true);
-    const selectedCanvas = ref('rectangle');
+    const selectedCanvas = ref('circle');
     const selectedCanvasSides = ref(3);
     const selectedCanvasAngle = ref(0);
 
+    const nodes = ref([]);
+
     async function setCanvas() {
-        changeCanvas('circle');
+        changeCanvas(selectedCanvas.value);
     }
 
     async function changeCanvas(input) {
@@ -29,8 +31,9 @@ export const useCanvasStore = defineStore('canvas', () => {
         selectedCanvasAngle.value = input;
     }
 
-    async function addItem(type) {
-        console.log('-- canvas store - addItem triggered: type - ', type);
+    async function addItem(input) {
+        console.log('-- canvas store - addItem triggered: ', input);
+        nodes.value.push(input);
     }
 
     async function updateItem(id, input) {
@@ -47,6 +50,7 @@ export const useCanvasStore = defineStore('canvas', () => {
 
     async function resetCanvas() {
         console.log('-- canvas store - resetCanvas triggered');
+        nodes.value = [];
     }
 
     async function undoCanvas() {
@@ -61,7 +65,7 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - importFile triggered');
     }
 
-    return { loading, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, setCanvas, changeCanvas, changeCanvasSides, changeCanvasAngle, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
+    return { loading, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, nodes, setCanvas, changeCanvas, changeCanvasSides, changeCanvasAngle, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
 }, {
     persist: {
         paths: ['loading']

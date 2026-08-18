@@ -13,7 +13,7 @@ const canvasStore = useCanvasStore();
 const draftStore = useDraftStore();
 const badgeStore = useBadgeStore();
 
-const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle } = storeToRefs(canvasStore);
+const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle, nodes } = storeToRefs(canvasStore);
 
 const undo = () => {
   console.log('undo button clicked.');
@@ -25,6 +25,7 @@ const redo = () => {
 
 const reset = () => {
   console.log('reset button clicked.');
+  canvasStore.resetCanvas();
 }
 
 const openDraft = (id) => {
@@ -48,6 +49,7 @@ const setCanvasAngle = input => {
 
 const insertItem = (input) => {
   console.log('insert shape: ', input);
+  canvasStore.addItem(input);
 }
 
 const setBorder = (input) => {
@@ -96,7 +98,8 @@ const publishBadge = () => {
           <create-undo @reset="reset" @undo="undo" @redo="redo" @save="saveDraft" @publish="publishBadge" />
         </div>
         <div class="create-body-canvas-ui">
-          <create-canvas :selectedCanvas="selectedCanvas" :selectedSides="selectedCanvasSides" :selectedAngle="selectedCanvasAngle"/>
+          <create-canvas 
+            :selectedCanvas="selectedCanvas" :selectedSides="selectedCanvasSides" :selectedAngle="selectedCanvasAngle" :parentNodes="nodes"/>
         </div>
         <div class="create-body-canvas-save">
           <create-save @reset="reset" @save="saveDraft" @publish="publishBadge" />

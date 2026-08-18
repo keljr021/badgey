@@ -2,69 +2,23 @@
 import { ref, toRefs, computed, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCanvasStore } from './../../store/canvas.js';
+import  * as canvasConfig from './canvasConfig.js';
 import './create.css'
 
+const nodes = ref([]);
 const layerRef = ref(null);
 const stageRef = ref(null);
 
-const stageConfig = ref({
-    width: 400,
-    height: 400,
-    scaleX: 1,
-    scaleY: 1,
-});
-
-const bgCircle = ref({
-    x: 200,
-    y: 200,
-    radius: 187,
-    fill: '#fff',
-    stroke: '#d9d9d9',
-    shadowColor: '#ccc',
-    shadowOpacity: 0.25,
-    shadowBlur: 4,
-    shadowOffsetY: 4,
-    id: 'circleBackground',
-    listening: false,
-});
-const bgRect = ref({
-    x: 0,
-    y: 0,
-    width: 400,
-    height: 400,
-    fill: '#fff',
-    stroke: '#d9d9d9',
-    shadowColor: '#ccc',
-    shadowOpacity: 0.25,
-    shadowBlur: 4,
-    shadowOffsetY: 4,
-    id: 'rectBackground',
-    listening: false,
-});
-const bgPoly = ref({
-    x: 200,
-    y: 200,
-    sides: 3,
-    radius: 187,
-    width: 400,
-    height: 400,
-    fill: '#fff',
-    stroke: '#d9d9d9',
-    shadowColor: '#ccc',
-    shadowOpacity: 0.25,
-    shadowBlur: 4,
-    shadowOffsetY: 4,
-    id: 'polyBackground',
-    listening: false,
-});
+const bgPoly = ref(canvasConfig.bgPoly);
 
 const props = defineProps({
   selectedCanvas: String,
   selectedSides: Number,
   selectedAngle: Number,
+  parentNodes: Array,
 });
 
-const { selectedCanvas, selectedSides, selectedAngle } = toRefs(props);
+const { selectedCanvas, selectedSides, selectedAngle, parentNodes } = toRefs(props);
 
 // const resizeCanvas = () => {
 //   if (!containerRef.value) return;
@@ -89,25 +43,45 @@ const calculatePolyConfig = computed(() => {
   output.sides = selectedSides.value;
   output.rotation = selectedAngle.value;
   return output;
-})
+});
+
+const inheritNodes = () => {
+  debugger;
+  if (parentNodes.value && parentNodes.value.length)
+    nodes.value = parentNodes.value;
+}
 
 onMounted(async () => {
   // window.addEventListener('resize', resizeCanvas);
+  await inheritNodes();
 });
 
 // onBeforeUnmount(() => {
 //   window.removeEventListener('resize', resizeCanvas);
 // });
+
+watch(parentNodes, () => {
+  console.log('-parent nodes changed');
+  nodes.value = parentNodes.value;
+});
 </script>
 
 <template>
   <div class="canvas">
     <div ref="containerRef" id="container" class="canvas-container">
-      <v-stage ref="stageRef" :config="stageConfig">
+      <v-stage ref="stageRef" :config="canvasConfig.stage">
         <v-layer ref="layerRef">
-          <v-rect v-if="selectedCanvas === 'rectangle'" :config="bgRect" />
-          <v-circle v-if="selectedCanvas === 'circle'" :config="bgCircle" />
+          <v-circle v-if="selectedCanvas === 'circle'" :config="canvasConfig.bgCircle" />
+          <v-rect v-if="selectedCanvas === 'rectangle'" :config="canvasConfig.bgRect" />
           <v-regular-polygon v-if="selectedCanvas === 'polygon'" :config="calculatePolyConfig" />
+
+
+          <template v-for="node in nodes">
+            <v-regular-polygon v-if="node.type === 'shape'" :config="canvasConfig.shape" />
+            <v-line v-if="node.type === 'line'" :config="canvasConfig.line" />
+            <v-text v-if="node.type === 'text'" :config="canvasConfig.text" />
+          </template>
+
         </v-layer>
       </v-stage>
     </div>
