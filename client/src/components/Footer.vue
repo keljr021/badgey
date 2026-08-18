@@ -1,4 +1,5 @@
 <script setup>
+import { version } from "./../../package.json";
 
 </script>
 
@@ -16,6 +17,10 @@
     </div>
     <div class="footer-copy">
       Copyright 2025. Website done by <a href="https://kelvin-m.com/#/">Kelvin Morrisey Jr</a>.
+
+      <div class="footer-copy-version">
+        Site {{ version }}
+      </div>
     </div>
   </div>
 </template>
