@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, toRefs } from 'vue'
 import CreateMenuDrafts from './partials/CreateMenuDrafts.vue'
 import CreateMenuCanvas from './partials/CreateMenuCanvas.vue'
 import CreateMenuInsert from './partials/CreateMenuInsert.vue'
@@ -9,13 +9,16 @@ import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 import './create.css'
 
-const emit = defineEmits(['draft', 'canvas', 'sides', 'insert', 'border', 'import', 'import-confirm'])
+const emit = defineEmits(['draft', 'canvas', 'sides', 'insert', 'border', 'rotate', 'import']);
 
 const props = defineProps({
     selectedCanvas: String,
     selectedSides: Number,
     selectedAngle: Number,
+    selectedBorder: Object,
 })
+
+const { selectedCanvas, selectedSides, selectedAngle, selectedBorder } = toRefs(props);
 
 const showMenu = ref('');
 
@@ -61,11 +64,6 @@ const importFile = (input) => {
     emit('import', input);
 }
 
-const confirmImport = () => {
-    emit('import-confirm');
-    hideMenuItem();
-}
-
 const showMenuItem = (menuItem) => {
     showMenu.value = menuItem;
 }
@@ -109,8 +107,8 @@ const hideMenuItem = () => {
         @sides="setCanvasPolygonSides" 
         @rotate="setCanvasAngle" />
     <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
-    <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem" @border="setBorder" />
-    <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" @import-confirm="confirmImport" />
+    <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem" @border="setBorder" :selectedBorder="selectedBorder" />
+    <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" />
     
     <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem" />
     <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem" />

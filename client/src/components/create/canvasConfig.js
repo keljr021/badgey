@@ -15,18 +15,23 @@ export const stage = {
     scaleY: 1,
 };
 
-export const bgCircle = {
-    x: 200,
-    y: 200,
-    radius: 187,
+export const baseValues = {
     fill: '#fff',
     stroke: '#d9d9d9',
     shadowColor: '#ccc',
     shadowOpacity: 0.25,
     shadowBlur: 4,
     shadowOffsetY: 4,
-    id: 'circleBackground',
     listening: false,
+    rotation: 0,
+};
+
+export const bgCircle = {
+    x: 200,
+    y: 200,
+    radius: 187,
+    id: 'circleBackground',
+    ...baseValues
 };
 
 export const bgRect = {
@@ -34,14 +39,9 @@ export const bgRect = {
     y: 0,
     width: 400,
     height: 400,
-    fill: '#fff',
-    stroke: '#d9d9d9',
-    shadowColor: '#ccc',
-    shadowOpacity: 0.25,
-    shadowBlur: 4,
-    shadowOffsetY: 4,
     id: 'rectBackground',
     listening: false,
+    ...baseValues
 };
 
 export const bgPoly = {
@@ -49,16 +49,9 @@ export const bgPoly = {
     y: 200,
     sides: 3,
     radius: 187,
-    width: 400,
-    height: 400,
-    fill: '#fff',
-    stroke: '#d9d9d9',
-    shadowColor: '#ccc',
-    shadowOpacity: 0.25,
-    shadowBlur: 4,
-    shadowOffsetY: 4,
     id: 'polyBackground',
     listening: false,
+    ...baseValues
 };
 
 export const shape = {
@@ -88,4 +81,14 @@ export const text = {
     fontSize: 24,
     draggable: true,
     width: 100
+};
+
+export const image = {
+  x: 200, 
+  y: 200,
+  width: 200, 
+  height: 200,
+  offsetX: 100, 
+  offsetY: 100,
+  rotation: 0,
 };

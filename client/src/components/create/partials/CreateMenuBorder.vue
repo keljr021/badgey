@@ -1,8 +1,14 @@
 <script setup>
-import { ref, defineEmits, computed, watch } from 'vue'
+import { ref, toRefs, defineEmits, computed, watch, onMounted } from 'vue'
 import './../create.css'
 
 const emit = defineEmits(['close', 'border']);
+
+const props = defineProps({
+  selectedBorder: Object,
+});
+
+const { selectedBorder } = toRefs(props);
 
 const borderStyles = ref([
   {
@@ -11,25 +17,15 @@ const borderStyles = ref([
     icon: 'i-lucide-square-off'
   },
   {
-    label: 'Dotted',
-    value: 'dotted',
-    icon: 'i-lucide-ellipsis'
+    label: 'Solid',
+    value: 'solid',
+    icon: 'i-lucide-minus'
   },
-  {
-    label: 'Dashed',
-    value: 'dashed',
-    icon: 'i-lucide-circle-dashed'
-  },
-  {
-    label: 'Double',
-    value: 'double',
-    icon: 'i-lucide-equal'
-  }
 ]);
 
 const borderStylesValue = ref(borderStyles.value[0]?.value);
 const borderSizeValue = ref(1);
-const borderFillValue = ref('#000000');
+const borderFillValue = ref('#ffffff');
 const borderStrokeValue = ref('#000000');
 
 
@@ -43,12 +39,17 @@ const showBorderOptions = ref(false);
 const setBorderStyle = () => {
   console.log('set border style: ', borderStylesValue.value);
   showBorderOptions.value = borderStylesValue.value !== 'none';
-  emit('border', { style: borderStylesValue.value });
+
+  if (borderStylesValue.value !== 'none')
+    emit('border', { style: borderStylesValue.value, strokeWidth: 1, fill: '#fff', stroke: '#000' });
+  else
+    emit('border', { style: 'none' });
+
 };
 
 const setBorderSize = () => {
   console.log('set border size: ', borderSizeValue.value);
-  emit('border', { size: borderSizeValue.value })
+  emit('border', { strokeWidth: borderSizeValue.value })
 };
 
 const setBorderFill = () => {
@@ -60,6 +61,20 @@ const setBorderStroke = () => {
   console.log('set border stroke: ', borderStrokeValue.value);
   emit('border', { stroke: borderStrokeValue.value })
 };
+
+const setOptions = () => {
+  console.log('selected border: ', selectedBorder.value);
+  if (selectedBorder.value) {
+    borderStylesValue.value = selectedBorder.value[style];
+    borderSizeValue.value = selectedBorder.value[strokeWidth];
+    borderFillValue.value = selectedBorder.value[fill];
+    borderStrokeValue.value = selectedBorder.value[stroke];
+  }
+}
+
+onMounted(() => {
+  // setOptions();
+});
 </script>
 
 <template>

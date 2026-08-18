@@ -9,6 +9,7 @@ export const useCanvasStore = defineStore('canvas', () => {
     const selectedCanvas = ref('circle');
     const selectedCanvasSides = ref(3);
     const selectedCanvasAngle = ref(0);
+    const selectedCanvasBorder = ref({});
 
     const nodes = ref([]);
 
@@ -31,6 +32,11 @@ export const useCanvasStore = defineStore('canvas', () => {
         selectedCanvasAngle.value = input;
     }
 
+    async function changeCanvasBorder(input) {
+        console.log('-- canvas store - changeCanvasBorder triggered: ', input);
+        selectedCanvasBorder.value = input;
+    }
+
     async function addItem(input) {
         console.log('-- canvas store - addItem triggered: ', input);
         nodes.value.push(input);
@@ -51,6 +57,7 @@ export const useCanvasStore = defineStore('canvas', () => {
     async function resetCanvas() {
         console.log('-- canvas store - resetCanvas triggered');
         nodes.value = [];
+        setCanvas();
     }
 
     async function undoCanvas() {
@@ -61,11 +68,18 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - redoCanvas triggered');
     }
 
-    async function importFile() {
-        console.log('-- canvas store - importFile triggered');
+    async function importFile(input) {
+        console.log('-- canvas store - importFile triggered - input: ', input);
+
+        // const image = {
+        //     type: 'image',
+        //     src: '',
+        // };
+        // nodes.value.push(image);
+        
     }
 
-    return { loading, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, nodes, setCanvas, changeCanvas, changeCanvasSides, changeCanvasAngle, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
+    return { loading, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder, nodes, setCanvas, changeCanvas, changeCanvasSides, changeCanvasAngle, changeCanvasBorder, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
 }, {
     persist: {
         paths: ['loading']

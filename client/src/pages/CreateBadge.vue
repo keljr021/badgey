@@ -1,19 +1,22 @@
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import CreateMenu from '../components/create/CreateMenu.vue'
 import CreateUndo from '../components/create/CreateUndo.vue'
 import CreateCanvas from '../components/create/CreateCanvas.vue'
 import CreateSave from '../components/create/CreateSave.vue'
 import { useCanvasStore } from '../store/canvas.js'
-import { useDraftStore } from './../store/draft.js';
+import { useDraftStore } from './../store/draft.js'
 import { useBadgeStore } from './../store/badge.js'
+import  * as canvasConfig from './../components/create/canvasConfig.js';
 
 const canvasStore = useCanvasStore();
 const draftStore = useDraftStore();
 const badgeStore = useBadgeStore();
 
-const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle, nodes } = storeToRefs(canvasStore);
+const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder, nodes } = storeToRefs(canvasStore);
+
+const importedFile = ref(null);
 
 const undo = () => {
   console.log('undo button clicked.');
@@ -26,6 +29,7 @@ const redo = () => {
 const reset = () => {
   console.log('reset button clicked.');
   canvasStore.resetCanvas();
+  canvasStore.changeCanvasBorder(canvasConfig.baseValues);
 }
 
 const openDraft = (id) => {
@@ -53,16 +57,16 @@ const insertItem = (input) => {
 }
 
 const setBorder = (input) => {
-  let id = 'background';
-  console.log('set border: - id: ', id, ' - input: ', input);
+  console.log('set border - input: ', input);
+  canvasStore.changeCanvasBorder(input);
+
+  if (input.style === 'none')
+    canvasStore.changeCanvasBorder(canvasConfig.baseValues);
 };
 
 const importFile = (input) => {
   console.log('import file: ', input);
-}
-
-const confirmImport = () => {
-  console.log('import confirmed');
+  importedFile.value = input;
 }
 
 const saveDraft = (input) => {
@@ -83,6 +87,8 @@ const publishBadge = () => {
           :selectedCanvas="selectedCanvas"
           :selectedCanvasSides="selectedCanvasSides"
           :selectedCanvasAngle="selectedCanvasAngle"
+          :selectedCanvasBorder="selectedCanvasBorder"
+          :file="importedFile"
           @draft="openDraft" 
           @canvas="changeCanvas" 
           @insert="insertItem"
@@ -90,16 +96,22 @@ const publishBadge = () => {
           @sides="setCanvasPolygonSides"
           @rotate="setCanvasAngle"
           @import="importFile"
-          @import-confirm="confirmImport"
         />
       </div>
       <div class="create-body-canvas" :class="{ 'loading': canvasStore.loading }">
         <div class="create-body-canvas-undo">
-          <create-undo @reset="reset" @undo="undo" @redo="redo" @save="saveDraft" @publish="publishBadge" />
+          <create-undo 
+            @reset="reset" 
+            @undo="undo" 
+            @redo="redo" 
+            @save="saveDraft" 
+            @publish="publishBadge" />
         </div>
         <div class="create-body-canvas-ui">
           <create-canvas 
-            :selectedCanvas="selectedCanvas" :selectedSides="selectedCanvasSides" :selectedAngle="selectedCanvasAngle" :parentNodes="nodes"/>
+            :selectedCanvas="selectedCanvas" :selectedSides="selectedCanvasSides" :selectedAngle="selectedCanvasAngle"
+            :selectedBorder="selectedCanvasBorder"
+            :parentNodes="nodes"/>
         </div>
         <div class="create-body-canvas-save">
           <create-save @reset="reset" @save="saveDraft" @publish="publishBadge" />
