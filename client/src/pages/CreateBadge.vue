@@ -1,49 +1,39 @@
 <script setup>
-import { reactive } from 'vue'
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import CreateMenu from '../components/create/CreateMenu.vue'
 import CreateUndo from '../components/create/CreateUndo.vue'
 import CreateCanvas from '../components/create/CreateCanvas.vue'
 import CreateSave from '../components/create/CreateSave.vue'
-import { useCanvasStore } from './../store/canvas.js';
+import { useCanvasStore } from '../store/canvas.js'
 import { useDraftStore } from './../store/draft.js';
-import { useBadgeStore } from './../store/badge.js';
-
+import { useBadgeStore } from './../store/badge.js'
 
 const canvasStore = useCanvasStore();
 const draftStore = useDraftStore();
 const badgeStore = useBadgeStore();
 
-const border = reactive({
-  style: 'none',
-  size: null,
-  fill: null,
-  stroke: null
-});
+const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle } = storeToRefs(canvasStore);
 
 const undo = () => {
   console.log('undo button clicked.');
-  canvasStore.undoCanvas();
 };
 
 const redo = () => {
   console.log('redo button clicked.');
-  canvasStore.redoCanvas();
 };
 
 const reset = () => {
   console.log('reset button clicked.');
-  canvasStore.resetCanvas();
 }
 
 const openDraft = (id) => {
   console.log('open draft: ', id);
-  draftStore.fetchDraft(id);
 }
 
-const setCanvas = (input) => {
-  let id = 'background';
-  console.log('set canvas: - id: ', id, ' - input: ', input);
-  canvasStore.updateItem(id, input);
+const changeCanvas = (input) => {
+  console.log('set canvas input: ', input);
+  canvasStore.changeCanvas(input);
 }
 
 const setCanvasPolygonSides = input => {
@@ -51,15 +41,18 @@ const setCanvasPolygonSides = input => {
   canvasStore.changeCanvasSides(input);
 }
 
+const setCanvasAngle = input => {
+  console.log('set polygon angle to: ', input);
+  canvasStore.changeCanvasAngle(input);
+}
+
 const insertItem = (input) => {
   console.log('insert shape: ', input);
-  canvasStore.addItem(input);
 }
 
 const setBorder = (input) => {
   let id = 'background';
   console.log('set border: - id: ', id, ' - input: ', input);
-  canvasStore.updateItem(id, border);
 };
 
 const importFile = (input) => {
@@ -68,22 +61,16 @@ const importFile = (input) => {
 
 const confirmImport = () => {
   console.log('import confirmed');
-  canvasStore.importFile(input);
 }
 
 const saveDraft = (input) => {
   console.log('save draft clicked.');
-  draftStore.saveDraft(input);
 };
 
 const publishBadge = () => {
-  const input = null; //temporary
   console.log('publish badge clicked.');
-
-  //Convert to image first?
-
-  // badgeStore.addBadge(input);
 }
+
 </script>
 
 <template>
@@ -91,23 +78,25 @@ const publishBadge = () => {
     <div class="create-body">
       <div class="create-body-menu">
         <create-menu 
+          :selectedCanvas="selectedCanvas"
+          :selectedCanvasSides="selectedCanvasSides"
+          :selectedCanvasAngle="selectedCanvasAngle"
           @draft="openDraft" 
-          @canvas="setCanvas" 
+          @canvas="changeCanvas" 
           @insert="insertItem"
           @border="setBorder"
           @sides="setCanvasPolygonSides"
+          @rotate="setCanvasAngle"
           @import="importFile"
           @import-confirm="confirmImport"
         />
       </div>
-      <div class="create-body-canvas">
+      <div class="create-body-canvas" :class="{ 'loading': canvasStore.loading }">
         <div class="create-body-canvas-undo">
           <create-undo @reset="reset" @undo="undo" @redo="redo" @save="saveDraft" @publish="publishBadge" />
         </div>
         <div class="create-body-canvas-ui">
-          <create-canvas  
-
-          />
+          <create-canvas :selectedCanvas="selectedCanvas" :selectedSides="selectedCanvasSides" :selectedAngle="selectedCanvasAngle"/>
         </div>
         <div class="create-body-canvas-save">
           <create-save @reset="reset" @save="saveDraft" @publish="publishBadge" />
@@ -124,6 +113,11 @@ const publishBadge = () => {
   padding: 50px 0;
   display: flex;
   flex-direction: column;
+}
+
+
+.loading {
+  opacity: 0.5;
 }
 
 .create-body {

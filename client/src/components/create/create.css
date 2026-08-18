@@ -163,8 +163,8 @@
 .create-menu-canvas-list-item.active .create-menu-canvas-list-item-text {
     color: var(--badgey-green);
     font-weight: bold;
-}
 
+}
 /* CreateMenuDrafts.vue */
 .create-menu-drafts {
     position: absolute;

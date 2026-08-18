@@ -11,6 +11,12 @@ import './create.css'
 
 const emit = defineEmits(['draft', 'canvas', 'sides', 'insert', 'border', 'import', 'import-confirm'])
 
+const props = defineProps({
+    selectedCanvas: String,
+    selectedSides: Number,
+    selectedAngle: Number,
+})
+
 const showMenu = ref('');
 
 const openDraft = id => {
@@ -26,6 +32,11 @@ const setCanvas = input => {
 const setCanvasPolygonSides = input => {
   console.log('set polygon sides to: ', input);
   emit('sides', input);
+}
+
+const setCanvasAngle = input => {
+    console.log('set polygon angle to: ', input);
+    emit('rotate', input)
 }
 
 const handleClickMenuItem = (menuItem) => {
@@ -88,7 +99,15 @@ const hideMenuItem = () => {
     </div> 
     
     <create-menu-drafts v-if="showMenu === 'drafts'" @close="hideMenuItem" @draft="openDraft" />
-    <create-menu-canvas v-if="showMenu === 'canvas'" @close="hideMenuItem" @canvas="setCanvas" @sides="setCanvasPolygonSides" />
+    <create-menu-canvas 
+        v-if="showMenu === 'canvas'" 
+        :selectedCanvas="selectedCanvas"
+        :selectedSides="selectedSides" 
+        :selectedAngle="selectedAngle" 
+        @close="hideMenuItem" 
+        @canvas="setCanvas" 
+        @sides="setCanvasPolygonSides" 
+        @rotate="setCanvasAngle" />
     <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
     <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem" @border="setBorder" />
     <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" @import-confirm="confirmImport" />

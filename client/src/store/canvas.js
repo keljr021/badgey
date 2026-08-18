@@ -1,23 +1,32 @@
-import { ref, toRaw } from 'vue';
+import { nextTick, ref } from 'vue';
 import { defineStore } from 'pinia';
+import Konva from 'konva'
 
 const { VITE_POST_URL } = import.meta.env;
 
 export const useCanvasStore = defineStore('canvas', () => {
-    const canvasLayer = ref(null);
-    const canvas = ref([]);
-    const backgroundLayer = ref('circle');
+    const loading = ref(true);
+    const selectedCanvas = ref('rectangle');
+    const selectedCanvasSides = ref(3);
+    const selectedCanvasAngle = ref(0);
 
-    const loading = ref(false);
-    const undoStep = ref([]);
-    const redoStep = ref([]);
+    async function setCanvas() {
+        changeCanvas('circle');
+    }
 
-    async function changeCanvas() {
-        console.log('-- canvas store - changeCanvas triggered');
+    async function changeCanvas(input) {
+        console.log('-- canvas store - changeCanvas triggered, -', input);
+        selectedCanvas.value = input;
     }
 
     async function changeCanvasSides(input) {
         console.log('-- canvas store - changeCanvasSides - ', input);
+        selectedCanvasSides.value = input;
+    }
+
+     async function changeCanvasAngle(input) {
+        console.log('-- canvas store - changeCanvasAngle - ', input);
+        selectedCanvasAngle.value = input;
     }
 
     async function addItem(type) {
@@ -52,5 +61,9 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - importFile triggered');
     }
 
-    return { canvas, canvasLayer, backgroundLayer, changeCanvas, changeCanvasSides, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
-}, { persist: true });
+    return { loading, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, setCanvas, changeCanvas, changeCanvasSides, changeCanvasAngle, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
+}, {
+    persist: {
+        paths: ['loading']
+    }
+});
