@@ -67,6 +67,7 @@ const setBorder = (input) => {
 const importFile = (input) => {
   console.log('import file: ', input);
   importedFile.value = input;
+  canvasStore.importFile(input);
 }
 
 const saveDraft = (input) => {

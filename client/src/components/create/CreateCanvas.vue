@@ -1,6 +1,6 @@
 <script setup>
 import { ref, toRefs, computed, onMounted, watch } from 'vue'
-import  * as canvasConfig from './canvasConfig.js';
+import  * as canvasConfig from './canvasConfig.js'
 import './create.css'
 
 const nodes = ref([]);
@@ -122,6 +122,7 @@ onMounted(async () => {
             <v-image v-if="node.type === 'image'"
             :config="{ 
               ...canvasConfig.image,
+              image: node.element,
             }" />
           </template>
 

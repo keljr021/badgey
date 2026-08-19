@@ -71,11 +71,28 @@ export const useCanvasStore = defineStore('canvas', () => {
     async function importFile(input) {
         console.log('-- canvas store - importFile triggered - input: ', input);
 
-        // const image = {
-        //     type: 'image',
-        //     src: '',
-        // };
-        // nodes.value.push(image);
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+            const W = 200;
+            const H = 200;
+            const ratio = Math.min((W - 40) / img.width, (H - 40) / img.height, 1);
+            imgW.value = img.width * ratio;
+            imgH.value = img.height * ratio;
+            image.value = img;
+            rotation.value = 0;
+            flipScaleX.value = 1;
+            flipScaleY.value = 1;
+        };
+        img.src = URL.createObjectURL(input);
+
+
+        nodes.value.push({
+            type: 'image',
+            element: img,
+        });
+
+        console.log(' -- nodes: ', nodes.value);
         
     }
 
