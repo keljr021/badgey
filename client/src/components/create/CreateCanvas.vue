@@ -96,6 +96,7 @@ const setDrawnLineConfig = computed(() => {
       tension: 2,
       lineCap: 'round',
       lineJoin: 'round',
+      draggable: true,
       globalCompositeOperation:
         line.tool === 'eraser' ? 'destination-out' : 'source-over'
     };
@@ -141,6 +142,10 @@ const handleMouseDown = (e) => {
   mousePressed.value = true;
   const pos = e.target.getStage().getPointerPosition();
   lines.value.push({ tool: drawTool.value, points: [pos.x, pos.y] });
+
+  //Move this event into Canvas store
+  //Figure out way to separate width and color for each line
+  
 }
 
 const handleMouseMove = (e) => {

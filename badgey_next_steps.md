@@ -2,14 +2,29 @@
 Badgey Next Steps
 ========================================
 - Create Canvas store for functions
-  - Add Konva methods to store
+  
+  - Add fill, stroke, width, etc options to canvas nodes store
+    - Update and read these from the node item 
+    - Move drawn lines to node v-for list
+  
+  - Add Undo/Redo
+
+  - Add select/transform workflow to select items
+
+  - Select shape/text/line workflow with edit/delete menu box beside item
+    - Needs an arrange node option to move items to front/back/etc.
+
+  - Add Save/Load/Delete Draft to database
+  - Add Publish workflow
 
 
-- Add version of site on the bottom of Footer
+
+
 
 - Add followers and following workflow
 - Add top badges to profile
-- Upload file system
+
+- Upload assets file system
 - Add image workflow
 
 - Navbar
