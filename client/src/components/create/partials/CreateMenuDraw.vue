@@ -6,12 +6,16 @@ const emit = defineEmits(['close', 'draft']);
 
 const drawSize = ref(1);
 const drawFillValue = ref('#000000')
-
 const drawFillColor = computed(() => ({ backgroundColor: drawFillValue.value }));
+const activeTool = ref('brush');
 
 const setDrawColor = () => {
   emit('draw', drawFillColor.value);
 };
+
+const setActiveTool = (input) => {
+  activeTool.value = input;
+}
 </script>
 
 <template>
@@ -36,6 +40,28 @@ const setDrawColor = () => {
             <UColorPicker v-model="drawFillValue" @update:modelValue="setDrawColor" class="p-2" />
           </template>
         </UPopover>
+      </div>
+      <div class="create-menu-draw-list-icons">
+        <UFieldGroup>
+          <UTooltip text="Set brush tool">
+            <UButton
+              @click="setActiveTool('brush')" 
+              icon="i-lucide-brush" 
+              size="lg" 
+              :color="activeTool === 'brush' ? 'success' : 'primary'" 
+              variant="link" 
+            />
+          </UTooltip>
+          <UTooltip text="Set eraser tool">
+            <UButton 
+              @click="setActiveTool('eraser')" 
+              icon="i-lucide-eraser" 
+              size="lg" 
+              :color="activeTool === 'eraser' ? 'success' : 'primary'" 
+              variant="link" 
+            />
+          </UTooltip>
+        </UFieldGroup>
       </div>
     </div>
   </div>
