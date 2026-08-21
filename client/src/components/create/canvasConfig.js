@@ -24,6 +24,7 @@ export const baseValues = {
     shadowOffsetY: 4,
     listening: false,
     rotation: 0,
+    zIndex: -1,
 };
 
 export const bgCircle = {

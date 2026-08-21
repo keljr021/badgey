@@ -29,7 +29,6 @@ const redo = () => {
 const reset = () => {
   console.log('reset button clicked.');
   canvasStore.resetCanvas();
-  canvasStore.changeCanvasBorder(canvasConfig.baseValues);
 }
 
 const openDraft = (id) => {
@@ -52,7 +51,6 @@ const setCanvasAngle = input => {
 }
 
 const insertItem = (input) => {
-  console.log('insert shape: ', input);
   canvasStore.addItem(input);
 }
 

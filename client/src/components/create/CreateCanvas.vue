@@ -6,10 +6,21 @@ import './create.css'
 const nodes = ref([]);
 const layerRef = ref(null);
 const stageRef = ref(null);
+const trRef = ref(null);
 
 const bgCircle = ref(canvasConfig.bgCircle);
 const bgRect = ref(canvasConfig.bgRect);
 const bgPoly = ref(canvasConfig.bgPoly);
+
+const W = window.innerWidth;
+const H = window.innerHeight - 50;
+
+const image = ref(null);
+const imgW = ref(200);
+const imgH = ref(137);
+const rotation = ref(0);
+const flipScaleX = ref(1);
+const flipScaleY = ref(1);
 
 const props = defineProps({
   selectedCanvas: String,
@@ -74,34 +85,78 @@ const calculatePolyConfig = computed(() => {
   return canvasConfig.bgPoly;
 });
 
-const inheritNodes = () => {
-  if (parentNodes.value && parentNodes.value.length)
-    nodes.value = parentNodes.value;
-};
+const configImg = (input) => {
+  
+  console.log(' - configImg triggered - input: ', input);
+  if (!input || !input.name)
+    return null;  
 
-const loadImg = () => {
   const img = new Image();
   img.crossOrigin = 'anonymous';
+  img.src = URL.createObjectURL(input);
   img.onload = () => {
-    const ratio = Math.min((W - 40) / img.width, (H - 40) / img.height, 1);
-    imgW.value = img.width * ratio;
-    imgH.value = img.height * ratio;
+    console.log( ' -- img onLoad');
     image.value = img;
-    rotation.value = 0;
-    flipScaleX.value = 1;
-    flipScaleY.value = 1;
-  };
-  img.src = src;
+  }
+
+  console.log(' -- img: ', img);
+
+  const output = {
+    image: img,
+    id: 'img' + new Date().getTime(),
+    x: 150, 
+    y: 150,
+    width: 200, 
+    height: 200,
+    offsetX: 100, 
+    offsetY: 100,
+    rotation: 0,
+    scaleX: 1,
+    scaleY: 1,
+    draggable: true,
+  }
+
+  console.log(' -- output: ', output);
+  return output;
+};
+
+const inheritNodes = async () => {
+  console.log('- [inheritNodes]: parentNodes: ', parentNodes.value);
+  nodes.value = parentNodes.value;
+
+  if (parentNodes.value.length === 0 && nodes.value.length) {
+    clearAllNodes();
+  }
+};
+
+const clearAllNodes = () => {
+  let nodes = parentNodes.value;
+
+  for (let node in nodes) {
+    let id = node.id;
+    console.log(' - [clearAllNodes]: target id - ', id);
+    deleteNode(node.id);
+  } 
 }
+
+const deleteNode = (id) => {
+  console.log(' - [deleteNode]: target id - ', id);
+  let targetNode = layerRef.value.getNode().findOne(id);
+  targetNode.destroy();
+} 
 
 onMounted(async () => {
   // window.addEventListener('resize', resizeCanvas);
-  inheritNodes();
+  await inheritNodes();
 });
 
 // onBeforeUnmount(() => {
 //   window.removeEventListener('resize', resizeCanvas);
 // });
+
+watch(() => parentNodes.value, () => {
+  inheritNodes();
+}, { deep: true });
 </script>
 
 <template>
@@ -115,17 +170,16 @@ onMounted(async () => {
 
 
           <template v-for="node in nodes">
-            <v-regular-polygon v-if="node.type === 'shape'" :config="canvasConfig.shape" />
-            <v-line v-if="node.type === 'line'" :config="canvasConfig.line" />
-            <v-text v-if="node.type === 'text'" :config="canvasConfig.text" />
+            <v-regular-polygon v-if="node.type === 'shape'" :id="node.id" :config="canvasConfig.shape" />
+            <v-line v-if="node.type === 'line'" :id="node.id" :config="canvasConfig.line" />
+            <v-text v-if="node.type === 'text'" :id="node.id" :config="canvasConfig.text" />
             
-            <v-image v-if="node.type === 'image'"
-            :config="{ 
-              ...canvasConfig.image,
-              image: node.element,
-            }" />
+            <v-image v-if="node.type === 'image'" :id="node.id"
+            :config="configImg(node.element)" />
+
           </template>
 
+          <v-transformer ref="trRef" />
         </v-layer>
       </v-stage>
     </div>
