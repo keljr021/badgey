@@ -42,6 +42,65 @@
   z-index: -1;
 }
 
+/* pages/CreateBadge.vue */
+.create {
+  background-color: var(--badgey-white);
+  width: 100%;  
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.loading {
+  opacity: 0.5;
+}
+
+.create-body {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.create-body-menu {
+  flex: 1;
+  display: flex;
+  width: 20%;
+}
+
+.create-body-undo {
+  flex: 1;
+  display: flex;
+  width: 100%;
+}
+
+.create-body-canvas {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-basis: calc(100% - 220px);
+  justify-content: center;
+  padding: 20px 50px;
+}
+
+.create-body-canvas.drawing {
+  cursor: crosshair;
+}
+
+.create-body-canvas-undo {
+  width: 100%;
+}
+
+.create-body-canvas-ui {
+  width: 100%;
+}
+
+.create-body-canvas-save {
+  width: 100%;
+}
+
 .mobile { 
   display: none;
 }
@@ -62,6 +121,29 @@
   .cta-bg {
     top: initial;
     bottom: -100px;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .create,
+  .create-body {
+    display: initial;
+  }
+
+  .create-body-canvas {
+    padding: 20px;
+  }
+
+  .create-body-menu {
+    flex: initial;
+    display: initial;
+    flex-basis: initial;
+    width: initial;
+    z-index: 9;
+  }
+
+  .create-body-canvas-ui {
+    height: initial;
   }
 }
 

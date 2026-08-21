@@ -9,6 +9,7 @@ import { useCanvasStore } from '../store/canvas.js'
 import { useDraftStore } from './../store/draft.js'
 import { useBadgeStore } from './../store/badge.js'
 import  * as canvasConfig from './../components/create/canvasConfig.js';
+import './../style.css'
 
 const canvasStore = useCanvasStore();
 const draftStore = useDraftStore();
@@ -126,7 +127,7 @@ const publishBadge = () => {
           @draw:fill="changeDrawingColor"
         />
       </div>
-      <div class="create-body-canvas" :class="{ 'loading': canvasStore.loading }">
+      <div class="create-body-canvas" :class="{ 'loading': canvasStore.loading, 'drawing': isDrawing === true }">
         <div class="create-body-canvas-undo">
           <create-undo 
             @reset="reset" 
@@ -157,86 +158,5 @@ const publishBadge = () => {
 </template>
 
 <style scoped>
-.create {
-  background-color: var(--badgey-white);
-  width: 100%;  
-  padding: 50px 0;
-  display: flex;
-  flex-direction: column;
-}
 
-
-.loading {
-  opacity: 0.5;
-}
-
-.create-body {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-}
-
-.create-body-menu {
-  flex: 1;
-  display: flex;
-  width: 20%;
-}
-
-.create-body-undo {
-  flex: 1;
-  display: flex;
-  width: 100%;
-}
-
-.create-body-canvas {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  flex-basis: calc(100% - 220px);
-  justify-content: center;
-  padding: 20px 50px;
-}
-
-.create-body-canvas-undo {
-  width: 100%;
-}
-
-.create-body-canvas-ui {
-  width: 100%;
-}
-
-.create-body-canvas-save {
-  width: 100%;
-}
-
-@media all and (max-width: 1023px) and (min-width: 769px) {
-
-}
-
-
-@media all and (max-width: 768px) {
-
-  .create,
-  .create-body {
-    display: initial;
-  }
-
-  .create-body-canvas {
-    padding: 20px;
-  }
-
-  .create-body-menu {
-    flex: initial;
-    display: initial;
-    flex-basis: initial;
-    width: initial;
-    z-index: 9;
-  }
-
-  .create-body-canvas-ui {
-    height: initial;
-  }
-}
 </style>
