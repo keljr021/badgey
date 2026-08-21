@@ -10,8 +10,8 @@ const drawFillColor = computed(() => ({ backgroundColor: drawFillValue.value }))
 const activeTool = ref('brush');
 
 const setDrawColor = () => {
-  console.log(' - [setDrawColor] set to: ', drawFillColor.value);
-  emit('draw:fill', drawFillColor.value);
+  console.log(' - [setDrawColor] set to: ', drawFillValue.value);
+  emit('draw:fill', drawFillValue.value);
 };
 
 const setDrawSize = () => {

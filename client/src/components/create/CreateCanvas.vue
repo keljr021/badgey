@@ -22,6 +22,9 @@ const rotation = ref(0);
 const flipScaleX = ref(1);
 const flipScaleY = ref(1);
 
+const mousePressed = ref(false);
+const lines = ref([]);
+
 const props = defineProps({
   selectedCanvas: String,
   selectedSides: Number,
@@ -32,7 +35,7 @@ const props = defineProps({
   isDrawing: Boolean,
   drawTool: String,
   drawSize: Number,
-  drawColor: Object,
+  drawColor: String,
 });
 
 const { 
@@ -46,23 +49,6 @@ const {
   drawTool, 
   drawSize,
   drawColor } = toRefs(props);
-
-// const resizeCanvas = () => {
-//   if (!containerRef.value) return;
-  
-//   // Get container width
-//   const containerWidth = containerRef.value.offsetWidth;
-//   const containerHeight = containerRef.value.offsetHeight;
-
-//   if (containerWidth >= containerHeight) {
-//     scaleX.value = containerHeight / 400;
-//     scaleY.value = containerHeight / 400;
-//   }
-//   else {
-//     scaleX.value = containerWidth / 400 * 1.05;
-//     scaleY.value = containerWidth / 400 * 1.05;
-//   } 
-// };
 
 const calculateCircleConfig = computed(() => {
   if (selectedBorder.value) {
@@ -97,6 +83,23 @@ const calculatePolyConfig = computed(() => {
     return output;
   }
   return canvasConfig.bgPoly;
+});
+
+const setDrawnLineConfig = computed(() => {
+  return (line) => {
+    const color = drawColor.value;
+    const size = drawSize.value;
+    return {
+      points: line.points,
+      stroke:  color,
+      strokeWidth: size,
+      tension: 2,
+      lineCap: 'round',
+      lineJoin: 'round',
+      globalCompositeOperation:
+        line.tool === 'eraser' ? 'destination-out' : 'source-over'
+    };
+  }
 });
 
 const configImg = (input) => {
@@ -134,6 +137,31 @@ const configImg = (input) => {
   return output;
 };
 
+const handleMouseDown = (e) => {
+  mousePressed.value = true;
+  const pos = e.target.getStage().getPointerPosition();
+  lines.value.push({ tool: drawTool.value, points: [pos.x, pos.y] });
+}
+
+const handleMouseMove = (e) => {
+  if (!mousePressed.value) {
+    return;
+  }
+  // prevent scrolling on touch devices
+  e.evt.preventDefault();
+  
+  const stage = e.target.getStage();
+  const point = stage.getPointerPosition();
+  
+  let lastLine = lines.value[lines.value.length - 1];
+  lastLine.points = lastLine.points.concat([point.x, point.y]);
+  lines.value.splice(lines.value.length - 1, 1, { ...lastLine });
+}
+
+const handleMouseUp = () => {
+  mousePressed.value = false;
+};
+
 const inheritNodes = async () => {
   console.log('- [inheritNodes]: parentNodes: ', parentNodes.value);
   nodes.value = parentNodes.value;
@@ -160,13 +188,8 @@ const deleteNode = (id) => {
 } 
 
 onMounted(async () => {
-  // window.addEventListener('resize', resizeCanvas);
   await inheritNodes();
 });
-
-// onBeforeUnmount(() => {
-//   window.removeEventListener('resize', resizeCanvas);
-// });
 
 watch(() => parentNodes.value, () => {
   inheritNodes();
@@ -192,7 +215,16 @@ watch(() => drawColor.value, () => {
 <template>
   <div class="canvas">
     <div ref="containerRef" id="container" class="canvas-container">
-      <v-stage ref="stageRef" :config="canvasConfig.stage">
+      <v-stage 
+        ref="stageRef" 
+        :config="canvasConfig.stage"
+        @mousedown="handleMouseDown"
+        @mousemove="handleMouseMove"
+        @mouseup="handleMouseUp"
+        @touchstart="handleMouseDown"
+        @touchmove="handleMouseMove"
+        @touchend="handleMouseUp"
+      >
         <v-layer ref="layerRef">
           <v-circle v-if="selectedCanvas === 'circle'" :config="calculateCircleConfig" />
           <v-rect v-if="selectedCanvas === 'rectangle'" :config="calculateRectConfig" />
@@ -203,12 +235,15 @@ watch(() => drawColor.value, () => {
             <v-regular-polygon v-if="node.type === 'shape'" :id="node.id" :config="canvasConfig.shape" />
             <v-line v-if="node.type === 'line'" :id="node.id" :config="canvasConfig.line" />
             <v-text v-if="node.type === 'text'" :id="node.id" :config="canvasConfig.text" />
-            
+              
             <v-image v-if="node.type === 'image'" :id="node.id"
             :config="configImg(node.element)" />
-
           </template>
 
+          <v-line v-for="(line, i) in lines" :key="i" :id="'drawnLine' + (i+1)" 
+            :config="setDrawnLineConfig(line)" 
+          />
+          
           <v-transformer ref="trRef" />
         </v-layer>
       </v-stage>
