@@ -16,6 +16,11 @@ const badgeStore = useBadgeStore();
 
 const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder, nodes } = storeToRefs(canvasStore);
 
+const isDrawing = ref(false);
+const drawTool = ref('brush');
+const drawSize = ref(1);
+const drawColor = ref('#000000');
+
 const importedFile = ref(null);
 
 const undo = () => {
@@ -62,6 +67,26 @@ const setBorder = (input) => {
     canvasStore.changeCanvasBorder(canvasConfig.baseValues);
 };
 
+const setIsDrawing = (input) => {
+    console.log(' - [setIsDrawing] set to: ', input);
+    isDrawing.value = input;
+}
+
+const changeDrawingColor = (input) => {
+    console.log(' - [changeDrawingColor] set to: ', input);
+    drawColor.value = input;
+}
+
+const changeDrawingSize = (input) => {
+    console.log(' - [changeDrawingSize] set to: ', input);
+    drawSize.value = input;
+}
+
+const changeDrawingTool = (input) => {
+    console.log(' - [changeDrawingTool] set to: ', input);
+    drawTool.value = input;
+}
+
 const importFile = (input) => {
   console.log('import file: ', input);
   importedFile.value = input;
@@ -95,6 +120,10 @@ const publishBadge = () => {
           @sides="setCanvasPolygonSides"
           @rotate="setCanvasAngle"
           @import="importFile"
+          @draw:set="setIsDrawing"
+          @draw:tool="changeDrawingTool"
+          @draw:size="changeDrawingSize"
+          @draw:fill="changeDrawingColor"
         />
       </div>
       <div class="create-body-canvas" :class="{ 'loading': canvasStore.loading }">
@@ -108,9 +137,16 @@ const publishBadge = () => {
         </div>
         <div class="create-body-canvas-ui">
           <create-canvas 
-            :selectedCanvas="selectedCanvas" :selectedSides="selectedCanvasSides" :selectedAngle="selectedCanvasAngle"
+            :selectedCanvas="selectedCanvas" 
+            :selectedSides="selectedCanvasSides" 
+            :selectedAngle="selectedCanvasAngle"
             :selectedBorder="selectedCanvasBorder"
-            :parentNodes="nodes"/>
+            :parentNodes="nodes"
+            :isDrawing="isDrawing"
+            :drawTool="drawTool"
+            :drawSize="drawSize"
+            :drawColor="drawColor"
+          />
         </div>
         <div class="create-body-canvas-save">
           <create-save @reset="reset" @save="saveDraft" @publish="publishBadge" />

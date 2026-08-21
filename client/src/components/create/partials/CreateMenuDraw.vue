@@ -2,7 +2,7 @@
 import { ref, computed, defineEmits, watch } from 'vue';
 import './../create.css'
 
-const emit = defineEmits(['close', 'draft']);
+const emit = defineEmits(['close', 'draft', 'draw:size', 'draw:fill', 'draw:tool']);
 
 const drawSize = ref(1);
 const drawFillValue = ref('#000000')
@@ -10,11 +10,19 @@ const drawFillColor = computed(() => ({ backgroundColor: drawFillValue.value }))
 const activeTool = ref('brush');
 
 const setDrawColor = () => {
-  emit('draw', drawFillColor.value);
+  console.log(' - [setDrawColor] set to: ', drawFillColor.value);
+  emit('draw:fill', drawFillColor.value);
 };
 
+const setDrawSize = () => {
+  console.log('- [setDrawSize] set to: ', drawSize.value);
+  emit('draw:size', drawSize.value);
+}
+
 const setActiveTool = (input) => {
+  console.log(' - [setActiveTool] set to: ', input.value);
   activeTool.value = input;
+  emit('draw:tool', input);
 }
 </script>
 
@@ -25,7 +33,7 @@ const setActiveTool = (input) => {
     </div>
     <div class="create-menu-draw-list">
       <div class="create-menu-draw-list-item">
-        <UInputNumber v-model="drawSize" @change="setBorderSize" class="w-25 mx-2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" :min="1" size="lg" />
+        <UInputNumber v-model="drawSize" @change="setDrawSize" class="w-25 mx-2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" :min="1" size="lg" />
       </div>
       <div class="create-menu-draw-list-item">
         <UPopover class="mb-8 mx-2">

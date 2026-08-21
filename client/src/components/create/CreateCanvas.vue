@@ -29,9 +29,23 @@ const props = defineProps({
   selectedBorder: Object,
   parentNodes: Array,
   file: File,
+  isDrawing: Boolean,
+  drawTool: String,
+  drawSize: Number,
+  drawColor: Object,
 });
 
-const { selectedCanvas, selectedSides, selectedAngle, selectedBorder, parentNodes, file } = toRefs(props);
+const { 
+  selectedCanvas, 
+  selectedSides, 
+  selectedAngle, 
+  selectedBorder, 
+  parentNodes, 
+  file, 
+  isDrawing, 
+  drawTool, 
+  drawSize,
+  drawColor } = toRefs(props);
 
 // const resizeCanvas = () => {
 //   if (!containerRef.value) return;
@@ -156,6 +170,22 @@ onMounted(async () => {
 
 watch(() => parentNodes.value, () => {
   inheritNodes();
+}, { deep: true });
+
+watch(() => isDrawing.value, () => {
+  console.log('- isDrawing is now: ', isDrawing.value);
+}, { deep: true });
+
+watch(() => drawTool.value, () => {
+  console.log('- drawTool is now: ', drawTool.value);
+}, { deep: true });
+
+watch(() => drawSize.value, () => {
+  console.log('- drawSize is now: ', drawSize.value);
+}, { deep: true });
+
+watch(() => drawColor.value, () => {
+  console.log('- drawColor is now: ', drawColor.value);
 }, { deep: true });
 </script>
 

@@ -8,7 +8,7 @@ import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 import './create.css'
 
-const emit = defineEmits(['draft', 'canvas', 'sides', 'insert', 'border', 'rotate', 'import']);
+const emit = defineEmits(['draft', 'canvas', 'sides', 'insert', 'border', 'rotate', 'import', 'draw:set', 'draw:tool', 'draw:fill']);
 
 const props = defineProps({
     selectedCanvas: String,
@@ -20,6 +20,9 @@ const props = defineProps({
 const { selectedCanvas, selectedSides, selectedAngle, selectedBorder } = toRefs(props);
 
 const showMenu = ref('');
+const isDrawing = ref(false);
+const drawingColor = ref('#000000');
+const setDrawingTool = ref('brush');
 
 const openDraft = id => {
     console.log('open draft: ', id);
@@ -46,6 +49,18 @@ const handleClickMenuItem = (menuItem) => {
         hideMenuItem();
     else 
         showMenuItem(menuItem);
+
+    isDrawing.value = showMenu.value === 'draw';
+    console.log('isDrawing is now - ', isDrawing.value);
+    emit('draw:set', isDrawing.value);
+}
+
+const showMenuItem = (menuItem) => {
+    showMenu.value = menuItem;
+}
+
+const hideMenuItem = () => {
+    showMenu.value = '';
 }
 
 const insertItem = (input) => {
@@ -58,18 +73,26 @@ const setBorder = (input) => {
     emit('border', input);
 }
 
+const changeDrawingColor = (input) => {
+    console.log(' - [changeDrawingColor] set to: ', input);
+    emit('draw:fill', input);
+}
+
+const changeDrawingSize = (input) => {
+    console.log(' - [changeDrawingSize] set to: ', input);
+    emit('draw:size', input);
+}
+
+const changeDrawingTool = (input) => {
+    console.log(' - [changeDrawingTool] set to: ', input);
+    emit('draw:tool', input);
+}
+
 const importFile = (input) => {
     console.log('import: ', input);
     emit('import', input);
 }
 
-const showMenuItem = (menuItem) => {
-    showMenu.value = menuItem;
-}
-
-const hideMenuItem = () => {
-    showMenu.value = '';
-}
 </script>
 
 <template>
@@ -110,7 +133,13 @@ const hideMenuItem = () => {
     />
     <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
     <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" />
-    <create-menu-draw v-if="showMenu === 'draw'" @close="hideMenuItem" />
+    <create-menu-draw 
+        v-if="showMenu === 'draw'" 
+        @close="hideMenuItem" 
+        @draw:tool="changeDrawingTool"
+        @draw:size="changeDrawingSize"
+        @draw:fill="changeDrawingColor" 
+    />
 
     <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem" />
     <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem" />
