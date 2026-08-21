@@ -273,6 +273,43 @@
     font-weight: bold;
 }
 
+/* CreateMenuDraw.vue */
+.create-menu-draw {
+    position: absolute;
+    top: 250px;
+    left: 150px;
+    min-width: 350px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.create-menu-draw-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.create-menu-draw-list {
+  display: flex;
+  width: 100%;
+  padding: 15px 0;
+  margin: 0 auto;
+  text-align: left;
+  cursor: pointer;
+}
+
+.create-menu-draw-list-item {
+    flex: 1;
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: column;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+
 /* CreateMenuShapes.vue */
 .create-menu-shapes {
     position: absolute;

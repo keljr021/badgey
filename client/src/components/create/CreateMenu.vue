@@ -4,7 +4,6 @@ import CreateMenuDrafts from './partials/CreateMenuDrafts.vue'
 import CreateMenuCanvas from './partials/CreateMenuCanvas.vue'
 import CreateMenuInsert from './partials/CreateMenuInsert.vue'
 import CreateMenuText from './partials/CreateMenuText.vue'
-import CreateMenuBorder from './partials/CreateMenuBorder.vue'
 import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 import './create.css'
@@ -87,9 +86,9 @@ const hideMenuItem = () => {
         <div class="menu-item-icon"><UIcon name="i-lucide-plus" class="size-5" /></div>
         <div class="menu-item-text">Insert</div>
     </div>
-    <div :class="`menu-item ${showMenu === 'border' ? 'active' : ''}`" @click="handleClickMenuItem('border')">
-        <div class="menu-item-icon"><UIcon name="i-lucide-circle-dashed" class="size-5" /></div>
-        <div class="menu-item-text">Border</div>
+    <div :class="`menu-item ${showMenu === 'draw' ? 'active' : ''}`" @click="handleClickMenuItem('draw')">
+        <div class="menu-item-icon"><UIcon name="i-lucide-line-squiggle" class="size-5" /></div>
+        <div class="menu-item-text">Draw</div>
     </div>
     <div :class="`menu-item ${showMenu === 'import' ? 'active' : ''}`" @click="handleClickMenuItem('import')">
         <div class="menu-item-icon"><UIcon name="i-lucide-import" class="size-5" /></div>
@@ -102,14 +101,17 @@ const hideMenuItem = () => {
         :selectedCanvas="selectedCanvas"
         :selectedSides="selectedSides" 
         :selectedAngle="selectedAngle" 
+        :selectedBorder="selectedBorder"
         @close="hideMenuItem" 
         @canvas="setCanvas" 
         @sides="setCanvasPolygonSides" 
-        @rotate="setCanvasAngle" />
+        @rotate="setCanvasAngle" 
+        @border="setBorder" 
+    />
     <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
-    <create-menu-border v-if="showMenu === 'border'" @close="hideMenuItem" @border="setBorder" :selectedBorder="selectedBorder" />
     <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" />
-    
+    <create-menu-draw v-if="showMenu === 'draw'" @close="hideMenuItem" />
+
     <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem" />
     <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem" />
   </div>
