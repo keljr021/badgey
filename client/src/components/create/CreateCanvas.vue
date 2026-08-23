@@ -237,15 +237,17 @@ watch(() => drawColor.value, () => {
 
 
           <template v-for="node in nodes">
-            <v-regular-polygon v-if="node.type === 'shape'" :id="node.id" :config="canvasConfig.shape" />
-            <v-line v-if="node.type === 'line'" :id="node.id" :config="canvasConfig.line" />
-            <v-text v-if="node.type === 'text'" :id="node.id" :config="canvasConfig.text" />
+            <v-regular-polygon v-if="node.type === 'shape'" :id="node.id" :config="node.konvaValues" />
+            <v-line v-if="node.type === 'line'" :id="node.id" :config="node.konvaValues" />
+            <v-text v-if="node.type === 'text'" :id="node.id" :config="node.konvaValues" />
               
             <v-image v-if="node.type === 'image'" :id="node.id"
             :config="configImg(node.element)" />
           </template>
 
-          <v-line v-for="(line, i) in lines" :key="i" :id="'drawnLine' + (i+1)" 
+          <v-line 
+            v-for="(line, i) in lines" 
+            :key="i" :id="'drawnLine' + (i+1)" 
             :config="setDrawnLineConfig(line)" 
           />
           

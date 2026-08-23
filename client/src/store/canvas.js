@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue';
 import { defineStore } from 'pinia';
-import Konva from 'konva'
+import Konva from 'konva';
+import * as canvasConfig from './../components/create/canvasConfig.js';
 
 const { VITE_POST_URL } = import.meta.env;
 
@@ -38,8 +39,13 @@ export const useCanvasStore = defineStore('canvas', () => {
     }
 
     async function addItem(input) {
-        console.log('-- canvas store - addItem triggered: ', input);
-        nodes.value.push(input);
+        debugger;
+        
+        let output = input;
+        output.konvaValues = (canvasConfig[input.type]) ? (canvasConfig[input.type]) : null;
+
+        console.log('-- canvas store - addItem triggered: ', output);
+        nodes.value.push(output);
     }
 
     async function updateItem(id, input) {
