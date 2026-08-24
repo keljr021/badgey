@@ -9,8 +9,6 @@ Badgey Next Steps
   
   - Add Undo/Redo
 
-  - Add select/transform workflow to select items
-
   - Select shape/text/line workflow with edit/delete menu box beside item
     - Needs an arrange node option to move items to front/back/etc.
 
