@@ -72,7 +72,8 @@ export const line = {
     stroke: 'red',
     strokeWidth: 10,
     lineCap: 'round',
-    lineJoin: 'round'
+    lineJoin: 'round',
+    draggable: true,
 };
 
 export const text = {
