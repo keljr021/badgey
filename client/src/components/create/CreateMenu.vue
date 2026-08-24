@@ -8,7 +8,18 @@ import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 import './create.css'
 
-const emit = defineEmits(['draft', 'canvas', 'sides', 'insert', 'border', 'rotate', 'import', 'draw:set', 'draw:tool', 'draw:fill']);
+const emit = defineEmits([
+    'draft', 
+    'canvas', 
+    'sides', 
+    'insert', 
+    'border', 
+    'rotate', 
+    'import', 
+    'draw:set', 
+    'draw:tool', 
+    'draw:fill'
+]);
 
 const props = defineProps({
     selectedCanvas: String,

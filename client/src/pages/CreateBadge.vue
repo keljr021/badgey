@@ -15,12 +15,13 @@ const canvasStore = useCanvasStore();
 const draftStore = useDraftStore();
 const badgeStore = useBadgeStore();
 
-const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder, nodes } = storeToRefs(canvasStore);
+const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder, nodes, triggerReset } = storeToRefs(canvasStore);
 
 const isDrawing = ref(false);
 const drawTool = ref('brush');
 const drawSize = ref(1);
 const drawColor = ref('#000000');
+const resetDrawnLines = ref(false);
 
 const importedFile = ref(null);
 
@@ -35,6 +36,11 @@ const redo = () => {
 const reset = () => {
   console.log('reset button clicked.');
   canvasStore.resetCanvas();
+  setResetDrawnLines(true);
+}
+
+const setResetDrawnLines = (input) => {
+  resetDrawnLines.value = input;
 }
 
 const openDraft = (id) => {
@@ -143,10 +149,12 @@ const publishBadge = () => {
             :selectedAngle="selectedCanvasAngle"
             :selectedBorder="selectedCanvasBorder"
             :parentNodes="nodes"
+            :resetDrawnLines="resetDrawnLines"
             :isDrawing="isDrawing"
             :drawTool="drawTool"
             :drawSize="drawSize"
             :drawColor="drawColor"
+            @reset:drawn="setResetDrawnLines"
           />
         </div>
         <div class="create-body-canvas-save">

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, toRefs, computed, onMounted, watch } from 'vue'
+import { defineEmits, ref, toRefs, computed, onMounted, watch } from 'vue'
 import  * as canvasConfig from './canvasConfig.js'
 import './create.css'
 
@@ -25,12 +25,15 @@ const flipScaleY = ref(1);
 const mousePressed = ref(false);
 const lines = ref([]);
 
+const emit = defineEmits([ 'reset:drawn' ]);
+
 const props = defineProps({
   selectedCanvas: String,
   selectedSides: Number,
   selectedAngle: Number,
   selectedBorder: Object,
   parentNodes: Array,
+  resetDrawnLines: Boolean,
   file: File,
   isDrawing: Boolean,
   drawTool: String,
@@ -44,6 +47,7 @@ const {
   selectedAngle, 
   selectedBorder, 
   parentNodes, 
+  resetDrawnLines,
   file, 
   isDrawing, 
   drawTool, 
@@ -172,7 +176,11 @@ const inheritNodes = async () => {
   nodes.value = parentNodes.value;
 
   if (parentNodes.value.length === 0 && nodes.value.length) {
-    clearAllNodes();
+    clearAllNodes('nodes');
+  }
+
+  if (lines.value.length === 0 && lines.value.length) {
+    clearDrawnLines();
   }
 };
 
@@ -182,8 +190,19 @@ const clearAllNodes = () => {
   for (let node in nodes) {
     let id = node.id;
     console.log(' - [clearAllNodes]: target id - ', id);
-    deleteNode(node.id);
+    deleteNode(id);
   } 
+}
+
+const clearDrawnLines = () => {
+  let foundLines = layerRef.value.getNode().find('Line');
+  console.log('found lines: ', foundLines);
+  foundLines.forEach(line => {
+    console.log( ' - line: ', line);
+    line.destroy();
+  });
+  lines.value = [];
+  emit('reset:drawn', false);
 }
 
 const deleteNode = (id) => {
@@ -215,6 +234,13 @@ watch(() => drawSize.value, () => {
 watch(() => drawColor.value, () => {
   console.log('- drawColor is now: ', drawColor.value);
 }, { deep: true });
+
+watch(() => resetDrawnLines.value, () => {
+  console.log('- trigger reset is now: ', resetDrawnLines.value);
+  if (resetDrawnLines.value === true) {
+    clearDrawnLines();
+  }
+}, { deep: true })
 </script>
 
 <template>
@@ -241,13 +267,17 @@ watch(() => drawColor.value, () => {
             <v-line v-if="node.type === 'line'" :id="node.id" :config="node.konvaValues" />
             <v-text v-if="node.type === 'text'" :id="node.id" :config="node.konvaValues" />
               
-            <v-image v-if="node.type === 'image'" :id="node.id"
-            :config="configImg(node.element)" />
+            <v-image 
+              v-if="node.type === 'image'" 
+              :id="node.id"
+              :config="configImg(node.element)" 
+            />
           </template>
 
           <v-line 
             v-for="(line, i) in lines" 
-            :key="i" :id="'drawnLine' + (i+1)" 
+            :key="i" 
+            :id="'drawnLine' + i"
             :config="setDrawnLineConfig(line)" 
           />
           

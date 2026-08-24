@@ -38,12 +38,9 @@ export const useCanvasStore = defineStore('canvas', () => {
         selectedCanvasBorder.value = input;
     }
 
-    async function addItem(input) {
-        debugger;
-        
+    async function addItem(input) {        
         let output = input;
         output.konvaValues = (canvasConfig[input.type]) ? (canvasConfig[input.type]) : null;
-
         console.log('-- canvas store - addItem triggered: ', output);
         nodes.value.push(output);
     }

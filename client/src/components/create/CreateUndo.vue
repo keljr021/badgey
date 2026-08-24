@@ -2,7 +2,7 @@
 import { defineEmits } from 'vue';
 import './create.css'
 
-const emit = defineEmits(['undo', 'redo', 'save', 'publish']);
+const emit = defineEmits(['undo', 'redo', 'reset', 'save', 'publish']);
 </script>
 
 <template>
