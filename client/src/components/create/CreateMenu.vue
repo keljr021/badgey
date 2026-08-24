@@ -15,10 +15,7 @@ const emit = defineEmits([
     'insert', 
     'border', 
     'rotate', 
-    'import', 
-    'draw:set', 
-    'draw:tool', 
-    'draw:fill'
+    'import',
 ]);
 
 const props = defineProps({
@@ -31,9 +28,6 @@ const props = defineProps({
 const { selectedCanvas, selectedSides, selectedAngle, selectedBorder } = toRefs(props);
 
 const showMenu = ref('');
-const isDrawing = ref(false);
-const drawingColor = ref('#000000');
-const setDrawingTool = ref('brush');
 
 const openDraft = id => {
     console.log('open draft: ', id);
@@ -60,10 +54,6 @@ const handleClickMenuItem = (menuItem) => {
         hideMenuItem();
     else 
         showMenuItem(menuItem);
-
-    isDrawing.value = showMenu.value === 'draw';
-    console.log('isDrawing is now - ', isDrawing.value);
-    emit('draw:set', isDrawing.value);
 }
 
 const showMenuItem = (menuItem) => {
@@ -82,21 +72,6 @@ const insertItem = (input) => {
 const setBorder = (input) => {
     console.log('set border: ', input);
     emit('border', input);
-}
-
-const changeDrawingColor = (input) => {
-    console.log(' - [changeDrawingColor] set to: ', input);
-    emit('draw:fill', input);
-}
-
-const changeDrawingSize = (input) => {
-    console.log(' - [changeDrawingSize] set to: ', input);
-    emit('draw:size', input);
-}
-
-const changeDrawingTool = (input) => {
-    console.log(' - [changeDrawingTool] set to: ', input);
-    emit('draw:tool', input);
 }
 
 const importFile = (input) => {
@@ -120,10 +95,6 @@ const importFile = (input) => {
         <div class="menu-item-icon"><UIcon name="i-lucide-plus" class="size-5" /></div>
         <div class="menu-item-text">Insert</div>
     </div>
-    <div :class="`menu-item ${showMenu === 'draw' ? 'active' : ''}`" @click="handleClickMenuItem('draw')">
-        <div class="menu-item-icon"><UIcon name="i-lucide-line-squiggle" class="size-5" /></div>
-        <div class="menu-item-text">Draw</div>
-    </div>
     <div :class="`menu-item ${showMenu === 'import' ? 'active' : ''}`" @click="handleClickMenuItem('import')">
         <div class="menu-item-icon"><UIcon name="i-lucide-import" class="size-5" /></div>
         <div class="menu-item-text">Import</div>
@@ -144,13 +115,6 @@ const importFile = (input) => {
     />
     <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
     <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" />
-    <create-menu-draw 
-        v-if="showMenu === 'draw'" 
-        @close="hideMenuItem" 
-        @draw:tool="changeDrawingTool"
-        @draw:size="changeDrawingSize"
-        @draw:fill="changeDrawingColor" 
-    />
 
     <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem" />
     <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem" />

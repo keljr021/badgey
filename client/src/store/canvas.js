@@ -46,7 +46,18 @@ export const useCanvasStore = defineStore('canvas', () => {
     }
 
     async function updateItem(id, input) {
+        debugger;
         console.log('-- canvas store - updateItem triggered - id: ', id, ' - input: ', input);
+        let updatedNodes = [];
+
+        for (let i = 0; i < nodes.value.length; i++) {
+            let node = nodes.value[i];
+            if (node.id === id) {
+                node.konvaValues = { ...node.konvaValues, ...input};
+            }
+            updatedNodes.push(node);
+        }
+        nodes.value = updatedNodes;
     }
 
     async function deleteItem(id) {
@@ -55,6 +66,16 @@ export const useCanvasStore = defineStore('canvas', () => {
 
     async function selectItem(id) {
         console.log('-- canvas store - selectItem triggered - id: ', id);
+        let output = null;
+        for (let i = 0; i < nodes.value.length; i++) {
+            let node = nodes.value[i];
+
+            if (node.id === id) {
+                output = node;
+                break;
+            }
+        }
+        return output;
     }
 
     async function resetCanvas() {

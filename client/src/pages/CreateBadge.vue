@@ -74,24 +74,9 @@ const setBorder = (input) => {
     canvasStore.changeCanvasBorder(canvasConfig.baseValues);
 };
 
-const setIsDrawing = (input) => {
-    console.log(' - [setIsDrawing] set to: ', input);
-    isDrawing.value = input;
-}
-
-const changeDrawingColor = (input) => {
-    console.log(' - [changeDrawingColor] set to: ', input);
-    drawColor.value = input;
-}
-
-const changeDrawingSize = (input) => {
-    console.log(' - [changeDrawingSize] set to: ', input);
-    drawSize.value = input;
-}
-
-const changeDrawingTool = (input) => {
-    console.log(' - [changeDrawingTool] set to: ', input);
-    drawTool.value = input;
+const updateItem = async (id, input) => {
+  console.log(' - [updateItem] - id: ', id, ' - input: ', input);
+  await canvasStore.updateItem(id, input);
 }
 
 const importFile = (input) => {
@@ -127,10 +112,6 @@ const publishBadge = () => {
           @sides="setCanvasPolygonSides"
           @rotate="setCanvasAngle"
           @import="importFile"
-          @draw:set="setIsDrawing"
-          @draw:tool="changeDrawingTool"
-          @draw:size="changeDrawingSize"
-          @draw:fill="changeDrawingColor"
         />
       </div>
       <div class="create-body-canvas" :class="{ 'loading': canvasStore.loading, 'drawing': isDrawing === true }">
@@ -149,12 +130,7 @@ const publishBadge = () => {
             :selectedAngle="selectedCanvasAngle"
             :selectedBorder="selectedCanvasBorder"
             :parentNodes="nodes"
-            :resetDrawnLines="resetDrawnLines"
-            :isDrawing="isDrawing"
-            :drawTool="drawTool"
-            :drawSize="drawSize"
-            :drawColor="drawColor"
-            @reset:drawn="setResetDrawnLines"
+            @update="updateItem"
           />
         </div>
         <div class="create-body-canvas-save">

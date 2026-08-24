@@ -35,8 +35,7 @@ const selectionRectangle = ref({
   y2: 0
 });
 
-
-const emit = defineEmits([ 'reset:drawn' ]);
+const emit = defineEmits(['update'])
 
 const props = defineProps({
   selectedCanvas: String,
@@ -46,10 +45,6 @@ const props = defineProps({
   parentNodes: Array,
   resetDrawnLines: Boolean,
   file: File,
-  isDrawing: Boolean,
-  drawTool: String,
-  drawSize: Number,
-  drawColor: String,
 });
 
 const { 
@@ -57,13 +52,8 @@ const {
   selectedSides, 
   selectedAngle, 
   selectedBorder, 
-  parentNodes, 
-  resetDrawnLines,
-  file, 
-  isDrawing, 
-  drawTool, 
-  drawSize,
-  drawColor } = toRefs(props);
+  parentNodes
+} = toRefs(props);
 
 const calculateCircleConfig = computed(() => {
   if (selectedBorder.value) {
@@ -98,24 +88,6 @@ const calculatePolyConfig = computed(() => {
     return output;
   }
   return canvasConfig.bgPoly;
-});
-
-const setDrawnLineConfig = computed(() => {
-  return (line) => {
-    const color = drawColor.value;
-    const size = drawSize.value;
-    return {
-      points: line.points,
-      stroke:  color,
-      strokeWidth: size,
-      tension: 2,
-      lineCap: 'round',
-      lineJoin: 'round',
-      draggable: true,
-      globalCompositeOperation:
-        line.tool === 'eraser' ? 'destination-out' : 'source-over'
-    };
-  }
 });
 
 const configImg = (input) => {
@@ -154,6 +126,7 @@ const configImg = (input) => {
 };
 
 const handleClick = (e) => {
+
   // if we are selecting with rect, do nothing
   // But allow point clicks through (when width/height are 0)
   const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
@@ -173,7 +146,7 @@ const handleClick = (e) => {
     return;
   }
   
-  const clickedId = e.target.attrs.id;
+  let clickedId = e.target.attrs.id;
   
   // do we pressed shift or ctrl?
   const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
@@ -196,14 +169,6 @@ const handleClick = (e) => {
 const handleMouseDown = (e) => {
   mousePressed.value = true;
 
-  if (isDrawing.value === true) {
-    const pos = e.target.getStage().getPointerPosition();
-    lines.value.push({ tool: drawTool.value, points: [pos.x, pos.y] });
-
-    //Move this event into Canvas store
-    //Figure out way to separate width and color for each line
-  }
-
   // do nothing if we mousedown on any shape
   if (e.target !== e.target.getStage()) {
     return;
@@ -222,30 +187,14 @@ const handleMouseDown = (e) => {
 }
 
 const handleMouseMove = (e) => {
-  if (isDrawing.value === true) {
-    if (!mousePressed.value) {
-      return;
-    }
-    // prevent scrolling on touch devices
-    e.evt.preventDefault();
-    
-    const stage = e.target.getStage();
-    const point = stage.getPointerPosition();
-    
-    let lastLine = lines.value[lines.value.length - 1];
-    lastLine.points = lastLine.points.concat([point.x, point.y]);
-    lines.value.splice(lines.value.length - 1, 1, { ...lastLine });
-  } 
-  else {
-    // do nothing if we didn't start selection
-    if (!isSelecting.value) {
-      return;
-    }
-    
-    const pos = e.target.getStage().getPointerPosition();
-    selectionRectangle.x2 = pos.x;
-    selectionRectangle.y2 = pos.y;
+  // do nothing if we didn't start selection
+  if (!isSelecting.value) {
+    return;
   }
+  
+  const pos = e.target.getStage().getPointerPosition();
+  selectionRectangle.x2 = pos.x;
+  selectionRectangle.y2 = pos.y;
 }
 
 const handleMouseUp = () => {
@@ -288,10 +237,6 @@ const inheritNodes = async () => {
   if (parentNodes.value.length === 0 && nodes.value.length) {
     clearAllNodes('nodes');
   }
-
-  if (lines.value.length === 0 && lines.value.length) {
-    clearDrawnLines();
-  }
 };
 
 const clearAllNodes = () => {
@@ -302,17 +247,6 @@ const clearAllNodes = () => {
     console.log(' - [clearAllNodes]: target id - ', id);
     deleteNode(id);
   } 
-}
-
-const clearDrawnLines = () => {
-  let foundLines = layerRef.value.getNode().find('Line');
-  console.log('found lines: ', foundLines);
-  foundLines.forEach(line => {
-    console.log( ' - line: ', line);
-    line.destroy();
-  });
-  lines.value = [];
-  emit('reset:drawn', false);
 }
 
 const deleteNode = (id) => {
@@ -365,8 +299,10 @@ const handleDragEnd = (e, index) => {
 };
 
 const handleTransformEnd = (e, index) => {
+  console.log('target: ', e.target);
   const id = e.target.attrs.id;
   const node = layerRef.value.getNode().findOne('#' + id);
+  console.log('node: ', node);
   const scaleX = node.scaleX();
   const scaleY = node.scaleY();
 
@@ -374,15 +310,19 @@ const handleTransformEnd = (e, index) => {
   node.scaleY(1);
   
   const nodeList = [...nodes.value];
-  nodeList[index] = {
+
+  const updatedConfigs = {
     ...nodeList[index],
     x: node.x(),
     y: node.y(),
-    width: Math.max(5, node.width() * scaleX),
-    height: Math.max(5, node.height() * scaleY),
+    width: node.width() * scaleX,
+    height: node.height() * scaleY,
     rotation: node.rotation(),
   };
+
+  nodeList[index] = updatedConfigs;
   nodes.value = nodeList;
+  emit('update', id, updatedConfigs);
 };
 
 // Update transformer nodes when selection changes
@@ -404,28 +344,6 @@ watch(() => parentNodes.value, () => {
   inheritNodes();
 }, { deep: true });
 
-watch(() => isDrawing.value, () => {
-  console.log('- isDrawing is now: ', isDrawing.value);
-}, { deep: true });
-
-watch(() => drawTool.value, () => {
-  console.log('- drawTool is now: ', drawTool.value);
-}, { deep: true });
-
-watch(() => drawSize.value, () => {
-  console.log('- drawSize is now: ', drawSize.value);
-}, { deep: true });
-
-watch(() => drawColor.value, () => {
-  console.log('- drawColor is now: ', drawColor.value);
-}, { deep: true });
-
-watch(() => resetDrawnLines.value, () => {
-  console.log('- trigger reset is now: ', resetDrawnLines.value);
-  if (resetDrawnLines.value === true) {
-    clearDrawnLines();
-  }
-}, { deep: true })
 </script>
 
 <template>
@@ -477,17 +395,12 @@ watch(() => resetDrawnLines.value, () => {
             <v-image 
               v-if="node.type === 'image'" 
               :id="node.id"
-              :config="configImg(node.element)" 
+              :config="configImg(node.element)"
+              @dragend="(e) => handleDragEnd(e, i)"
+              @transformend="(e) => handleTransformEnd(e, i)"  
             />
           </template>
 
-          <v-line 
-            v-for="(line, i) in lines" 
-            :key="i" 
-            :id="'drawnLine' + i"
-            :config="setDrawnLineConfig(line)" 
-          />
-          
           <v-transformer ref="trRef" />
             <v-rect
               v-if="selectionRectangle.visible"
