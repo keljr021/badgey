@@ -3,8 +3,6 @@ import { ref, defineEmits, toRefs } from 'vue'
 import CreateMenuDrafts from './partials/CreateMenuDrafts.vue'
 import CreateMenuCanvas from './partials/CreateMenuCanvas.vue'
 import CreateMenuInsert from './partials/CreateMenuInsert.vue'
-import CreateMenuText from './partials/CreateMenuText.vue'
-import CreateMenuShapes from './partials/CreateMenuShapes.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 import './create.css'
 
@@ -115,9 +113,6 @@ const importFile = (input) => {
     />
     <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
     <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" />
-
-    <create-menu-text v-if="showMenu === 'text'" @close="hideMenuItem" />
-    <create-menu-shapes v-if="showMenu === 'shapes'" @close="hideMenuItem" />
   </div>
 </template>
 

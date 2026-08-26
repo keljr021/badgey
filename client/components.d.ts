@@ -33,6 +33,7 @@ declare module 'vue' {
     Features: typeof import('./src/components/home/Features.vue')['default']
     FeaturesItem: typeof import('./src/components/home/FeaturesItem.vue')['default']
     FeaturesSection: typeof import('./src/components/home/FeaturesSection.vue')['default']
+    FloatingMenu: typeof import('./src/components/create/floating/FloatingMenu.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     LoginForm: typeof import('./src/components/login/LoginForm.vue')['default']
     LoginFormMobile: typeof import('./src/components/login/LoginFormMobile.vue')['default']

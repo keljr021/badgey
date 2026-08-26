@@ -1,5 +1,6 @@
 <script setup>
 import { defineEmits, ref, toRefs, computed, onMounted, watch } from 'vue'
+import FloatingMenu from './../create/floating/FloatingMenu.vue'
 import  * as canvasConfig from './canvasConfig.js'
 import './create.css'
 
@@ -34,6 +35,10 @@ const selectionRectangle = ref({
   x2: 0,
   y2: 0
 });
+
+const showFloatingMenu = ref(true);
+const menuX = ref(0);
+const menuY = ref(0);
 
 const emit = defineEmits(['update'])
 
@@ -164,6 +169,11 @@ const handleClick = (e) => {
     // add the node into selection
     selectedIds.value = [...selectedIds.value, clickedId];
   }
+
+  //Set menu position
+  menuX.value = e.target.attrs.x;
+  menuY.value = e.target.attrs.y;
+  console.log('menu position: ', menuX.value, ' - ', menuY.value);
 };
 
 const handleMouseDown = (e) => {
@@ -182,8 +192,7 @@ const handleMouseDown = (e) => {
   selectionRectangle.x1 = pos.x;
   selectionRectangle.y1 = pos.y;
   selectionRectangle.x2 = pos.x;
-  selectionRectangle.y2 = pos.y;
-  
+  selectionRectangle.y2 = pos.y;  
 }
 
 const handleMouseMove = (e) => {
@@ -197,7 +206,7 @@ const handleMouseMove = (e) => {
   selectionRectangle.y2 = pos.y;
 }
 
-const handleMouseUp = () => {
+const handleMouseUp = (e) => {
   mousePressed.value = false;
 
    // do nothing if we didn't start selection
@@ -228,6 +237,7 @@ const handleMouseUp = () => {
     
     selectedIds.value = selected.map(shape => shape.id);
   }
+  showFloatingMenu.value = true;
 };
 
 const inheritNodes = async () => {
@@ -415,5 +425,10 @@ watch(() => parentNodes.value, () => {
         </v-layer>
       </v-stage>
     </div>
+    <floating-menu 
+      v-if="showFloatingMenu"
+      :x="menuX"
+      :y="menuY"
+    />
   </div>
 </template>
