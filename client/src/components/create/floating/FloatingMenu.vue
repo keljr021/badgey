@@ -1,6 +1,7 @@
 <script setup>
 import { ref, defineEmits, toRefs, onMounted, watch } from 'vue'
 
+const menuRef = ref(null);
 const props = defineProps({
     x: Number,
     y: Number,
@@ -8,7 +9,6 @@ const props = defineProps({
 
 const { x, y } = toRefs(props);
 
-const menuRef = ref(null);
 
 const repositionMenu = () => {
   const menu = menuRef.value;
@@ -44,7 +44,9 @@ onMounted(() => {
   position: absolute;
   background: white;
   width: 300px;
-  height: 200px;
+  height: 400px;
+  max-height: 350px;
+  overflow-y: auto;
   padding: 20px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   border-radius: 10px;
