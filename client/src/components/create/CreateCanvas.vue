@@ -39,6 +39,7 @@ const selectionRectangle = ref({
 const showFloatingMenu = ref(false);
 const menuX = ref(0);
 const menuY = ref(0);
+const menuItem = ref(null);
 
 const emit = defineEmits(['update'])
 
@@ -131,12 +132,11 @@ const configImg = (input) => {
 };
 
 const resetMenuPosition = (e) => {
-  const pos = e.target.getStage().getPointerPosition();
-  
+  const targetNode = e.target;
+  const pos = targetNode.getStage().getPointerPosition();
   menuX.value = e.target.attrs.x + 600;
   menuY.value = pos.y + 200;
-
-
+  menuItem.value = targetNode;
 }
 
 const handleClick = (e) => {
@@ -375,6 +375,7 @@ watch(() => parentNodes.value, () => {
       v-if="showFloatingMenu"
       :x="menuX"
       :y="menuY"
+      :node="menuItem"
     />
     <div ref="containerRef" id="container" class="canvas-container">
       <v-stage 
