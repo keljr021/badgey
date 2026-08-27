@@ -1,0 +1,95 @@
+
+/* FloatingMenu.vue */
+.float {
+  position: absolute;
+  background: white;
+  width: 300px;
+  padding: 20px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  z-index: 9;
+}
+
+.float-header {
+  font-weight: 600;
+  padding: 15px 0;
+}
+
+.float-menu {
+  height: 200px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.float-footer {
+  width: 100%;
+  padding: 10px 0;
+}
+
+.float-footer-arrange,
+.fload-footer-delete {
+  width: 100%;
+}
+
+
+/* FloatingMenuShape.vue */
+.float-shape-list {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 0;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+
+.float-shape-list-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 0;
+    text-align: center;
+    cursor: pointer;
+}
+
+.float-shape-list-item:hover {
+    background-color: #eee;
+}
+
+.float-shape-list-item-icon {
+    margin: 0 auto;
+    padding: 10px 0;
+    opacity: 0.5;
+}
+
+.float-shape-list-item.active .float-shape-list-item-icon {
+    color: var(--badgey-green);
+    opacity: 1;
+}
+
+.float-shape-list-item.active .float-shape-list-item-text {
+    color: var(--badgey-green);
+    font-weight: bold;
+
+}
+
+.float-shape-menu {
+  width: 100%;
+}
+
+.float-shape-menu-width,
+.float-shape-menu-height,
+.float-shape-menu-sides,
+.float-shape-menu-fill,
+.float-shape-menu-stroke-width,
+.float-shape-menu-stroke-color {
+  width: calc(50% - 10px);
+  padding: 10px 5px;
+  float: left;
+}
+
+.float-shape-menu-stroke {
+  width: 100%;
+  padding: 10px 0;
+}

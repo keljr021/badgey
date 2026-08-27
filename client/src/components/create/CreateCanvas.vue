@@ -376,6 +376,7 @@ watch(() => parentNodes.value, () => {
       :x="menuX"
       :y="menuY"
       :node="menuItem"
+      @close="showFloatingMenu = false"
     />
     <div ref="containerRef" id="container" class="canvas-container">
       <v-stage 
