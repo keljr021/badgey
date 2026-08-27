@@ -131,8 +131,12 @@ const configImg = (input) => {
 };
 
 const resetMenuPosition = (e) => {
-  menuX.value = e.target.attrs.x + 700;
-  menuY.value = e.target.attrs.y + 100;
+  const pos = e.target.getStage().getPointerPosition();
+  
+  menuX.value = e.target.attrs.x + 600;
+  menuY.value = pos.y + 200;
+
+
 }
 
 const handleClick = (e) => {

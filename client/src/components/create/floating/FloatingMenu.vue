@@ -12,8 +12,12 @@ const menuRef = ref(null);
 
 const repositionMenu = () => {
   const menu = menuRef.value;
-  menu.style.top = y.value + 'px';
-  menu.style.left = x.value + 'px';
+  const limitY = 450;
+  const limitX = 850;
+
+  menu.style.top = ((y.value >= limitY) ?  (y.value - 300) : y.value) + 'px';
+  menu.style.left = ((x.value >= limitX) ? (x.value - 300) : x.value) + 'px';
+  console.log('menu position: y', y.value, ' - x: ', x.value);
 }
 
 watch(() => x.value, () => {
