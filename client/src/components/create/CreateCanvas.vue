@@ -36,7 +36,7 @@ const selectionRectangle = ref({
   y2: 0
 });
 
-const showFloatingMenu = ref(true);
+const showFloatingMenu = ref(false);
 const menuX = ref(0);
 const menuY = ref(0);
 
@@ -130,6 +130,11 @@ const configImg = (input) => {
   return output;
 };
 
+const resetMenuPosition = (e) => {
+  menuX.value = e.target.attrs.x + 700;
+  menuY.value = e.target.attrs.y + 100;
+}
+
 const handleClick = (e) => {
 
   // if we are selecting with rect, do nothing
@@ -143,11 +148,13 @@ const handleClick = (e) => {
   // if click on empty area - remove all selections
   if (e.target === e.target.getStage()) {
     selectedIds.value = [];
+    showFloatingMenu.value = false;
     return;
   }
 
-  // do nothing if clicked NOT on our rectangles
+  // do nothing if clicked NOT on our nodes
   if (!e.target.attrs.id) {
+    showFloatingMenu.value = false;
     return;
   }
   
@@ -171,9 +178,8 @@ const handleClick = (e) => {
   }
 
   //Set menu position
-  menuX.value = e.target.attrs.x;
-  menuY.value = e.target.attrs.y;
-  console.log('menu position: ', menuX.value, ' - ', menuY.value);
+  resetMenuPosition(e);
+  showFloatingMenu.value = true;
 };
 
 const handleMouseDown = (e) => {
@@ -306,6 +312,8 @@ const handleDragEnd = (e, index) => {
     y: e.target.y(),
   };
   nodes.value = nodeList;
+  
+  resetMenuPosition(e);
 };
 
 const handleTransformEnd = (e, index) => {
@@ -333,6 +341,7 @@ const handleTransformEnd = (e, index) => {
   nodeList[index] = updatedConfigs;
   nodes.value = nodeList;
   emit('update', id, updatedConfigs);
+  resetMenuPosition(e);
 };
 
 // Update transformer nodes when selection changes
@@ -358,6 +367,11 @@ watch(() => parentNodes.value, () => {
 
 <template>
   <div class="canvas">
+    <floating-menu 
+      v-if="showFloatingMenu"
+      :x="menuX"
+      :y="menuY"
+    />
     <div ref="containerRef" id="container" class="canvas-container">
       <v-stage 
         ref="stageRef" 
@@ -425,10 +439,5 @@ watch(() => parentNodes.value, () => {
         </v-layer>
       </v-stage>
     </div>
-    <floating-menu 
-      v-if="showFloatingMenu"
-      :x="menuX"
-      :y="menuY"
-    />
   </div>
 </template>

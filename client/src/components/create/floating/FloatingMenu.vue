@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, toRefs, onMounted } from 'vue'
+import { ref, defineEmits, toRefs, onMounted, watch } from 'vue'
 
 const props = defineProps({
     x: Number,
@@ -8,30 +8,43 @@ const props = defineProps({
 
 const { x, y } = toRefs(props);
 
-const menuStyling = {
-    position: 'fixed', 
-    background: '#fff',
-    width: '300px', 
-    height: '200px',
-    padding: '10px',
-    top: y.value,
-    left: x.value
+const menuRef = ref(null);
+
+const repositionMenu = () => {
+  const menu = menuRef.value;
+  menu.style.top = y.value + 'px';
+  menu.style.left = x.value + 'px';
 }
 
+watch(() => x.value, () => {
+    repositionMenu();
+});
+
+watch(() => y.value, () => {
+    repositionMenu();
+});
+
 onMounted(() => {
-    console.log('menu position: y', y.value, ' - x: ', x.value);
+  repositionMenu();
 })
 </script>
 
 <template>
-  <div class="float" :style="menuStyling">
+  <div ref="menuRef" class="float">
     Floating Menu here
   </div>
 </template>
 
 <style scoped>
 .float {
-
+  position: absolute;
+  background: white;
+  width: 300px;
+  height: 200px;
+  padding: 20px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  z-index: 9;
 }
 
 </style>

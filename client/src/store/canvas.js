@@ -46,7 +46,6 @@ export const useCanvasStore = defineStore('canvas', () => {
     }
 
     async function updateItem(id, input) {
-        debugger;
         console.log('-- canvas store - updateItem triggered - id: ', id, ' - input: ', input);
         let updatedNodes = [];
 
