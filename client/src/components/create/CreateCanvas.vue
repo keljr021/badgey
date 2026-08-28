@@ -37,8 +37,6 @@ const selectionRectangle = ref({
 });
 
 const showFloatingMenu = ref(false);
-const menuX = ref(0);
-const menuY = ref(0);
 const menuItem = ref(null);
 
 const emit = defineEmits(['update'])
@@ -131,12 +129,8 @@ const configImg = (input) => {
   return output;
 };
 
-const resetMenuPosition = (e) => {
-  const targetNode = e.target;
-  const pos = targetNode.getStage().getPointerPosition();
-  menuX.value = e.target.attrs.x + 600;
-  menuY.value = pos.y + 200;
-  menuItem.value = targetNode;
+const setTargetNode = (e) => {
+  menuItem.value = e.target;
 }
 
 const handleClick = (e) => {
@@ -182,7 +176,7 @@ const handleClick = (e) => {
   }
 
   //Set menu position
-  resetMenuPosition(e);
+  setTargetNode(e);
   showFloatingMenu.value = true;
 };
 
@@ -247,6 +241,8 @@ const handleMouseUp = (e) => {
     
     selectedIds.value = selected.map(shape => shape.id);
   }
+    
+  setTargetNode(e);
   showFloatingMenu.value = true;
 };
 
@@ -317,7 +313,7 @@ const handleDragEnd = (e, index) => {
   };
   nodes.value = nodeList;
   
-  resetMenuPosition(e);
+  setTargetNode(e);
 };
 
 const handleTransformEnd = (e, index) => {
@@ -345,7 +341,7 @@ const handleTransformEnd = (e, index) => {
   nodeList[index] = updatedConfigs;
   nodes.value = nodeList;
   emit('update', id, updatedConfigs);
-  resetMenuPosition(e);
+  setTargetNode(e);
 };
 
 // Update transformer nodes when selection changes
@@ -373,10 +369,10 @@ watch(() => parentNodes.value, () => {
   <div class="canvas">
     <floating-menu 
       v-if="showFloatingMenu"
-      :x="menuX"
-      :y="menuY"
       :node="menuItem"
-      @close="showFloatingMenu = false"
+      @close="showFloatingMenu = false; handleClick()"
+      @shape:update="console.log('update: ', input)"
+      @delete="deleteNode"
     />
     <div ref="containerRef" id="container" class="canvas-container">
       <v-stage 

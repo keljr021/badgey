@@ -6,22 +6,14 @@ import FloatingMenuText from './FloatingMenuText.vue'
 import FloatingMenuImage from './FloatingMenuImage.vue'
 import './floatingMenu.css';
 
+const emit = defineEmits([ 'close', 'shape:update', 'delete' ]);
+
 const menuRef = ref(null);
 const props = defineProps({
-    x: Number,
-    y: Number,
     node: Object,
 });
 
-const { x, y, node } = toRefs(props);
-
-const repositionMenu = () => {
-  const menu = menuRef.value;
-  const limitY = 450;
-  const limitX = 850;
-  menu.style.top = ((y.value >= limitY) ?  (y.value - 300) : y.value) + 'px';
-  menu.style.left = ((x.value >= limitX) ? (x.value - 300) : x.value) + 'px';
-}
+const { node } = toRefs(props);
 
 const nodeType = () => {
   const id = node.value.attrs.id;
@@ -30,42 +22,53 @@ const nodeType = () => {
   if (id.includes('text')) return 'text';
 }
 
-watch(() => x.value, () => {
-    repositionMenu();
-});
-
-watch(() => y.value, () => {
-    repositionMenu();
-});
-
-onMounted(() => {
-  repositionMenu();
-})
+const deleteNode = () => {
+  debugger;
+  const id = node.value.attrs.id;
+  emit('delete', id);
+}
 </script>
 
 <template>
   <div ref="menuRef" class="float">
     <div class="float-header">
-      <span v-if="nodeType() === 'shape'">Shape</span>
-      <span v-if="nodeType() === 'line'">Line</span>
-      <span v-if="nodeType() === 'text'">Text</span>
-      <span v-if="nodeType() === 'image'">Image</span>
       <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
     </div>
 
     <div class="float-menu">
-      <floating-menu-shape v-if="nodeType() === 'shape'" :node="node" />
+      <floating-menu-shape 
+        v-if="nodeType() === 'shape'"
+        @shape:update="emit('shape:update')"
+        :node="node" 
+      />
       <floating-menu-line v-if="nodeType() === 'line'" :node="node" />
       <floating-menu-text v-if="nodeType() === 'text'" :node="node" />
       <floating-menu-image v-if="nodeType() === 'image'" :node="node" />
+
+      <div class="float-menu-arrange">
+        Arrange: <br />
+        <UFieldGroup orientation="horizontal" class="py-2">
+          <UTooltip text="Bring to front">
+            <UButton color="neutral" variant="outline" icon="i-lucide-bring-to-front" />
+          </UTooltip>
+          <UTooltip text="Bring forward">
+            <UButton color="neutral" variant="outline" icon="i-lucide-arrow-up-narrow-wide" />
+          </UTooltip>
+          <UTooltip text="Send backwards">
+            <UButton color="neutral" variant="outline" icon="i-lucide-arrow-down-narrow-wide" />
+          </UTooltip>
+          <UTooltip text="Send to back">
+            <UButton color="neutral" variant="outline" icon="i-lucide-send-to-back" />
+          </UTooltip>
+        </UFieldGroup>
+      </div>
     </div>
 
     <div class="float-footer">
-      <div class="float-footer-arrange">
-        Arrange
-      </div>
       <div class="float-footer-delete">
-        Delete
+        <UTooltip :text="'Delete ' + nodeType()">
+          <UButton color="neutral" variant="outline" size="md" icon="i-lucide-trash" label="Delete" class="my-4" @click="deleteNode()" />
+        </UTooltip>
       </div>
     </div>
   </div>
