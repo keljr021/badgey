@@ -267,6 +267,7 @@ const clearAllNodes = () => {
 
 const deleteNode = (id) => {
   console.log(' - [deleteNode]: target id - ', id);
+  let nodes = layerRef.value.getNode();
   let targetNode = layerRef.value.getNode().findOne(id);
   targetNode.destroy();
 }

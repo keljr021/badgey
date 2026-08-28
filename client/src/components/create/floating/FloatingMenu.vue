@@ -6,7 +6,7 @@ import FloatingMenuText from './FloatingMenuText.vue'
 import FloatingMenuImage from './FloatingMenuImage.vue'
 import './floatingMenu.css';
 
-const emit = defineEmits([ 'close', 'shape:update', 'delete' ]);
+const emit = defineEmits([ 'close', 'shape:update' ]);
 
 const menuRef = ref(null);
 const props = defineProps({
@@ -23,9 +23,7 @@ const nodeType = () => {
 }
 
 const deleteNode = () => {
-  debugger;
-  const id = node.value.attrs.id;
-  emit('delete', id);
+  node.value.destroy();
 }
 </script>
 
