@@ -79,6 +79,10 @@ const updateItem = async (id, input) => {
   await canvasStore.updateItem(id, input);
 }
 
+const deleteItem = async (id) => {
+  await canvasStore.deleteItem(id);
+}
+
 const importFile = (input) => {
   console.log('import file: ', input);
   importedFile.value = input;
@@ -131,6 +135,7 @@ const publishBadge = () => {
             :selectedBorder="selectedCanvasBorder"
             :parentNodes="nodes"
             @update="updateItem"
+            @delete="deleteItem"
           />
         </div>
         <div class="create-body-canvas-save">

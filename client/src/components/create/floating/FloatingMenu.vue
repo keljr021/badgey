@@ -6,14 +6,16 @@ import FloatingMenuText from './FloatingMenuText.vue'
 import FloatingMenuImage from './FloatingMenuImage.vue'
 import './floatingMenu.css';
 
-const emit = defineEmits([ 'close', 'shape:update' ]);
+const emit = defineEmits([ 'close', 'shape:update', 'shape:delete' ]);
 
 const menuRef = ref(null);
 const props = defineProps({
     node: Object,
+    itemWidth: Number,
+    itemHeight: Number,
 });
 
-const { node } = toRefs(props);
+const { node, itemWidth, itemHeight } = toRefs(props);
 
 const nodeType = () => {
   const id = node.value.attrs.id;
@@ -22,7 +24,14 @@ const nodeType = () => {
   if (id.includes('text')) return 'text';
 }
 
+const updateNode = (input) => {
+  console.log(' - [updateNode]: id: ', id, ' - input: ', input);
+  emit('shape:update', node.value.attrs.id, input);
+}
+
 const deleteNode = () => {
+  emit('delete', node.value.attrs.id);
+  emit('close');
   node.value.destroy();
 }
 </script>
@@ -36,8 +45,10 @@ const deleteNode = () => {
     <div class="float-menu">
       <floating-menu-shape 
         v-if="nodeType() === 'shape'"
-        @shape:update="emit('shape:update')"
-        :node="node" 
+        @shape:update="updateNode"
+        :node="node"
+        :width="itemWidth"
+        :height="itemHeight" 
       />
       <floating-menu-line v-if="nodeType() === 'line'" :node="node" />
       <floating-menu-text v-if="nodeType() === 'text'" :node="node" />

@@ -61,6 +61,15 @@ export const useCanvasStore = defineStore('canvas', () => {
 
     async function deleteItem(id) {
         console.log('-- canvas store - deleteItem triggered - id: ', id);
+        let updatedNodes = [];
+        for (let i = 0; i < nodes.value.length; i++) {
+            let node = nodes.value[i];
+            if (node.id !== id) {
+                updatedNodes.push(node);
+            }
+            updatedNodes.push(node);
+        }
+        nodes.value = updatedNodes;
     }
 
     async function selectItem(id) {

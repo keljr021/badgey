@@ -38,6 +38,8 @@ const selectionRectangle = ref({
 
 const showFloatingMenu = ref(false);
 const menuItem = ref(null);
+const menuItemW = ref(0);
+const menuItemH = ref(0);
 
 const emit = defineEmits(['update'])
 
@@ -129,8 +131,14 @@ const configImg = (input) => {
   return output;
 };
 
-const setTargetNode = (e) => {
+const setTargetNode = (e, w, h) => {
   menuItem.value = e.target;
+
+  const id = e.target.attrs.id;
+  const node = layerRef.value.getNode().findOne('#' + id);
+
+  menuItemW.value = w ? w : node.width();
+  menuItemH.value = h ? h : node.height();
 }
 
 const handleClick = (e) => {
@@ -241,35 +249,15 @@ const handleMouseUp = (e) => {
     
     selectedIds.value = selected.map(shape => shape.id);
   }
-    
-  setTargetNode(e);
-  showFloatingMenu.value = true;
 };
 
 const inheritNodes = async () => {
   console.log('- [inheritNodes]: parentNodes: ', parentNodes.value);
   nodes.value = parentNodes.value;
-
-  if (parentNodes.value.length === 0 && nodes.value.length) {
-    clearAllNodes('nodes');
-  }
 };
 
-const clearAllNodes = () => {
-  let nodes = parentNodes.value;
-
-  for (let node in nodes) {
-    let id = node.id;
-    console.log(' - [clearAllNodes]: target id - ', id);
-    deleteNode(id);
-  } 
-}
-
 const deleteNode = (id) => {
-  console.log(' - [deleteNode]: target id - ', id);
-  let nodes = layerRef.value.getNode();
-  let targetNode = layerRef.value.getNode().findOne(id);
-  targetNode.destroy();
+  emit('delete', id);
 }
 
 // Helper functions for calculating bounding boxes of rotated rectangles
@@ -313,8 +301,6 @@ const handleDragEnd = (e, index) => {
     y: e.target.y(),
   };
   nodes.value = nodeList;
-  
-  setTargetNode(e);
 };
 
 const handleTransformEnd = (e, index) => {
@@ -342,8 +328,19 @@ const handleTransformEnd = (e, index) => {
   nodeList[index] = updatedConfigs;
   nodes.value = nodeList;
   emit('update', id, updatedConfigs);
-  setTargetNode(e);
+  setTargetNode(e, updatedConfigs.width, updatedConfigs.height);
 };
+
+const closeFloatingMenu = () => {
+  showFloatingMenu.value = false;
+  selectedIds.value = [];
+  isSelecting.value = false;
+}
+
+const updateNodeFromMenu = (id, input) => {
+  console.log('update: ', id, input)
+  emit('update', id , input);
+}
 
 // Update transformer nodes when selection changes
 watch(selectedIds, () => {
@@ -371,8 +368,10 @@ watch(() => parentNodes.value, () => {
     <floating-menu 
       v-if="showFloatingMenu"
       :node="menuItem"
-      @close="showFloatingMenu = false; handleClick()"
-      @shape:update="console.log('update: ', input)"
+      :itemWidth="menuItemW"
+      :itemHeight="menuItemH"
+      @close="closeFloatingMenu(input)"
+      @shape:update="updateNodeFromMenu"
       @delete="deleteNode"
     />
     <div ref="containerRef" id="container" class="canvas-container">

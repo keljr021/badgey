@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, toRefs, ref, computed, onMounted, watch } from 'vue'
+import { defineEmits, toRefs, ref, computed, onUpdated, onMounted, watch } from 'vue'
 import './floatingMenu.css'
 
 
@@ -7,9 +7,11 @@ const emit = defineEmits(['shape:update']);
 
 const props = defineProps({
   node: Object,
+  width: Number,
+  height: Number,
 });
 
-const { node } = toRefs(props);
+const { node, width, height } = toRefs(props);
 
 const activeShape = ref(null);
 const shapeWidth = ref(1);
@@ -33,8 +35,8 @@ const loadValues = () => {
     activeShape.value = 'circle';
   }
 
-  shapeWidth.value = Math.round(item.width());
-  shapeHeight.value = Math.round(item.height());
+  shapeWidth.value = Math.round(width.value);
+  shapeHeight.value = Math.round(height.value);
   shapeSides.value = (attrs.sides) ? attrs.sides : null;
 
   shapeFillValue.value = attrs.fill;
@@ -84,6 +86,14 @@ const updateShape = (key) => {
 onMounted(() => {
   loadValues();
 });
+
+watch(() => width.value, () => {
+  loadValues();
+}, { deep: true });
+
+watch(() => height.value, () => {
+  loadValues();
+}, { deep: true })
 </script>
 
 <template>
