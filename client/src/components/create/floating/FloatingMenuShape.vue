@@ -51,32 +51,51 @@ const loadValues = () => {
 const setNewShape = (input) => {
   console.log('[setNewShape] input: ', input);
   activeShape.value = input;
-  emit('shape:update', { name: 'type', value: input });
+
+  let output = {};
+
+  switch(input) {
+    case 'circle':
+      output.type = 'circle';
+      break;
+    case 'rectangle':
+      output.type = 'rectangle';
+      break;
+    case 'polygon':
+      output.type = 'polygon';
+      break;
+    default:
+      break;
+  }
+
+  output.konvaValues = {
+    x: node.value.attrs.x,
+    y: node.value.attrs.y,
+  }
+
+  emit('shape:update', output);
 }
 
 const updateShape = (key) => {
   console.log(' - [updateShape] key: ', key);
   switch(key) {
     case 'width':
-      emit('shape:update', { name: 'width', value: shapeWidth.value });
+      emit('shape:update', { width: shapeWidth.value });
       break;
     case 'height':
-      emit('shape:update', { name: 'height', value: shapeHeight.value });
+      emit('shape:update', { height: shapeHeight.value });
       break;      
     case 'sides':
-      emit('shape:update', { name: 'sides', value: shapeSides.value });
+      emit('shape:update', { sides: shapeSides.value });
       break;
     case 'fill':
-      emit('shape:update', { name: 'fill', value: shapeFillValue.value });
+      emit('shape:update', { fill: shapeFillValue.value });
       break;
-    case 'stroke':
-      emit('shape:update', { name: 'stroke', value: shapeStroke.value });
+    case 'stroke': case 'strokeFill':
+      emit('shape:update', { stroke: shapeStrokeValue.value ? shapeStrokeValue.value : '' });
       break;
     case 'strokeWidth':
-      emit('shape:update', { name: 'strokeWidth', value: shapeStrokeWidth.value });
-      break;
-    case 'strokeFill':
-      emit('shape:update', { name: 'strokeFill', value: shapeStrokeValue.value });
+      emit('shape:update', { strokeWidth: shapeStrokeWidth.value });
       break;
     default:
       break;

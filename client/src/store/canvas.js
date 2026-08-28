@@ -38,9 +38,19 @@ export const useCanvasStore = defineStore('canvas', () => {
         selectedCanvasBorder.value = input;
     }
 
-    async function addItem(input) {        
+    async function addItem(input) {  
         let output = input;
-        output.konvaValues = (canvasConfig[input.type]) ? (canvasConfig[input.type]) : null;
+
+        switch(input.type) {
+            case 'rectangle': case 'circle': 
+            case 'polygon': case 'shape':
+                output.konvaValues = canvasConfig['shape'];
+                break;
+            default:
+                output.konvaValues = canvasConfig[input.type];
+                break;
+        }
+
         console.log('-- canvas store - addItem triggered: ', output);
         nodes.value.push(output);
     }
@@ -52,11 +62,11 @@ export const useCanvasStore = defineStore('canvas', () => {
         for (let i = 0; i < nodes.value.length; i++) {
             let node = nodes.value[i];
             if (node.id === id) {
-                node.konvaValues = { ...node.konvaValues, ...input};
+                Object.assign(nodes.value[i], input);
+                console.log('node updated to: ', node);
+                break;
             }
-            updatedNodes.push(node);
         }
-        nodes.value = updatedNodes;
     }
 
     async function deleteItem(id) {

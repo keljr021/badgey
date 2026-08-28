@@ -340,6 +340,7 @@ const closeFloatingMenu = () => {
 const updateNodeFromMenu = (id, input) => {
   console.log('update: ', id, input)
   emit('update', id , input);
+  debugger;
 }
 
 // Update transformer nodes when selection changes
@@ -397,11 +398,27 @@ watch(() => parentNodes.value, () => {
             <v-regular-polygon
               @dragend="(e) => handleDragEnd(e, i)"
               @transformend="(e) => handleTransformEnd(e, i)" 
-              v-if="node.type === 'shape'" 
+              v-if="node.type === 'polygon'" 
               :id="node.id" 
               :config="node.konvaValues" 
             />
             
+            <v-circle
+              @dragend="(e) => handleDragEnd(e, i)"
+              @transformend="(e) => handleTransformEnd(e, i)" 
+              v-if="node.type === 'circle'" 
+              :id="node.id" 
+              :config="node.konvaValues" 
+            />
+
+            <v-rect
+              @dragend="(e) => handleDragEnd(e, i)"
+              @transformend="(e) => handleTransformEnd(e, i)" 
+              v-if="node.type === 'rectangle'" 
+              :id="node.id" 
+              :config="node.konvaValues" 
+            />
+
             <v-line 
               @dragend="(e) => handleDragEnd(e, i)"
               @transformend="(e) => handleTransformEnd(e, i)" 

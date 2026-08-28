@@ -25,7 +25,7 @@ const nodeType = () => {
 }
 
 const updateNode = (input) => {
-  console.log(' - [updateNode]: id: ', id, ' - input: ', input);
+  console.log(' - [updateNode]: id: ', node.value.attrs.id, ' - input: ', input);
   emit('shape:update', node.value.attrs.id, input);
 }
 

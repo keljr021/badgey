@@ -11,17 +11,21 @@ const textIdx = ref(1);
 
 const insertShape = () => {
   console.log('- insert shape ');
-  emit('insert', { type: 'shape', id: 'shape' + shapeIdx.value });
+  emit('insert', { type: 'polygon', id: 'shape' + shapeIdx.value });
+  shapeIdx.value += 1;
 };
 
 const insertLine = () => {
   console.log('- insert line ');
   emit('insert', { type: 'line', id: 'line' + lineIdx.value });
+  lineIdx.value += 1;
 };
 
 const insertText = () => {
   console.log('- insert text ');
   emit('insert', { type: 'text', id: 'text' + textIdx.value });
+  textIdx.value += 1;
+
 };
 </script>
 
