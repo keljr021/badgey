@@ -57,12 +57,22 @@ export const useCanvasStore = defineStore('canvas', () => {
 
     async function updateItem(id, input) {
         console.log('-- canvas store - updateItem triggered - id: ', id, ' - input: ', input);
-        let updatedNodes = [];
 
         for (let i = 0; i < nodes.value.length; i++) {
             let node = nodes.value[i];
             if (node.id === id) {
-                Object.assign(nodes.value[i], input);
+                Object.keys(input).forEach((inputKey) => {
+                    console.log(' - key: ', inputKey, ' - value: ', input[inputKey]);
+                    if (inputKey === 'konvaValues') {
+                        Object.keys(input.konvaValues).forEach((konvaKey) => {
+                            console.log(' -- konvaValues: key - ', konvaKey, ' - value: ', input.konvaValues[konvaKey]);
+                            node.konvaValues[konvaKey] = input.konvaValues[konvaKey];
+                        });
+                    }
+                    else 
+                        node[inputKey] = input[inputKey];
+                });
+                nodes.value[i] = node;
                 console.log('node updated to: ', node);
                 break;
             }

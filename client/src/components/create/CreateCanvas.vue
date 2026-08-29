@@ -1,7 +1,7 @@
 <script setup>
 import { defineEmits, ref, toRefs, computed, onMounted, watch } from 'vue'
-import FloatingMenu from './../create/floating/FloatingMenu.vue'
 import  * as canvasConfig from './canvasConfig.js'
+import FloatingMenu from './../create/floating/FloatingMenu.vue'
 import './create.css'
 
 const nodes = ref([]);
@@ -155,6 +155,9 @@ const handleClick = (e) => {
   if (e.target === e.target.getStage()) {
     selectedIds.value = [];
     showFloatingMenu.value = false;
+
+    const transformerNode = trRef.value.getNode();
+    transformerNode.nodes([]);
     return;
   }
 
@@ -186,6 +189,17 @@ const handleClick = (e) => {
   //Set menu position
   setTargetNode(e);
   showFloatingMenu.value = true;
+
+  const transformerNode = trRef.value.getNode();
+  transformerNode.nodes([e.target]);
+};
+
+const handleMouseOver = (e) => {
+  e.target.getStage().container().style.cursor = 'pointer';
+};
+
+const handleMouseOut = (e) => {
+  e.target.getStage().container().style.cursor = 'default';
 };
 
 const handleMouseDown = (e) => {
@@ -218,7 +232,7 @@ const handleMouseMove = (e) => {
   selectionRectangle.y2 = pos.y;
 }
 
-const handleMouseUp = (e) => {
+const handleMouseUp = () => {
   mousePressed.value = false;
 
    // do nothing if we didn't start selection
@@ -316,13 +330,14 @@ const handleTransformEnd = (e, index) => {
   
   const nodeList = [...nodes.value];
 
-  const updatedConfigs = {
-    ...nodeList[index],
-    x: node.x(),
-    y: node.y(),
-    width: node.width() * scaleX,
-    height: node.height() * scaleY,
-    rotation: node.rotation(),
+  const updatedConfigs = { 
+    konvaValues: {
+      x: node.x(),
+      y: node.y(),
+      width: node.width() * scaleX,
+      height: node.height() * scaleY,
+      rotation: node.rotation(),
+    }
   };
 
   nodeList[index] = updatedConfigs;
@@ -337,10 +352,23 @@ const closeFloatingMenu = () => {
   isSelecting.value = false;
 }
 
-const updateNodeFromMenu = (id, input) => {
+const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, input)
   emit('update', id , input);
-  debugger;
+}
+
+const repositionSelectionBox = () => {
+  if (menuItem.value && isSelecting.value) {
+    debugger;
+    const layer = layerRef.value;
+    const node = layer.getNode().findOne('#' + menuItem.value.attrs.id);
+    const x = node.x();
+    const y = node.y();
+    selectionRectangle.x1 = x;
+    selectionRectangle.y1 = y;
+    selectionRectangle.x2 = x;
+    selectionRectangle.y2 = y; 
+  } 
 }
 
 // Update transformer nodes when selection changes
@@ -358,9 +386,11 @@ onMounted(async () => {
   await inheritNodes();
 });
 
-watch(() => parentNodes.value, () => {
+watch(() => parentNodes.value, (newVal) => {
   inheritNodes();
 }, { deep: true });
+
+
 
 </script>
 
@@ -388,22 +418,16 @@ watch(() => parentNodes.value, () => {
         @touchmove="handleMouseMove"
         @touchend="handleMouseUp"
       >
-        <v-layer ref="layerRef">
+        <v-layer ref="layerRef" @drawend="repositionSelectionBox">
           <v-circle v-if="selectedCanvas === 'circle'" :config="calculateCircleConfig" />
           <v-rect v-if="selectedCanvas === 'rectangle'" :config="calculateRectConfig" />
           <v-regular-polygon v-if="selectedCanvas === 'polygon'" :config="calculatePolyConfig" />
 
 
           <template v-for="node in nodes">
-            <v-regular-polygon
-              @dragend="(e) => handleDragEnd(e, i)"
-              @transformend="(e) => handleTransformEnd(e, i)" 
-              v-if="node.type === 'polygon'" 
-              :id="node.id" 
-              :config="node.konvaValues" 
-            />
-            
             <v-circle
+              @mouseover="handleMouseOver($event)"
+              @mouseout = "handleMouseOut($event)"  
               @dragend="(e) => handleDragEnd(e, i)"
               @transformend="(e) => handleTransformEnd(e, i)" 
               v-if="node.type === 'circle'" 
@@ -412,6 +436,8 @@ watch(() => parentNodes.value, () => {
             />
 
             <v-rect
+              @mouseover="handleMouseOver($event)"
+              @mouseout = "handleMouseOut($event)"              
               @dragend="(e) => handleDragEnd(e, i)"
               @transformend="(e) => handleTransformEnd(e, i)" 
               v-if="node.type === 'rectangle'" 
@@ -419,7 +445,20 @@ watch(() => parentNodes.value, () => {
               :config="node.konvaValues" 
             />
 
+            <v-regular-polygon
+              @mouseover="handleMouseOver($event)"
+              @mouseout = "handleMouseOut($event)"               
+              @dragend="(e) => handleDragEnd(e, i)"
+              @transformend="(e) => handleTransformEnd(e, i)" 
+              v-if="node.type === 'polygon'" 
+              :id="node.id" 
+              :config="node.konvaValues" 
+            />
+            
+
             <v-line 
+              @mouseover="handleMouseOver($event)"
+              @mouseout = "handleMouseOut($event)"               
               @dragend="(e) => handleDragEnd(e, i)"
               @transformend="(e) => handleTransformEnd(e, i)" 
               v-if="node.type === 'line'" 
@@ -428,6 +467,8 @@ watch(() => parentNodes.value, () => {
             />
             
             <v-text 
+              @mouseover="handleMouseOver($event)"
+              @mouseout = "handleMouseOut($event)"             
               @dragend="(e) => handleDragEnd(e, i)"
               @transformend="(e) => handleTransformEnd(e, i)" 
               v-if="node.type === 'text'" 
@@ -435,18 +476,22 @@ watch(() => parentNodes.value, () => {
               :config="node.konvaValues" 
             />
               
-            <v-image 
+            <v-image
+              @mouseover="handleMouseOver($event)"
+              @mouseout = "handleMouseOut($event)"                 
+              @dragend="(e) => handleDragEnd(e, i)"
+              @transformend="(e) => handleTransformEnd(e, i)"  
               v-if="node.type === 'image'" 
               :id="node.id"
               :config="configImg(node.element)"
-              @dragend="(e) => handleDragEnd(e, i)"
-              @transformend="(e) => handleTransformEnd(e, i)"  
             />
           </template>
 
-          <v-transformer ref="trRef" />
+          <v-transformer ref="trRef" :config="{ keepRatio: false }" />
             <v-rect
               v-if="selectionRectangle.visible"
+              @mouseover="handleMouseOver($event)"
+              @mouseout = "handleMouseOut($event)"   
               :config="{
                 x: Math.min(selectionRectangle.x1, selectionRectangle.x2),
                 y: Math.min(selectionRectangle.y1, selectionRectangle.y2),

@@ -59,19 +59,20 @@ const setNewShape = (input) => {
       output.type = 'circle';
       break;
     case 'rectangle':
-      output.type = 'rectangle';
+    output.type = 'rectangle';  
       break;
     case 'polygon':
       output.type = 'polygon';
+      output.konvaValues = {
+        sides: shapeSides.value,
+        rotation: 0,
+      }
       break;
     default:
       break;
   }
 
-  output.konvaValues = {
-    x: node.value.attrs.x,
-    y: node.value.attrs.y,
-  }
+ 
 
   emit('shape:update', output);
 }
@@ -80,22 +81,25 @@ const updateShape = (key) => {
   console.log(' - [updateShape] key: ', key);
   switch(key) {
     case 'width':
-      emit('shape:update', { width: shapeWidth.value });
+      emit('shape:update', { konvaValues: { width: shapeWidth.value } });
       break;
     case 'height':
-      emit('shape:update', { height: shapeHeight.value });
+      emit('shape:update', { konvaValues: { height: shapeHeight.value } });
       break;      
     case 'sides':
-      emit('shape:update', { sides: shapeSides.value });
+      emit('shape:update', { konvaValues: { sides: shapeSides.value } });
       break;
     case 'fill':
-      emit('shape:update', { fill: shapeFillValue.value });
+      emit('shape:update', { konvaValues: { fill: shapeFillValue.value } });
       break;
-    case 'stroke': case 'strokeFill':
-      emit('shape:update', { stroke: shapeStrokeValue.value ? shapeStrokeValue.value : '' });
+    case 'stroke':
+      emit('shape:update', { konvaValues: { stroke: shapeStroke.value ? shapeStrokeValue.value : '' } });
+      break;
+    case 'strokeFill':
+      emit('shape:update', { konvaValues: { stroke: shapeStrokeValue.value } });
       break;
     case 'strokeWidth':
-      emit('shape:update', { strokeWidth: shapeStrokeWidth.value });
+      emit('shape:update', { konvaValues: { strokeWidth: shapeStrokeWidth.value } });
       break;
     default:
       break;
@@ -157,7 +161,7 @@ watch(() => height.value, () => {
           </UButton>
 
           <template #content>
-            <UColorPicker v-model="shapeFillValue" @change="updateShape('fill')" @update:modelValue="shapeFillColor" class="p-2" />
+            <UColorPicker v-model="shapeFillValue" @update:modelValue="updateShape('fill')" class="p-2" />
           </template>
         </UPopover>
       </div>
@@ -185,7 +189,7 @@ watch(() => height.value, () => {
             </UButton>
   
             <template #content>
-              <UColorPicker v-model="shapeStrokeValue" @change="updateShape('strokeFill')"  @update:modelValue="shapeStrokeColor" class="p-2" />
+              <UColorPicker v-model="shapeStrokeValue" @update:modelValue="updateShape('strokeFill')" class="p-2" />
             </template>
           </UPopover>
         </div>

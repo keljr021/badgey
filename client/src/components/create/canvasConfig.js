@@ -59,7 +59,19 @@ export const shape = {
     x: 100,
     y: 100,
     sides: 3,
-    radius: 187,
+    radius: 0,
+    width: 100,
+    height: 100,
+    fill: '#659672',
+    stroke: '#3f3f3f',
+    draggable: true,
+};
+
+export const rect = {
+    x: 50,
+    y: 50,
+    sides: 3,
+    radius: 0,
     width: 100,
     height: 100,
     fill: '#659672',
@@ -69,6 +81,7 @@ export const shape = {
 
 export const line = {
     points: [5, 70, 140, 70],
+    hitStrokeWidth: 50,
     stroke: 'red',
     strokeWidth: 10,
     lineCap: 'round',

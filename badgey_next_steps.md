@@ -1,6 +1,11 @@
 
 Badgey Next Steps
 ========================================
+- Issues found:
+  - Selector is not updated when shape is changed
+  - Removing the shape doesn't hide the selector rectangle
+
+
 - Create Canvas store for functions
 
   - Select shape/text/line workflow with edit/delete menu box beside item
