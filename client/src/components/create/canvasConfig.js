@@ -102,8 +102,6 @@ export const text = {
 export const image = {
   x: 200, 
   y: 200,
-  width: 200, 
-  height: 200,
   offsetX: 100, 
   offsetY: 100,
   rotation: 0,

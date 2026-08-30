@@ -125,6 +125,7 @@ export const useCanvasStore = defineStore('canvas', () => {
         nodes.value.push({
             type: 'image',
             element: input,
+            konvaValues: canvasConfig.image,
         });        
     }
 

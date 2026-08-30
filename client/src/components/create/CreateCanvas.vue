@@ -99,32 +99,34 @@ const calculatePolyConfig = computed(() => {
 const configImg = (input) => {
   
   console.log(' - configImg triggered - input: ', input);
-  if (!input || !input.name)
+  let { element } = input;
+  let imgWidth = 0;
+  let imgHeight = 0;
+
+  if (!element || !element.name)
     return null;  
 
-  const img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.src = URL.createObjectURL(input);
-  img.onload = () => {
-    console.log( ' -- img onLoad');
-    image.value = img;
+  const nodeImg = new Image();
+  nodeImg.crossOrigin = 'anonymous';
+  nodeImg.src = URL.createObjectURL(element);
+  nodeImg.onload = () => {
+    console.log( ' -- img onLoad: ', nodeImg);
+    image.value = nodeImg;
   }
 
-  console.log(' -- img: ', img);
+  console.log(' -- img: ', nodeImg);
+
+  if (element) {
+    imgWidth = element.naturalWidth - 500;
+    imgHeight = element.naturalHeight - 500;
+  }
 
   const output = {
-    image: img,
+    image: nodeImg,
     id: 'img' + new Date().getTime(),
-    x: 150, 
-    y: 150,
-    width: 200, 
-    height: 200,
-    offsetX: 100, 
-    offsetY: 100,
-    rotation: 0,
-    scaleX: 1,
-    scaleY: 1,
-    draggable: true,
+    width: imgWidth ? imgWidth : 200,
+    height: imgHeight ? imgHeight : 200,
+    ...input.konvaValues,
   }
 
   console.log(' -- output: ', output);
@@ -507,7 +509,7 @@ watch(() => parentNodes.value, (newVal) => {
               @transformend="(e) => handleTransformEnd(e, i)"  
               v-if="node.type === 'image'" 
               :id="node.id"
-              :config="configImg(node.element)"
+              :config="configImg(node)"
             />
           </template>
 

@@ -2,11 +2,13 @@
 Badgey Next Steps
 ========================================
 - Issues found:
+  - Insert - Figure out how to select from multiple elements
   - Add shape - Selector is not updated when shape is changed
   - Add shape - Removing the shape doesn't hide the selector rectangle
   - Add line - Figure out how to resize line elements
   - Add text - Import fonts
   - Add line - Selector is not updated when shape is changed
+  - Import - Add method to shrink image to max of half width/height while keeping ratio
 
 
 - Create Canvas store for functions
