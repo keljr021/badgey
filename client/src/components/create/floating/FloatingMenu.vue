@@ -51,7 +51,7 @@ const deleteNode = () => {
         :height="itemHeight" 
       />
       <floating-menu-line v-if="nodeType() === 'line'" :node="node" @line:update="updateNode" />
-      <floating-menu-text v-if="nodeType() === 'text'" :node="node" />
+      <floating-menu-text v-if="nodeType() === 'text'" :node="node" @text:update="updateNode" />
       <floating-menu-image v-if="nodeType() === 'image'" :node="node" />
 
       <div class="float-menu-arrange">

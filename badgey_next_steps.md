@@ -2,8 +2,10 @@
 Badgey Next Steps
 ========================================
 - Issues found:
-  - Selector is not updated when shape is changed
-  - Removing the shape doesn't hide the selector rectangle
+  - Add shape - Selector is not updated when shape is changed
+  - Add shape - Removing the shape doesn't hide the selector rectangle
+  - Add line - Figure out how to resize line elements
+  - Add text - Import fonts
 
 
 - Create Canvas store for functions

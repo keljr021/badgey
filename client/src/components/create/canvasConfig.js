@@ -93,6 +93,7 @@ export const text = {
     x: 50,
     y: 50,
     text: 'Hello world!',
+    fontFamily: 'Arial',
     fontSize: 24,
     draggable: true,
     width: 100

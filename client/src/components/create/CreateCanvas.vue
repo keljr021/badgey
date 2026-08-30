@@ -355,7 +355,12 @@ const closeFloatingMenu = () => {
 const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, input)
   emit('update', id , input);
-  trRef.value.getNode().forceUdpate();
+
+  if (trRef.value) {
+    const transformer = trRef.value.getNode();
+      if (typeof transformer.forceUpdate() !== null)
+        transformer.forceUpdate();
+  }
 }
 
 const repositionSelectionBox = () => {

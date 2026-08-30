@@ -111,3 +111,21 @@
   padding: 10px 5px;
   float: left;
 }
+
+/* FloatMenuText.vue */
+.float-text-input {
+  width: 100%;
+}
+
+.float-text-menu {
+  width: 100%;
+}
+
+.float-text-menu-font,
+.float-text-menu-size,
+.float-text-menu-style,
+.float-text-menu-align {
+  width: calc(50% - 10px);
+  padding: 10px 5px;
+  float: left;
+}
