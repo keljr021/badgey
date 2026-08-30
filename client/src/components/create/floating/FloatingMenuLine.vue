@@ -11,8 +11,6 @@ const { node } = toRefs(props);
 
 const menuRef = ref(null);
 const lineWidth = ref(0);
-const lineStrokeWidth = ref(0);
-
 const lineFillValue = ref('#f92a2a');
 const lineFillColor = computed(() => ({ backgroundColor: lineFillValue.value }));
 
@@ -23,17 +21,12 @@ const updateLine = (input) => {
     emit('update:line', { konvaValues: { points: newPoints }})
   }
 
-  if (input === 'stroke') {
-    emit('update:line', { konvaValues: { strokeWidth: lineStrokeWidth.value } });
-  }
-
   if (input === 'fill')
     emit('update:line', { konvaValues: { stroke: lineFillValue.value } });
 }
 
 const setValues = () => {
   lineWidth.value = node.value.attrs.points[2] - node.value.attrs.points[0];
-  lineStrokeWidth.value = node.value.attrs.strokeWidth;
   lineFillValue.value = node.value.attrs.stroke;
 }
 
@@ -48,10 +41,6 @@ onMounted(() => {
       <div class="float-line-menu-width">
         Width (px): <br />
         <UInputNumber v-model="lineWidth" @update:modelValue="updateLine('width')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
-      </div>
-      <div class="float-line-menu-stroke">
-        Stroke width (px): <br />
-        <UInputNumber v-model="lineStrokeWidth" @update:modelValue="updateLine('stroke')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
       </div>
     </div>
     <div class="float-line-menu-fill">

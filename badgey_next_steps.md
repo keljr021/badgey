@@ -6,6 +6,7 @@ Badgey Next Steps
   - Add shape - Removing the shape doesn't hide the selector rectangle
   - Add line - Figure out how to resize line elements
   - Add text - Import fonts
+  - Add line - Selector is not updated when shape is changed
 
 
 - Create Canvas store for functions

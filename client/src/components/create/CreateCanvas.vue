@@ -330,13 +330,28 @@ const handleTransformEnd = (e, index) => {
   
   const nodeList = [...nodes.value];
 
-  const updatedConfigs = { 
-    konvaValues: {
-      x: node.x(),
-      y: node.y(),
-      width: node.width() * scaleX,
-      height: node.height() * scaleY,
-      rotation: node.rotation(),
+  let updatedConfigs = {};
+  
+  if (id.includes('line')) {
+    debugger;
+    let updatedPoints = node.points();
+    let posX = updatedPoints[2] * scaleX;
+    updatedPoints[2] = posX;
+    updatedConfigs = {
+      konvaValues: {
+        points: updatedPoints
+      }
+    }
+  } else {
+
+    updatedConfigs = { 
+      konvaValues: {
+        x: node.x(),
+        y: node.y(),
+        width: node.width() * scaleX,
+        height: node.height() * scaleY,
+        rotation: node.rotation(),
+      }
     }
   };
 
@@ -366,15 +381,18 @@ const updateNodeFromMenu = async (id, input) => {
 const repositionSelectionBox = () => {
   if (menuItem.value && isSelecting.value) {
     debugger;
+    const menuId = menuItem.value.attrs.id;
     const layer = layerRef.value;
-    const node = layer.getNode().findOne('#' + menuItem.value.attrs.id);
+    const node = layer.getNode().findOne('#' + menuId);
+    
     const x = node.x();
     const y = node.y();
     selectionRectangle.x1 = x;
     selectionRectangle.y1 = y;
     selectionRectangle.x2 = x;
     selectionRectangle.y2 = y; 
-  } 
+    
+  }
 }
 
 // Update transformer nodes when selection changes

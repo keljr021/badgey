@@ -22,6 +22,7 @@ const nodeType = () => {
   if (id.includes('shape')) return 'shape';
   if (id.includes('line')) return 'line';
   if (id.includes('text')) return 'text';
+  if (id.includes('img')) return 'image';
 }
 
 const updateNode = (input) => {
@@ -52,7 +53,13 @@ const deleteNode = () => {
       />
       <floating-menu-line v-if="nodeType() === 'line'" :node="node" @line:update="updateNode" />
       <floating-menu-text v-if="nodeType() === 'text'" :node="node" @text:update="updateNode" />
-      <floating-menu-image v-if="nodeType() === 'image'" :node="node" />
+      <floating-menu-image 
+        v-if="nodeType() === 'image'"
+        @image:update="updateNode"
+        :node="node"
+        :width="itemWidth"
+        :height="itemHeight" 
+      />
 
       <div class="float-menu-arrange">
         Arrange: <br />
