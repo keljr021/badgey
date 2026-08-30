@@ -355,6 +355,7 @@ const closeFloatingMenu = () => {
 const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, input)
   emit('update', id , input);
+  trRef.value.getNode().forceUdpate();
 }
 
 const repositionSelectionBox = () => {
@@ -402,7 +403,7 @@ watch(() => parentNodes.value, (newVal) => {
       :itemWidth="menuItemW"
       :itemHeight="menuItemH"
       @close="closeFloatingMenu(input)"
-      @shape:update="updateNodeFromMenu"
+      @update="updateNodeFromMenu"
       @delete="deleteNode"
     />
     <div ref="containerRef" id="container" class="canvas-container">

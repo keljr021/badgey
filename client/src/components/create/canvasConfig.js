@@ -82,7 +82,7 @@ export const rect = {
 export const line = {
     points: [5, 70, 140, 70],
     hitStrokeWidth: 50,
-    stroke: 'red',
+    stroke: '#f92a2a',
     strokeWidth: 10,
     lineCap: 'round',
     lineJoin: 'round',
