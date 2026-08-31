@@ -100,8 +100,6 @@ const configImg = (input) => {
   
   console.log(' - configImg triggered - input: ', input);
   let { element } = input;
-  let imgWidth = 0;
-  let imgHeight = 0;
 
   if (!element || !element.name)
     return null;  
@@ -109,29 +107,42 @@ const configImg = (input) => {
   const nodeImg = new Image();
   nodeImg.crossOrigin = 'anonymous';
   nodeImg.src = URL.createObjectURL(element);
-  nodeImg.onload = () => {
+  nodeImg.onload = async () => {
     console.log( ' -- img onLoad: ', nodeImg);
     image.value = nodeImg;
+    scaleImg(nodeImg);
   }
 
   console.log(' -- img: ', nodeImg);
 
-  if (element) {
-    imgWidth = element.naturalWidth - 500;
-    imgHeight = element.naturalHeight - 500;
-  }
-
   const output = {
     image: nodeImg,
     id: 'img' + new Date().getTime(),
-    width: imgWidth ? imgWidth : 200,
-    height: imgHeight ? imgHeight : 200,
+    width: imgW.value,
+    height: imgH.value,
     ...input.konvaValues,
   }
 
   console.log(' -- output: ', output);
   return output;
 };
+
+const scaleImg = async (el) => {
+  let w = el.naturalWidth;
+  let h = el.naturalHeight;
+  let ratio = Math.min(200 / w, 200 / h);
+
+  if (w && h) {
+    let outputWidth = w * ratio;
+    let outputHeight = h * ratio;
+
+    console.log('- scale image- original: ', w, ' x ', h);
+    console.log('- scale iamge- scaled: ', outputWidth, ' x ', outputHeight);
+    imgW.value = outputWidth;
+    imgH.value = outputHeight;
+  }
+  return null;
+}
 
 const setTargetNode = (e, w, h) => {
   menuItem.value = e.target;

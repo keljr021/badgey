@@ -1,7 +1,7 @@
 
 Badgey Next Steps
 ========================================
-- Issues found:
+- Resolve these issues found:
   - Insert - Figure out how to select from multiple elements
   - Add shape - Selector is not updated when shape is changed
   - Add shape - Removing the shape doesn't hide the selector rectangle
@@ -10,21 +10,16 @@ Badgey Next Steps
   - Add line - Selector is not updated when shape is changed
   - Import - Add method to shrink image to max of half width/height while keeping ratio
 
+  - Navbar - Submenu issue with clicking links even when hidden
+
 
 - Create Canvas store for functions
-
-  - Select shape/text/line workflow with edit/delete menu box beside item
-    - Needs an arrange node option to move items to front/back/etc.
-    - Single click
-  
+ 
   - Add Undo/Redo
 
   - Add Save/Load/Delete Draft to database
 
   - Add Publish workflow
-
-
-
 
 
 - Add followers and following workflow
@@ -33,8 +28,6 @@ Badgey Next Steps
 - Upload assets file system
 - Add image workflow
 
-- Navbar
-  - Submenu issue with clicking links even when hidden
 
 - Badges
   - Add system badges

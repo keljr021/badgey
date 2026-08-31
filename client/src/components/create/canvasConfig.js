@@ -105,4 +105,5 @@ export const image = {
   offsetX: 100, 
   offsetY: 100,
   rotation: 0,
+  draggable: true,
 };
