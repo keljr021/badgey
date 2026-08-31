@@ -96,53 +96,40 @@ const calculatePolyConfig = computed(() => {
   return canvasConfig.bgPoly;
 });
 
-const configImg = (input) => {
+const configImg = (el) => {
   
-  console.log(' - configImg triggered - input: ', input);
-  let { element } = input;
+  console.log(' - [configImg] triggered - input: ', el);
 
-  if (!element || !element.name)
+  if (!el || !el.name)
     return null;  
 
-  const nodeImg = new Image();
+  const nodeImg = new window.Image();
   nodeImg.crossOrigin = 'anonymous';
-  nodeImg.src = URL.createObjectURL(element);
-  nodeImg.onload = async () => {
-    console.log( ' -- img onLoad: ', nodeImg);
-    image.value = nodeImg;
-    scaleImg(nodeImg);
-  }
+  nodeImg.src = URL.createObjectURL(el);
 
+  nodeImg.onload = (e) => {
+    console.log( ' -- img onLoad: ', e.target);
+    let target = e.target;
+    if (target.naturalWidth && target.naturalHeight) {
+      let w = target.naturalWidth;
+      let h = target.naturalHeight;
+      let ratio = Math.min(200 / w, 200 / h);
+      
+      if (w && h) {
+        let outputWidth = w * ratio;
+        let outputHeight = h * ratio;
+        
+        console.log('- [configImg] original: ', w, ' x ', h);
+        console.log('- [configImg] scaled: ', outputWidth, ' x ', outputHeight);
+        nodeImg.width = outputWidth;
+        nodeImg.height = outputHeight;
+      }
+    }
+  }
+        
   console.log(' -- img: ', nodeImg);
-
-  const output = {
-    image: nodeImg,
-    id: 'img' + new Date().getTime(),
-    width: imgW.value,
-    height: imgH.value,
-    ...input.konvaValues,
-  }
-
-  console.log(' -- output: ', output);
-  return output;
+  return nodeImg;
 };
-
-const scaleImg = async (el) => {
-  let w = el.naturalWidth;
-  let h = el.naturalHeight;
-  let ratio = Math.min(200 / w, 200 / h);
-
-  if (w && h) {
-    let outputWidth = w * ratio;
-    let outputHeight = h * ratio;
-
-    console.log('- scale image- original: ', w, ' x ', h);
-    console.log('- scale iamge- scaled: ', outputWidth, ' x ', outputHeight);
-    imgW.value = outputWidth;
-    imgH.value = outputHeight;
-  }
-  return null;
-}
 
 const setTargetNode = (e, w, h) => {
   menuItem.value = e.target;
@@ -331,6 +318,7 @@ const handleDragEnd = (e, index) => {
 };
 
 const handleTransformEnd = (e, index) => {
+  debugger;
   console.log('target: ', e.target);
   const id = e.target.attrs.id;
   const node = layerRef.value.getNode().findOne('#' + id);
@@ -371,6 +359,13 @@ const handleTransformEnd = (e, index) => {
   nodeList[index] = updatedConfigs;
   nodes.value = nodeList;
   emit('update', id, updatedConfigs);
+
+  if (trRef.value) {
+    const transformer = trRef.value.getNode();
+      if (typeof transformer.forceUpdate() !== null)
+        transformer.forceUpdate();
+  }
+
   setTargetNode(e, updatedConfigs.width, updatedConfigs.height);
 };
 
@@ -408,6 +403,10 @@ const repositionSelectionBox = () => {
   }
 }
 
+onMounted(async () => {
+  await inheritNodes();
+});
+
 // Update transformer nodes when selection changes
 watch(selectedIds, () => {
   if (!trRef.value) return;
@@ -417,10 +416,6 @@ watch(selectedIds, () => {
   }).filter(Boolean);
   
   trRef.value.getNode().nodes(nodes);
-});
-
-onMounted(async () => {
-  await inheritNodes();
 });
 
 watch(() => parentNodes.value, (newVal) => {
@@ -461,7 +456,7 @@ watch(() => parentNodes.value, (newVal) => {
           <v-regular-polygon v-if="selectedCanvas === 'polygon'" :config="calculatePolyConfig" />
 
 
-          <template v-for="node in nodes">
+          <template v-for="(node, i) in nodes">
             <v-circle
               @mouseover="handleMouseOver($event)"
               @mouseout = "handleMouseOut($event)"  
@@ -519,8 +514,12 @@ watch(() => parentNodes.value, (newVal) => {
               @dragend="(e) => handleDragEnd(e, i)"
               @transformend="(e) => handleTransformEnd(e, i)"  
               v-if="node.type === 'image'" 
-              :id="node.id"
-              :config="configImg(node)"
+              :id="'image' + i"
+              :config="{
+                ...node.konvaValues,
+                id: 'image' + i,
+                image: configImg(node.element)
+              }"
             />
           </template>
 

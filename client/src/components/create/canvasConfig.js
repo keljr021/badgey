@@ -1,3 +1,5 @@
+import { getImageSrc } from '../../assets/js/imgHelpers.js'
+
 export const transform = {
     boundBoxFunc: (oldBox, newBox) => {
         // limit resize
@@ -104,6 +106,9 @@ export const image = {
   y: 200,
   offsetX: 100, 
   offsetY: 100,
+  width: 100,
+  height: 100,
   rotation: 0,
+  hitStrokeWidth: 50,
   draggable: true,
 };

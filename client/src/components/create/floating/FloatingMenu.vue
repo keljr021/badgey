@@ -22,7 +22,7 @@ const nodeType = () => {
   if (id.includes('shape')) return 'shape';
   if (id.includes('line')) return 'line';
   if (id.includes('text')) return 'text';
-  if (id.includes('img')) return 'image';
+  if (id.includes('img') || id.includes('image')) return 'image';
 }
 
 const updateNode = (input) => {

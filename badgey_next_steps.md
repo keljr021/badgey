@@ -8,7 +8,7 @@ Badgey Next Steps
   - Add line - Figure out how to resize line elements
   - Add text - Import fonts
   - Add line - Selector is not updated when shape is changed
-  - Import - Add method to shrink image to max of half width/height while keeping ratio
+  - Import - Scaling removes previous image, figure out why
 
   - Navbar - Submenu issue with clicking links even when hidden
 
