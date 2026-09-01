@@ -7,7 +7,8 @@ const emit = defineEmits(['close', 'import']);
 const upload = ref(null);
 
 const setImportedFile = () => {
-  emit('import', upload.value);
+  if (upload.value !== null)
+    emit('import', upload.value);
 }
 </script>
 

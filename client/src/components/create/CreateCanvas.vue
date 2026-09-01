@@ -2,9 +2,14 @@
 import { defineEmits, ref, toRefs, computed, onMounted, watch } from 'vue'
 import  * as canvasConfig from './canvasConfig.js'
 import FloatingMenu from './../create/floating/FloatingMenu.vue'
+import { useImage } from 'vue-konva'
 import './create.css'
+import imagePlaceholder from './../../assets/img/image-placeholder.png'
+
+const [myImage, status] = useImage(imagePlaceholder);
 
 const nodes = ref([]);
+const nodeImages = ref([]);
 const layerRef = ref(null);
 const stageRef = ref(null);
 const trRef = ref(null);
@@ -97,38 +102,34 @@ const calculatePolyConfig = computed(() => {
 });
 
 const configImg = (el) => {
-  
-  console.log(' - [configImg] triggered - input: ', el);
-
   if (!el || !el.name)
     return null;  
 
-  const nodeImg = new window.Image();
-  nodeImg.crossOrigin = 'anonymous';
-  nodeImg.src = URL.createObjectURL(el);
-
-  nodeImg.onload = (e) => {
-    console.log( ' -- img onLoad: ', e.target);
-    let target = e.target;
-    if (target.naturalWidth && target.naturalHeight) {
-      let w = target.naturalWidth;
-      let h = target.naturalHeight;
-      let ratio = Math.min(200 / w, 200 / h);
-      
-      if (w && h) {
-        let outputWidth = w * ratio;
-        let outputHeight = h * ratio;
+  else {
+    const nodeImg = new window.Image();
+    nodeImg.crossOrigin = 'anonymous';
+    nodeImg.src = URL.createObjectURL(el);
+    nodeImg.image = useImage(nodeImg);
+    nodeImg.onload = (e) => {
+      let target = e.target;
+      if (target.naturalWidth && target.naturalHeight) {
+        let w = target.naturalWidth;
+        let h = target.naturalHeight;
+        let ratio = Math.min(200 / w, 200 / h);
         
-        console.log('- [configImg] original: ', w, ' x ', h);
-        console.log('- [configImg] scaled: ', outputWidth, ' x ', outputHeight);
-        nodeImg.width = outputWidth;
-        nodeImg.height = outputHeight;
+        if (w && h) {
+          let outputWidth = w * ratio;
+          let outputHeight = h * ratio;
+          
+          console.log('- [configImg] scaled: ', outputWidth, ' x ', outputHeight);
+          nodeImg.width = outputWidth;
+          nodeImg.height = outputHeight;
+        }
       }
     }
+          
+    return nodeImg;
   }
-        
-  console.log(' -- img: ', nodeImg);
-  return nodeImg;
 };
 
 const setTargetNode = (e, w, h) => {
@@ -265,13 +266,15 @@ const handleMouseUp = () => {
   }
 };
 
-const inheritNodes = async () => {
-  console.log('- [inheritNodes]: parentNodes: ', parentNodes.value);
+const setImportedNodes = async () => {
+  console.log('- [setImportedNodes]: parentNodes: ', parentNodes.value);
   nodes.value = parentNodes.value;
 };
 
-const deleteNode = (id) => {
-  emit('delete', id);
+const deleteNode = async (id) => {
+  await emit('delete', id);
+  setImportedNodes();
+  refreshCanvas();
 }
 
 // Helper functions for calculating bounding boxes of rotated rectangles
@@ -317,8 +320,7 @@ const handleDragEnd = (e, index) => {
   nodes.value = nodeList;
 };
 
-const handleTransformEnd = (e, index) => {
-  debugger;
+const handleTransformEnd = (e, index, img) => {
   console.log('target: ', e.target);
   const id = e.target.attrs.id;
   const node = layerRef.value.getNode().findOne('#' + id);
@@ -334,7 +336,6 @@ const handleTransformEnd = (e, index) => {
   let updatedConfigs = {};
   
   if (id.includes('line')) {
-    debugger;
     let updatedPoints = node.points();
     let posX = updatedPoints[2] * scaleX;
     updatedPoints[2] = posX;
@@ -344,7 +345,6 @@ const handleTransformEnd = (e, index) => {
       }
     }
   } else {
-
     updatedConfigs = { 
       konvaValues: {
         x: node.x(),
@@ -360,12 +360,7 @@ const handleTransformEnd = (e, index) => {
   nodes.value = nodeList;
   emit('update', id, updatedConfigs);
 
-  if (trRef.value) {
-    const transformer = trRef.value.getNode();
-      if (typeof transformer.forceUpdate() !== null)
-        transformer.forceUpdate();
-  }
-
+  refreshCanvas();
   setTargetNode(e, updatedConfigs.width, updatedConfigs.height);
 };
 
@@ -378,17 +373,11 @@ const closeFloatingMenu = () => {
 const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, input)
   emit('update', id , input);
-
-  if (trRef.value) {
-    const transformer = trRef.value.getNode();
-      if (typeof transformer.forceUpdate() !== null)
-        transformer.forceUpdate();
-  }
+  refreshCanvas();
 }
 
 const repositionSelectionBox = () => {
   if (menuItem.value && isSelecting.value) {
-    debugger;
     const menuId = menuItem.value.attrs.id;
     const layer = layerRef.value;
     const node = layer.getNode().findOne('#' + menuId);
@@ -403,8 +392,16 @@ const repositionSelectionBox = () => {
   }
 }
 
+const refreshCanvas = () => {
+   if (trRef.value) {
+    const transformer = trRef.value.getNode();
+      if (typeof transformer.forceUpdate() !== null)
+        transformer.forceUpdate();
+  }
+}
+
 onMounted(async () => {
-  await inheritNodes();
+  await setImportedNodes();
 });
 
 // Update transformer nodes when selection changes
@@ -419,7 +416,7 @@ watch(selectedIds, () => {
 });
 
 watch(() => parentNodes.value, (newVal) => {
-  inheritNodes();
+  setImportedNodes();
 }, { deep: true });
 
 
@@ -512,13 +509,13 @@ watch(() => parentNodes.value, (newVal) => {
               @mouseover="handleMouseOver($event)"
               @mouseout = "handleMouseOut($event)"                 
               @dragend="(e) => handleDragEnd(e, i)"
-              @transformend="(e) => handleTransformEnd(e, i)"  
+              @transformend="(e) => handleTransformEnd(e, i, node.element)"  
               v-if="node.type === 'image'" 
-              :id="'image' + i"
-              :config="{
+              :id="node.id"
+              :config="{ 
                 ...node.konvaValues,
-                id: 'image' + i,
-                image: configImg(node.element)
+                id: node.id,
+                image: configImg(node.element) || myImage,
               }"
             />
           </template>

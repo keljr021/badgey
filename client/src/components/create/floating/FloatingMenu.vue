@@ -83,7 +83,7 @@ const deleteNode = () => {
     <div class="float-footer">
       <div class="float-footer-delete">
         <UTooltip :text="'Delete ' + nodeType()">
-          <UButton color="neutral" variant="outline" size="md" icon="i-lucide-trash" label="Delete" class="my-4" @click="deleteNode()" />
+          <UButton color="neutral" variant="outline" size="md" icon="i-lucide-trash" label="Delete" class="my-4" @click="deleteNode" />
         </UTooltip>
       </div>
     </div>

@@ -87,7 +87,6 @@ export const useCanvasStore = defineStore('canvas', () => {
             if (node.id !== id) {
                 updatedNodes.push(node);
             }
-            updatedNodes.push(node);
         }
         nodes.value = updatedNodes;
     }
@@ -122,9 +121,19 @@ export const useCanvasStore = defineStore('canvas', () => {
 
     async function importFile(input) {
         console.log('-- canvas store - importFile triggered - input: ', input);
+
+        let imageIdx = 1;
+
+        for (let i = 0; i < nodes.value.length; i++) {
+            if (nodes.value[i].type === 'image') {
+                imageIdx++;
+            }
+        }
+
         nodes.value.push({
             type: 'image',
             element: input,
+            id: 'image' + imageIdx,
             konvaValues: canvasConfig.image,
         });        
     }
