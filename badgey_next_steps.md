@@ -2,13 +2,10 @@
 Badgey Next Steps
 ========================================
 - Resolve these issues found:
-  - Insert - Figure out how to select from multiple elements
   - Add shape - Selector is not updated when shape is changed
   - Add shape - Removing the shape doesn't hide the selector rectangle
   - Add line - Figure out how to resize line elements
   - Add text - Import fonts
-  - Add line - Selector is not updated when shape is changed
-  - Import - Scaling removes previous image, figure out why
 
   - Navbar - Submenu issue with clicking links even when hidden
 
