@@ -20,6 +20,9 @@ const { node, itemWidth, itemHeight } = toRefs(props);
 const nodeType = () => {
   const id = node.value.attrs.id;
   if (id.includes('shape')) return 'shape';
+  if (id.includes('circle')) return 'circle';
+  if (id.includes('rectangle')) return 'rectangle';
+  if (id.includes('polygon')) return 'polygon';
   if (id.includes('line')) return 'line';
   if (id.includes('text')) return 'text';
   if (id.includes('img') || id.includes('image')) return 'image';
@@ -45,9 +48,10 @@ const deleteNode = () => {
 
     <div class="float-menu">
       <floating-menu-shape 
-        v-if="nodeType() === 'shape'"
+        v-if="nodeType() === 'shape' || nodeType() === 'circle' || nodeType() === 'rectangle' || nodeType() === 'polygon'"
         @shape:update="updateNode"
         :node="node"
+        :type="nodeType()"
         :width="itemWidth"
         :height="itemHeight" 
       />

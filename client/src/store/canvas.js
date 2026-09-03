@@ -45,11 +45,21 @@ export const useCanvasStore = defineStore('canvas', () => {
         let inputType = input.type;
 
         switch(input.type) {
-            case 'rectangle': case 'circle': 
-            case 'polygon': case 'shape':
+            case 'rectangle':
+                itemId = 'rectangle' + timestamp;
+                break;
+            case 'circle': 
+                inputType = 'circle';
+                itemId = 'circle' + timestamp;
+                break; 
+            case 'polygon':
+                inputType = 'polygon';
+                itemId = 'polygon' + timestamp;
+                break;    
+            case 'shape':
                 inputType = 'shape';
                 itemId = 'shape' + timestamp;
-                break;
+                break;    
             default:
                 itemId = input.type + timestamp;
                 break;

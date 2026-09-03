@@ -7,11 +7,12 @@ const emit = defineEmits(['shape:update']);
 
 const props = defineProps({
   node: Object,
+  type: String,
   width: Number,
   height: Number,
 });
 
-const { node, width, height } = toRefs(props);
+const { node, type, width, height } = toRefs(props);
 
 const activeShape = ref(null);
 const shapeWidth = ref(1);
@@ -29,11 +30,7 @@ const loadValues = () => {
   let item = node.value;
   let attrs = item.attrs;
 
-  if (attrs.sides) {
-    activeShape.value = (attrs.sides === 4) ? 'rectangle' : 'polygon';
-  } else {
-    activeShape.value = 'circle';
-  }
+  activeShape.value = type.value;
 
   shapeWidth.value = Math.round(width.value);
   shapeHeight.value = Math.round(height.value);
@@ -52,20 +49,39 @@ const setNewShape = (input) => {
   console.log('[setNewShape] input: ', input);
   activeShape.value = input;
 
+  let timestamp = new Date().getTime();
+
   let output = {};
 
   switch(input) {
     case 'circle':
       output.type = 'circle';
+      output.id = 'circle-' + timestamp;
+      output.konvaValues = {
+        id: 'circle-' + timestamp,
+        radius: 50,
+        x: node.value.x(),
+        y: node.value.y(),
+      }
       break;
     case 'rectangle':
-    output.type = 'rectangle';  
+      output.type = 'rectangle';
+      output.id = 'rectangle-' + timestamp;
+      output.konvaValues = {
+        id: 'rectangle-' + timestamp,
+        x: node.value.x(),
+        y: node.value.y(),
+      }
       break;
     case 'polygon':
       output.type = 'polygon';
+      output.id = 'polygon-' + timestamp;
       output.konvaValues = {
         sides: shapeSides.value,
         rotation: 0,
+        id: 'polygon-' + timestamp,
+        x: node.value.x(),
+        y: node.value.y(),
       }
       break;
     default:

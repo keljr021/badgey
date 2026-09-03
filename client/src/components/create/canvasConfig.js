@@ -60,25 +60,28 @@ export const bgPoly = {
 export const shape = {
     x: 100,
     y: 100,
-    sides: 3,
-    radius: 0,
     width: 100,
     height: 100,
+    radius: 50,
     fill: '#659672',
     stroke: '#3f3f3f',
     draggable: true,
+}
+
+export const circle = {
+    ...shape,
+    radius: 50,
+};
+
+export const polygon = {
+    ...shape,
+    sides: 3,
 };
 
 export const rect = {
-    x: 50,
-    y: 50,
-    sides: 3,
+    ...shape,
     radius: 0,
-    width: 100,
-    height: 100,
-    fill: '#659672',
-    stroke: '#3f3f3f',
-    draggable: true,
+    sides: 4,
 };
 
 export const line = {

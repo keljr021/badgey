@@ -364,7 +364,7 @@ const handleTransformEnd = (e, index, img) => {
   emit('update', id, updatedConfigs);
 
   refreshCanvas();
-  setTargetNode(e, updatedConfigs.width, updatedConfigs.height);
+  setTargetNode(e, updatedConfigs.konvaValues.width, updatedConfigs.konvaValues.height);
 };
 
 const closeFloatingMenu = () => {
