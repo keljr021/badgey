@@ -65,8 +65,9 @@
 }
 
 .create-body-menu {
-  flex: 1;
-  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 20%;
 }
 
@@ -82,7 +83,7 @@
   flex-direction: column;
   flex-basis: calc(100% - 220px);
   justify-content: center;
-  padding: 20px 50px;
+  padding: 20px;
 }
 
 .create-body-canvas.drawing {
@@ -99,6 +100,8 @@
 
 .create-body-canvas-save {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .mobile { 

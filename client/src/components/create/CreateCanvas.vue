@@ -145,6 +145,41 @@ const setTargetNode = (e, w, h) => {
   console.log(' - [setTargetNode] id', id, ' menuItem: ', menuItem.value, ' - width: ', menuItemW.value, ' - height: ', menuItemH.value);
 }
 
+const handleClickById = (id) => {
+
+  const node = layerRef.value.getNode().findOne('#' + id);
+
+  if (!node) {
+    return;
+  }
+
+  // if click on empty area - remove all selections
+  if (node === node.getStage()) {
+    selectedIds.value = [];
+    showFloatingMenu.value = false;
+
+    const transformerNode = trRef.value.getNode();
+    transformerNode.nodes([]);
+    return;
+  }
+
+  // do nothing if clicked NOT on our nodes
+  if (!node.attrs.id) {
+    showFloatingMenu.value = false;
+    return;
+  }
+  
+  let clickedId = node.attrs.id;
+  
+  selectedIds.value = [clickedId];
+
+  //Set menu position
+  setTargetNode(node);
+  showFloatingMenu.value = true;
+
+  const transformerNode = trRef.value.getNode();
+  transformerNode.nodes([node]);
+}
 
 const handleClick = (e) => {
   console.log(' - [handleClick] - e.target: ', e.target, ' - e.target.attrs.id: ', e.target.attrs.id);
@@ -157,7 +192,7 @@ const handleClick = (e) => {
     return;
   }
 
-  // if click on empty area - remove all selections
+ // if click on empty area - remove all selections
   if (e.target === e.target.getStage()) {
     selectedIds.value = [];
     showFloatingMenu.value = false;
@@ -546,3 +581,9 @@ watch(() => parentNodes.value, (newVal) => {
     </div>
   </div>
 </template>
+<style scoped>
+.konvajs-content {
+  margin: 0 auto;
+}
+
+</style>
