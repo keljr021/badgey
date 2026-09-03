@@ -86,8 +86,7 @@ export const line = {
     hitStrokeWidth: 50,
     stroke: '#f92a2a',
     strokeWidth: 10,
-    lineCap: 'round',
-    lineJoin: 'round',
+    rotation: 0,
     draggable: true,
 };
 
@@ -98,6 +97,7 @@ export const text = {
     fontFamily: 'Arial',
     fontSize: 24,
     draggable: true,
+
     width: 100
 };
 
@@ -106,8 +106,6 @@ export const image = {
   y: 200,
   offsetX: 100, 
   offsetY: 100,
-  width: 100,
-  height: 100,
   rotation: 0,
   hitStrokeWidth: 50,
   draggable: true,

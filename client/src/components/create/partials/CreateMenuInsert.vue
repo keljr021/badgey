@@ -4,28 +4,19 @@ import './../create.css'
 
 const emit = defineEmits(['close', 'insert']);
 
-const shapeIdx = ref(1);
-const lineIdx = ref(1);
-const textIdx = ref(1);
-
-
 const insertShape = () => {
   console.log('- insert shape ');
-  emit('insert', { type: 'polygon', id: 'shape' + shapeIdx.value });
-  shapeIdx.value += 1;
+  emit('insert', { type: 'polygon' });
 };
 
 const insertLine = () => {
   console.log('- insert line ');
-  emit('insert', { type: 'line', id: 'line' + lineIdx.value });
-  lineIdx.value += 1;
+  emit('insert', { type: 'line' });
 };
 
 const insertText = () => {
   console.log('- insert text ');
-  emit('insert', { type: 'text', id: 'text' + textIdx.value });
-  textIdx.value += 1;
-
+  emit('insert', { type: 'text' });
 };
 </script>
 

@@ -27,7 +27,7 @@ const setValues = () => {
   imageWidth.value = Math.round(width.value);
   imageHeight.value = Math.round(height.value);
   console.log('stroke: ',  attrs.stroke);
-  imageStroke.value = attrs.stroke;
+  imageStroke.value = (attrs.stroke && attrs.stroke !== '');
   
   if (imageStroke.value) {
     imageStrokeWidth.value = item.strokeWidth();

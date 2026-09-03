@@ -45,6 +45,7 @@ const showFloatingMenu = ref(false);
 const menuItem = ref(null);
 const menuItemW = ref(0);
 const menuItemH = ref(0);
+const restrictForLine = ref(false);
 
 const emit = defineEmits(['update'])
 
@@ -127,22 +128,26 @@ const configImg = (el) => {
         }
       }
     }
-          
     return nodeImg;
   }
 };
 
 const setTargetNode = (e, w, h) => {
-  menuItem.value = e.target;
-
+  
   const id = e.target.attrs.id;
   const node = layerRef.value.getNode().findOne('#' + id);
-
+  menuItem.value = node;
   menuItemW.value = w ? w : node.width();
   menuItemH.value = h ? h : node.height();
+
+  restrictForLine.value = (id.includes('line')) ? true : false;
+
+  console.log(' - [setTargetNode] id', id, ' menuItem: ', menuItem.value, ' - width: ', menuItemW.value, ' - height: ', menuItemH.value);
 }
 
+
 const handleClick = (e) => {
+  console.log(' - [handleClick] - e.target: ', e.target, ' - e.target.attrs.id: ', e.target.attrs.id);
 
   // if we are selecting with rect, do nothing
   // But allow point clicks through (when width/height are 0)
@@ -317,6 +322,7 @@ const handleDragEnd = (e, index) => {
     x: e.target.x(),
     y: e.target.y(),
   };
+  emit('update', nodeList[index].konvaValues.id, { konvaValues: { x: e.target.x(), y: e.target.y() } });
   nodes.value = nodeList;
 };
 
@@ -334,27 +340,24 @@ const handleTransformEnd = (e, index, img) => {
   const nodeList = [...nodes.value];
 
   let updatedConfigs = {};
-  
+
+  updatedConfigs = { 
+    konvaValues: {
+      x: node.x(),
+      y: node.y(),
+      rotation: node.rotation(),
+    }
+  }
+
   if (id.includes('line')) {
-    let updatedPoints = node.points();
-    let posX = updatedPoints[2] * scaleX;
-    updatedPoints[2] = posX;
-    updatedConfigs = {
-      konvaValues: {
-        points: updatedPoints
-      }
-    }
+    let updatedPts = node.points();
+    const pos = e.target.getStage().getPointerPosition();
+    updatedPts[2] = pos.x;
+    updatedConfigs.konvaValues.points = updatedPts;
   } else {
-    updatedConfigs = { 
-      konvaValues: {
-        x: node.x(),
-        y: node.y(),
-        width: node.width() * scaleX,
-        height: node.height() * scaleY,
-        rotation: node.rotation(),
-      }
-    }
-  };
+    updatedConfigs.konvaValues.width = node.width() * scaleX;
+    updatedConfigs.konvaValues.height = node.height() * scaleY;
+  }
 
   nodeList[index] = updatedConfigs;
   nodes.value = nodeList;
@@ -371,7 +374,7 @@ const closeFloatingMenu = () => {
 }
 
 const updateNodeFromMenu = async (id, input) => {
-  console.log('update: ', id, input)
+  console.log('update: ', id, JSON.stringify(input));
   emit('update', id , input);
   refreshCanvas();
 }
@@ -520,7 +523,12 @@ watch(() => parentNodes.value, (newVal) => {
             />
           </template>
 
-          <v-transformer ref="trRef" :config="{ keepRatio: false }" />
+          <v-transformer ref="trRef" :config="{ 
+            keepRatio: false, 
+            enabledAnchors: restrictForLine ? 
+              ['middle-right', 'middle-left'] :
+              ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right']
+          }" />
             <v-rect
               v-if="selectionRectangle.visible"
               @mouseover="handleMouseOver($event)"

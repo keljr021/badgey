@@ -106,6 +106,7 @@
 
 .float-line-menu-width,
 .float-line-menu-stroke,
+.float-line-menu-rotate,
 .float-line-menu-fill {
   width: calc(50% - 10px);
   padding: 10px 5px;
@@ -128,6 +129,12 @@
   width: calc(50% - 10px);
   padding: 10px 5px;
   float: left;
+}
+
+.float-text-menu-fill {
+  width: 100%;
+  padding: 10px 5px;
+  clear: both;
 }
 
 /* FloatingMenuImage.vue */

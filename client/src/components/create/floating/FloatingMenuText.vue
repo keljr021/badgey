@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, toRefs, ref, onMounted } from 'vue'
+import { defineEmits, toRefs, ref, computed, onMounted } from 'vue'
 import './floatingMenu.css';
 
 const emit = defineEmits([ 'text:update' ]);
@@ -14,6 +14,9 @@ const { node } = toRefs(props);
 const textInput = ref('');
 const textFont = ref('Arial');
 const textSize = ref(12);
+
+const textFillValue = ref('#000000');
+const textFillColor = computed(() => ({ backgroundColor: textFillValue.value }));
 
 const textBold = ref(false);
 const textItalic = ref(false);
@@ -53,6 +56,9 @@ const updateText = (input) => {
       break;      
     case 'size':
       emit('text:update', { konvaValues: { fontSize: textSize.value } });
+      break;
+    case 'fill':
+      emit('text:update', { konvaValues: { fill: textFillValue.value } });
       break;
     case 'style':
       emit('text:update', { konvaValues: { fontStyle: outputStyle }});
@@ -128,8 +134,24 @@ onMounted(() => {
       </div>
       <div class="float-text-menu-size">
         Size: <br />
-        <UInputNumber v-model="textSize" @update:modelValue="updateText('size')" orientation="horizontal" class="w-25 py-2" increment="xs" decrement="xs" :min="2" />
+        <UInputNumber v-model="textSize" @update:modelValue="updateText('size')" orientation="horizontal" class="w-25 py-2" :min="2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }"/>
+      </div> 
+      <div class="float-text-menu-fill">
+        Fill: <br />
+        <UPopover class="py-2">
+          <UButton color="neutral" variant="outline" size="lg">
+            <template #leading>
+              <span :style="textFillColor" class="size-4 rounded-full" />
+            </template>
+            {{ textFillValue }}
+          </UButton>
+
+          <template #content>
+            <UColorPicker v-model="textFillValue" @update:modelValue="updateText('fill')" class="p-2" />
+          </template>
+        </UPopover>
       </div>
+     
       <div class="float-text-menu-style">
         Style: <br />
         <UFieldGroup orientation="horizontal" class="py-2">
