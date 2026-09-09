@@ -46,7 +46,7 @@ const publishBadge = () => {
      </template>
 
      <UTooltip text="Redo action">
-       <UButton @click="redo" class="mx-2 cursor-pointer" icon="i-lucide-redo" color="neutral" variant="outline" caption="Redo" />
+       <UButton @click="redo" class="mx-2 cursor-pointer" trailing-icon="i-lucide-redo" color="neutral" variant="outline" caption="Redo" />
      </UTooltip>
   </div>
 </template>
