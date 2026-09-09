@@ -3,7 +3,7 @@ import { ref, defineEmits, watch } from 'vue';
 import './../create.css'
 
 const selectedDraft = ref(null);
-const emit = defineEmits(['close', 'draft']);
+const emit = defineEmits(['close']);
 
 const searchTerm = ref('');
 const items = [
@@ -27,10 +27,14 @@ const items = [
   },
 ];
 
+const openDraft = id => {
+    console.log('open draft: ', id);
+}
+
 watch(selectedDraft, (newValue) => {
   const id = newValue.value;
   console.log('Selected draft: ', id);
-  emit('draft', id);
+  openDraft(id);
 });
 </script>
 

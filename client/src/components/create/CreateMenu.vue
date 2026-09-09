@@ -1,51 +1,12 @@
 <script setup>
-import { ref, defineEmits, toRefs } from 'vue'
+import { ref } from 'vue'
 import CreateMenuDrafts from './partials/CreateMenuDrafts.vue'
 import CreateMenuCanvas from './partials/CreateMenuCanvas.vue'
 import CreateMenuInsert from './partials/CreateMenuInsert.vue'
 import CreateMenuImport from './partials/CreateMenuImport.vue'
 import './create.css'
 
-const emit = defineEmits([
-    'draft', 
-    'canvas', 
-    'sides', 
-    'insert', 
-    'border', 
-    'rotate', 
-    'import',
-]);
-
-const props = defineProps({
-    selectedCanvas: String,
-    selectedSides: Number,
-    selectedAngle: Number,
-    selectedBorder: Object,
-})
-
-const { selectedCanvas, selectedSides, selectedAngle, selectedBorder } = toRefs(props);
-
 const showMenu = ref('');
-
-const openDraft = id => {
-    console.log('open draft: ', id);
-    emit('draft', id);
-}
-
-const setCanvas = input => {
-    console.log('set canvas: ', input);
-    emit('canvas', input);
-}
-
-const setCanvasPolygonSides = input => {
-  console.log('set polygon sides to: ', input);
-  emit('sides', input);
-}
-
-const setCanvasAngle = input => {
-    console.log('set polygon angle to: ', input);
-    emit('rotate', input)
-}
 
 const handleClickMenuItem = (menuItem) => {
     if (showMenu.value === menuItem) 
@@ -61,22 +22,6 @@ const showMenuItem = (menuItem) => {
 const hideMenuItem = () => {
     showMenu.value = '';
 }
-
-const insertItem = (input) => {
-    console.log('insert: ', input);
-    emit('insert', input);
-}
-
-const setBorder = (input) => {
-    console.log('set border: ', input);
-    emit('border', input);
-}
-
-const importFile = (input) => {
-    console.log('import: ', input);
-    emit('import', input);
-}
-
 </script>
 
 <template>
@@ -98,21 +43,10 @@ const importFile = (input) => {
         <div class="menu-item-text">Import</div>
     </div> 
     
-    <create-menu-drafts v-if="showMenu === 'drafts'" @close="hideMenuItem" @draft="openDraft" />
-    <create-menu-canvas 
-        v-if="showMenu === 'canvas'" 
-        :selectedCanvas="selectedCanvas"
-        :selectedSides="selectedSides" 
-        :selectedAngle="selectedAngle" 
-        :selectedBorder="selectedBorder"
-        @close="hideMenuItem" 
-        @canvas="setCanvas" 
-        @sides="setCanvasPolygonSides" 
-        @rotate="setCanvasAngle" 
-        @border="setBorder" 
-    />
-    <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" @insert="insertItem" />
-    <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" @import="importFile" />
+    <create-menu-drafts v-if="showMenu === 'drafts'" @close="hideMenuItem" />
+    <create-menu-canvas v-if="showMenu === 'canvas'" @close="hideMenuItem" />
+    <create-menu-insert v-if="showMenu === 'insert'" @close="hideMenuItem" />
+    <create-menu-import v-if="showMenu === 'import'" @close="hideMenuItem" />
   </div>
 </template>
 

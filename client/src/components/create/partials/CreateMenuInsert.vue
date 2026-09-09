@@ -1,22 +1,30 @@
 <script setup>
-import { defineEmits, ref } from 'vue'
+import { defineEmits } from 'vue'
+import { useCanvasStore } from '../../../store/canvas.js';
 import './../create.css'
 
-const emit = defineEmits(['close', 'insert']);
+const emit = defineEmits(['close']);
+
+const canvasStore = useCanvasStore();
+
+const insertItem = (input) => {
+    console.log('insert: ', input);
+    canvasStore.addItem(input);
+}
 
 const insertShape = () => {
   console.log('- insert shape ');
-  emit('insert', { type: 'polygon' });
+  insertItem({ type: 'polygon' });
 };
 
 const insertLine = () => {
   console.log('- insert line ');
-  emit('insert', { type: 'line' });
+  insertItem({ type: 'line' });
 };
 
 const insertText = () => {
   console.log('- insert text ');
-  emit('insert', { type: 'text' });
+  insertItem({ type: 'text' });
 };
 </script>
 

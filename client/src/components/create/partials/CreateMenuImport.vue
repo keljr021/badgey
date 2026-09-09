@@ -1,14 +1,18 @@
 <script setup>
 import { defineEmits, ref } from 'vue';
+import { useCanvasStore } from '../../../store/canvas.js';
 import './../create.css'
 
-const emit = defineEmits(['close', 'import']);
+const emit = defineEmits(['close']);
+
+const canvasStore = useCanvasStore();
 
 const upload = ref(null);
 
 const setImportedFile = () => {
-  if (upload.value !== null)
-    emit('import', upload.value);
+  if (upload.value !== null) {
+    canvasStore.importFile(upload.value);
+  }
 }
 </script>
 

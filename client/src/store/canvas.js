@@ -10,6 +10,7 @@ export const useCanvasStore = defineStore('canvas', () => {
     const selectedCanvasSides = ref(3);
     const selectedCanvasAngle = ref(0);
     const selectedCanvasBorder = ref({});
+    const currentImportedFile = ref(null);
 
     const nodes = ref([]);
 
@@ -104,10 +105,10 @@ export const useCanvasStore = defineStore('canvas', () => {
                     }
                 });
                 console.log('node updated to: ', nodes.value[i]);
-                console.groupEnd();
                 break;
             }
         }
+        console.groupEnd();
     }
 
     async function deleteItem(id) {
@@ -153,6 +154,7 @@ export const useCanvasStore = defineStore('canvas', () => {
     async function importFile(input) {
         console.log('-- canvas store - importFile triggered - input: ', input);
 
+        currentImportedFile.value = input;
         let timestamp = new Date().getTime();
 
         nodes.value.push({

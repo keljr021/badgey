@@ -1,15 +1,24 @@
 <script setup>
-import { defineEmits, ref, toRefs, computed, onMounted, watch } from 'vue'
-import  * as canvasConfig from './canvasConfig.js'
-import FloatingMenu from './../create/floating/FloatingMenu.vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useImage } from 'vue-konva'
+import { storeToRefs } from 'pinia'
+import  * as canvasConfig from './canvasConfig.js'
+import { useCanvasStore } from './../../store/canvas.js'
+import { useDraftStore } from './../../store/draft.js'
+import { useBadgeStore } from './../../store/badge.js'
+import FloatingMenu from './../create/floating/FloatingMenu.vue'
 import './create.css'
 import imagePlaceholder from './../../assets/img/image-placeholder.png'
 
+const canvasStore = useCanvasStore();
+const draftsStore = useDraftStore();
+const badgeStore = useBadgeStore();
+
+const { nodes: nodesFromStore, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder } = storeToRefs(canvasStore);
+
 const [myImage, status] = useImage(imagePlaceholder);
 
-const nodes = ref([]);
-const nodeImages = ref([]);
+const canvasNodes = ref([]);
 const layerRef = ref(null);
 const stageRef = ref(null);
 const trRef = ref(null);
@@ -18,18 +27,7 @@ const bgCircle = ref(canvasConfig.bgCircle);
 const bgRect = ref(canvasConfig.bgRect);
 const bgPoly = ref(canvasConfig.bgPoly);
 
-const W = window.innerWidth;
-const H = window.innerHeight - 50;
-
-const image = ref(null);
-const imgW = ref(200);
-const imgH = ref(137);
-const rotation = ref(0);
-const flipScaleX = ref(1);
-const flipScaleY = ref(1);
-
 const mousePressed = ref(false);
-const lines = ref([]);
 
 const selectedIds = ref([]);
 const isSelecting = ref(false);
@@ -47,56 +45,36 @@ const menuItemW = ref(0);
 const menuItemH = ref(0);
 const restrictForLine = ref(false);
 
-const emit = defineEmits(['update'])
-
-const props = defineProps({
-  selectedCanvas: String,
-  selectedSides: Number,
-  selectedAngle: Number,
-  selectedBorder: Object,
-  parentNodes: Array,
-  resetDrawnLines: Boolean,
-  file: File,
-});
-
-const { 
-  selectedCanvas, 
-  selectedSides, 
-  selectedAngle, 
-  selectedBorder, 
-  parentNodes
-} = toRefs(props);
-
 const calculateCircleConfig = computed(() => {
-  if (selectedBorder.value) {
+  if (selectedCanvasBorder.value) {
     let output = bgCircle.value;
-    output.fill = selectedBorder.value.fill;
-    output.stroke = selectedBorder.value.stroke;
-    output.strokeWidth = selectedBorder.value.strokeWidth;
+    output.fill = selectedCanvasBorder.value.fill;
+    output.stroke = selectedCanvasBorder.value.stroke;
+    output.strokeWidth = selectedCanvasBorder.value.strokeWidth;
     return output;
   }
   return canvasConfig.bgCircle;
 });
 
 const calculateRectConfig = computed(() => {
-  if (selectedBorder.value) {
+  if (selectedCanvasBorder.value) {
     let output = bgRect.value;
-    output.fill = selectedBorder.value.fill;
-    output.stroke = selectedBorder.value.stroke;
-    output.strokeWidth = selectedBorder.value.strokeWidth;
+    output.fill = selectedCanvasBorder.value.fill;
+    output.stroke = selectedCanvasBorder.value.stroke;
+    output.strokeWidth = selectedCanvasBorder.value.strokeWidth;
     return output;
   }
   return canvasConfig.bgRect;
 });
 
 const calculatePolyConfig = computed(() => {
-  if (selectedBorder.value) {
+  if (selectedCanvasBorder.value) {
     let output = bgPoly.value;
-    output.rotation = selectedAngle.value;
-    output.sides = selectedSides.value;
-    output.fill = selectedBorder.value.fill;
-    output.stroke = selectedBorder.value.stroke;
-    output.strokeWidth = selectedBorder.value.strokeWidth;
+    output.rotation = selectedCanvasAngle.value;
+    output.sides = selectedCanvasSides.value;
+    output.fill = selectedCanvasBorder.value.fill;
+    output.stroke = selectedCanvasBorder.value.stroke;
+    output.strokeWidth = selectedCanvasBorder.value.strokeWidth;
     return output;
   }
   return canvasConfig.bgPoly;
@@ -143,42 +121,6 @@ const setTargetNode = (e, w, h) => {
   restrictForLine.value = (id.includes('line')) ? true : false;
 
   console.log(' - [setTargetNode] id', id, ' menuItem: ', menuItem.value, ' - width: ', menuItemW.value, ' - height: ', menuItemH.value);
-}
-
-const handleClickById = (id) => {
-
-  const node = layerRef.value.getNode().findOne('#' + id);
-
-  if (!node) {
-    return;
-  }
-
-  // if click on empty area - remove all selections
-  if (node === node.getStage()) {
-    selectedIds.value = [];
-    showFloatingMenu.value = false;
-
-    const transformerNode = trRef.value.getNode();
-    transformerNode.nodes([]);
-    return;
-  }
-
-  // do nothing if clicked NOT on our nodes
-  if (!node.attrs.id) {
-    showFloatingMenu.value = false;
-    return;
-  }
-  
-  let clickedId = node.attrs.id;
-  
-  selectedIds.value = [clickedId];
-
-  //Set menu position
-  setTargetNode(node);
-  showFloatingMenu.value = true;
-
-  const transformerNode = trRef.value.getNode();
-  transformerNode.nodes([node]);
 }
 
 const handleClick = (e) => {
@@ -297,7 +239,7 @@ const handleMouseUp = () => {
 
   // Only select shapes if selection box has actual size (not just a point click)
   if (selBox.width > 0 && selBox.height > 0) {
-    const selected = nodes.value.filter(node => {
+    const selected = canvasNodes.value.filter(node => {
       // Check if rectangle intersects with selection box
       return Konva.Util.haveIntersection(selBox, getClientRect(node.konvaValues));
     });
@@ -307,12 +249,12 @@ const handleMouseUp = () => {
 };
 
 const setImportedNodes = async () => {
-  console.log('- [setImportedNodes]: parentNodes: ', parentNodes.value);
-  nodes.value = parentNodes.value;
+  console.log('- [setImportedNodes]: nodesFromStore: ', nodesFromStore.value);
+  canvasNodes.value = nodesFromStore.value;
 };
 
 const deleteNode = async (id) => {
-  await emit('delete', id);
+  deleteItem(id);
   setImportedNodes();
   refreshCanvas();
 }
@@ -351,14 +293,15 @@ const getClientRect = (element) => {
 };
 
 const handleDragEnd = (e, index) => {
-  const nodeList = [...nodes.value];
+  const nodeList = [...canvasNodes.value];
   nodeList[index] = {
     ...nodeList[index],
     x: e.target.x(),
     y: e.target.y(),
   };
-  emit('update', nodeList[index].konvaValues.id, { konvaValues: { x: e.target.x(), y: e.target.y() } });
-  nodes.value = nodeList;
+
+  updateItem(nodeList[index].konvaValues.id, { konvaValues: { x: e.target.x(), y: e.target.y() } });
+  canvasNodes.value = nodeList;
 };
 
 const handleTransformEnd = (e, index, img) => {
@@ -372,7 +315,7 @@ const handleTransformEnd = (e, index, img) => {
   node.scaleX(1);
   node.scaleY(1);
   
-  const nodeList = [...nodes.value];
+  const nodeList = [...canvasNodes.value];
 
   let updatedConfigs = {};
 
@@ -395,8 +338,8 @@ const handleTransformEnd = (e, index, img) => {
   }
 
   nodeList[index] = updatedConfigs;
-  nodes.value = nodeList;
-  emit('update', id, updatedConfigs);
+  canvasNodes.value = nodeList;
+  updateItem(id, updatedConfigs);
 
   refreshCanvas();
   setTargetNode(e, updatedConfigs.konvaValues.width, updatedConfigs.konvaValues.height);
@@ -410,7 +353,7 @@ const closeFloatingMenu = () => {
 
 const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, JSON.stringify(input));
-  emit('update', id , input);
+  updateItem(id, input);
   refreshCanvas();
 }
 
@@ -438,6 +381,15 @@ const refreshCanvas = () => {
   }
 }
 
+const updateItem = async (id, input) => {
+  console.log(' - [updateItem] - id: ', id, ' - input: ', input);
+  await canvasStore.updateItem(id, input);
+}
+
+const deleteItem = async (id) => {
+  await canvasStore.deleteItem(id);
+}
+
 onMounted(async () => {
   await setImportedNodes();
 });
@@ -453,11 +405,9 @@ watch(selectedIds, () => {
   trRef.value.getNode().nodes(nodes);
 });
 
-watch(() => parentNodes.value, (newVal) => {
+watch(() => nodesFromStore.value, (newVal) => {
   setImportedNodes();
 }, { deep: true });
-
-
 
 </script>
 
@@ -490,8 +440,7 @@ watch(() => parentNodes.value, (newVal) => {
           <v-rect v-if="selectedCanvas === 'rectangle'" :config="calculateRectConfig" />
           <v-regular-polygon v-if="selectedCanvas === 'polygon'" :config="calculatePolyConfig" />
 
-
-          <template v-for="(node, i) in nodes">
+          <template v-for="(node, i) in canvasNodes">
             <v-circle
               @mouseover="handleMouseOver($event)"
               @mouseout = "handleMouseOut($event)"  
@@ -558,12 +507,13 @@ watch(() => parentNodes.value, (newVal) => {
             />
           </template>
 
-          <v-transformer ref="trRef" :config="{ 
-            keepRatio: false, 
-            enabledAnchors: restrictForLine ? 
-              ['middle-right', 'middle-left'] :
-              ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right']
-          }" />
+          <v-transformer ref="trRef" 
+            :config="{ 
+              keepRatio: false, 
+              enabledAnchors: restrictForLine ? 
+                ['middle-right', 'middle-left'] :
+                ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right']
+            }" />
             <v-rect
               v-if="selectionRectangle.visible"
               @mouseover="handleMouseOver($event)"

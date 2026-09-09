@@ -1,16 +1,14 @@
 <script setup>
 import { ref, toRefs, defineEmits, computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useCanvasStore } from '../../../store/canvas.js';
 import './../create.css'
 
-const emit = defineEmits(['close', 'canvas', 'sides', 'rotate']);
+const canvasStore = useCanvasStore();
 
-const props = defineProps({
-  selectedCanvas: String,
-  selectedSides: Number,
-  selectedAngle: Number,
-})
+const emit = defineEmits(['close']);
 
-const { selectedCanvas, selectedSides, selectedAngle } = toRefs(props);
+const { selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder } = storeToRefs(canvasStore);
 
 const canvasPolygonSides = ref(3);
 const canvasPolygonAngle = ref(0);
@@ -43,46 +41,55 @@ const setCanvas = (input) => {
   console.log('set canvas to: ', input);
 
   if (input === 'polygon') 
-    emit('sides', canvasPolygonSides.value);
+    canvasStore.changeCanvasSides(canvasPolygonSides.value);
 
-  emit('canvas', input);
+  canvasStore.changeCanvas(input);
 }
 
 const setCanvasPolygonSides = () => {
   console.log('set polygon sides to: ', canvasPolygonSides.value);
-  emit('sides', canvasPolygonSides.value);
+  canvasStore.changeCanvasSides(canvasPolygonSides.value);
 }
 
 const setCanvasPolygonAngle = () => {
   canvasPolygonAngle.value += 90;
   console.log('set polygon angle to: ', canvasPolygonAngle.value);
-  emit('rotate', canvasPolygonAngle.value);
+  canvasStore.changeCanvasAngle(canvasPolygonAngle.value);
 }
+
+const handleBorder = (input) => {
+    console.log('set border: ', input);
+    canvasStore.changeCanvasBorder(input);
+
+    if (input.style === 'none')
+        canvasStore.changeCanvasBorder(canvasConfig.baseValues);
+}
+
 
 const setBorderStyle = () => {
   console.log('set border style: ', setBorder.value);
   showBorderOptions.value = setBorder.value !== null;
 
   if (setBorder.value)
-    emit('border', { style: 'solid', strokeWidth: 1, fill: '#fff', stroke: '#000' });
+    handleBorder({ style: 'solid', strokeWidth: 1, fill: '#fff', stroke: '#000' });
   else
-    emit('border', { style: 'none' });
+    handleBorder({ style: 'none' });
 
 };
 
 const setBorderSize = () => {
   console.log('set border size: ', borderSizeValue.value);
-  emit('border', { strokeWidth: borderSizeValue.value })
+  handleBorder({ strokeWidth: borderSizeValue.value });
 };
 
 const setBorderFill = () => {
   console.log('set border fill: ', borderFillValue.value);
-  emit('border', { fill: borderFillValue.value })
+  handleBorder({ fill: borderFillValue.value })
 };
 
 const setBorderStroke = () => {
   console.log('set border stroke: ', borderStrokeValue.value);
-  emit('border', { stroke: borderStrokeValue.value })
+  handleBorder({ stroke: borderStrokeValue.value });
 };
 </script>
 
