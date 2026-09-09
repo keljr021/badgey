@@ -1,15 +1,5 @@
 import { getImageSrc } from '../../assets/js/imgHelpers.js'
 
-export const transform = {
-    boundBoxFunc: (oldBox, newBox) => {
-        // limit resize
-        if (newBox.width < 5 || newBox.height < 5) {
-            return oldBox;
-        }
-        return newBox;
-    }
-};
-
 export const stage = {
     width: 400,
     height: 400,
