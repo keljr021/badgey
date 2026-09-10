@@ -126,6 +126,10 @@ onMounted(() => {
   loadValues();
 });
 
+watch(() => node.value, () => {
+  loadValues();
+}, { deep: true });
+
 watch(() => width.value, () => {
   loadValues();
 }, { deep: true });

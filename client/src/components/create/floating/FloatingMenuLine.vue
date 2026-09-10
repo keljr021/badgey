@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, toRefs, computed, onMounted } from 'vue'
+import { ref, defineEmits, toRefs, computed, onMounted, watch } from 'vue'
 
 const emit = defineEmits(['update:line']);
 
@@ -44,6 +44,11 @@ const setValues = () => {
 onMounted(() => {
   setValues();
 })
+
+watch(() => node.value, () => {
+  setValues();
+}, { deep: true });
+
 </script>
 
 <template>

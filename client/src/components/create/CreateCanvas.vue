@@ -14,7 +14,7 @@ const canvasStore = useCanvasStore();
 const draftsStore = useDraftStore();
 const badgeStore = useBadgeStore();
 
-const { nodes: nodesFromStore, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder } = storeToRefs(canvasStore);
+const { canvasLayer, nodes: nodesFromStore, selectedNode, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder } = storeToRefs(canvasStore);
 
 const [myImage, status] = useImage(imagePlaceholder);
 
@@ -111,16 +111,18 @@ const configImg = (el) => {
 };
 
 const setTargetNode = (e, w, h) => {
+  console.log(' - [setTargetNode] - e: ', e,' - w: ', w, ' - h: ', h);
   
   const id = e.target.attrs.id;
   const node = layerRef.value.getNode().findOne('#' + id);
+  selectedNode.value = id;
   menuItem.value = node;
   menuItemW.value = w ? w : node.width();
   menuItemH.value = h ? h : node.height();
 
   restrictForLine.value = (id.includes('line')) ? true : false;
 
-  console.log(' - [setTargetNode] id', id, ' menuItem: ', menuItem.value, ' - width: ', menuItemW.value, ' - height: ', menuItemH.value);
+  console.log(' - [setTargetNode] id', id, ' node: ', node, ' - width: ', menuItemW.value, ' - height: ', menuItemH.value);
 }
 
 const handleClick = (e) => {
@@ -250,6 +252,7 @@ const handleMouseUp = () => {
 
 const setImportedNodes = async () => {
   console.log('- [setImportedNodes]: nodesFromStore: ', nodesFromStore.value);
+  canvasLayer.value = layerRef.value;
   canvasNodes.value = nodesFromStore.value;
 };
 
@@ -355,35 +358,37 @@ const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, JSON.stringify(input));
   updateItem(id, input);
   refreshCanvas();
+  setTimeout(() => {
+    setTargetNode({ target: { attrs: { id: input.id ? input.id : id }}});
+    repositionSelectionBox();
+  });
 }
 
 const repositionSelectionBox = () => {
-  if (menuItem.value && isSelecting.value) {
-    const menuId = menuItem.value.attrs.id;
-    const layer = layerRef.value;
-    const node = layer.getNode().findOne('#' + menuId);
-    
-    const x = node.x();
-    const y = node.y();
-    selectionRectangle.x1 = x;
-    selectionRectangle.y1 = y;
-    selectionRectangle.x2 = x;
-    selectionRectangle.y2 = y; 
-    
+  console.log(' - [repositionSelectionBox] triggered ');
+  if (selectedNode.value !== null) {
+    let target = layerRef.value.getNode().findOne('#' + selectedNode.value);
+    if (target) {
+      const transformerNode = trRef.value.getNode();
+      transformerNode.nodes([]);
+      transformerNode.nodes([target]);
+    }
   }
 }
 
-const refreshCanvas = () => {
+const refreshCanvas = async () => {
    if (trRef.value) {
     const transformer = trRef.value.getNode();
-      if (typeof transformer.forceUpdate() !== null)
-        transformer.forceUpdate();
+
+    if (typeof transformer.forceUpdate() !== null)
+      await transformer.forceUpdate();
   }
 }
 
 const updateItem = async (id, input) => {
-  console.log(' - [updateItem] - id: ', id, ' - input: ', input);
+  console.log(' - [updateItem] - id: ', id, ' - input: ', input, ' - layer: ', layerRef.value);
   await canvasStore.updateItem(id, input);
+  await refreshCanvas();
 }
 
 const deleteItem = async (id) => {
@@ -435,7 +440,7 @@ watch(() => nodesFromStore.value, (newVal) => {
         @touchmove="handleMouseMove"
         @touchend="handleMouseUp"
       >
-        <v-layer ref="layerRef" @drawend="repositionSelectionBox">
+        <v-layer ref="layerRef" @draw="repositionSelectionBox">
           <v-circle v-if="selectedCanvas === 'circle'" :config="calculateCircleConfig" />
           <v-rect v-if="selectedCanvas === 'rectangle'" :config="calculateRectConfig" />
           <v-regular-polygon v-if="selectedCanvas === 'polygon'" :config="calculatePolyConfig" />
@@ -455,7 +460,7 @@ watch(() => nodesFromStore.value, (newVal) => {
               @mouseover="handleMouseOver($event)"
               @mouseout = "handleMouseOut($event)"              
               @dragend="(e) => handleDragEnd(e, i)"
-              @transformend="(e) => handleTransformEnd(e, i)" 
+              @transformend="(e) => handleTransformEnd(e, i)"
               v-if="node.type === 'rectangle'" 
               :id="node.id" 
               :config="node.konvaValues" 
@@ -517,7 +522,7 @@ watch(() => nodesFromStore.value, (newVal) => {
             <v-rect
               v-if="selectionRectangle.visible"
               @mouseover="handleMouseOver($event)"
-              @mouseout = "handleMouseOut($event)"   
+              @mouseout="handleMouseOut($event)"   
               :config="{
                 x: Math.min(selectionRectangle.x1, selectionRectangle.x2),
                 y: Math.min(selectionRectangle.y1, selectionRectangle.y2),

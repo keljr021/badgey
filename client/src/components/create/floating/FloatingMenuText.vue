@@ -119,6 +119,10 @@ const toggleButtonValues = (value) => {
 onMounted(() => {
   setValues();
 })
+
+watch(() => node.value, () => {
+  setValues();
+}, { deep: true });
 </script>
 
 <template>

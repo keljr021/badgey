@@ -25,7 +25,7 @@ const publishBadge = () => {
 </script>
 
 <template>
-  <div class="save-buttons" size="lg">
+  <div class="save-buttons" size="xl">
      <UFieldGroup orientation="horizontal">
        <UButton @click="reset" class="cursor-pointer" icon="i-lucide-trash-2" label="Reset" color="neutral" variant="outline" />
        <UButton @click="saveDraft" class="cursor-pointer" icon="i-lucide-file-plus-2" label="Save as draft" color="neutral" variant="outline" />

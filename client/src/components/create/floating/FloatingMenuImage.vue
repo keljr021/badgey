@@ -64,6 +64,19 @@ const updateImage = (key) => {
   }
 }
 
+watch(() => node.value, () => {
+  setValues();
+}, { deep: true });
+
+watch(() => width.value, () => {
+  setValues();
+}, { deep: true });
+
+watch(() => height.value, () => {
+  setValues();
+}, { deep: true });
+
+
 onMounted(() => {
   setValues();
 });
