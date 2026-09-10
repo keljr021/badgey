@@ -254,6 +254,13 @@ const setImportedNodes = async () => {
   console.log('- [setImportedNodes]: nodesFromStore: ', nodesFromStore.value);
   canvasLayer.value = layerRef.value;
   canvasNodes.value = nodesFromStore.value;
+  
+  //Remove selection rectangle
+  selectedIds.value = [];
+  showFloatingMenu.value = false;
+
+  const transformerNode = trRef.value.getNode();
+  transformerNode.nodes([]);
 };
 
 const deleteNode = async (id) => {

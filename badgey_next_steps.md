@@ -2,8 +2,6 @@
 Badgey Next Steps
 ========================================
 - Resolve these issues found:
-  - Add shape - Selector is not updated when shape is changed
-  - Add shape - Removing the shape doesn't hide the selector rectangle
   - Add text - Import fonts
 
   - Navbar - Submenu issue with clicking links even when hidden
