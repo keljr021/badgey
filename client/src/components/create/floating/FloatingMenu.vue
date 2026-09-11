@@ -38,6 +38,10 @@ const deleteNode = () => {
   emit('close');
   node.value.destroy();
 }
+
+watch(() => node.value, () => {
+  setValues();
+}, { deep: true });
 </script>
 
 <template>

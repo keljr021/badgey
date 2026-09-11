@@ -257,7 +257,6 @@ const setImportedNodes = async () => {
   
   //Remove selection rectangle
   selectedIds.value = [];
-  showFloatingMenu.value = false;
 
   const transformerNode = trRef.value.getNode();
   transformerNode.nodes([]);
@@ -364,7 +363,6 @@ const closeFloatingMenu = () => {
 const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, JSON.stringify(input));
   updateItem(id, input);
-  refreshCanvas();
   setTimeout(() => {
     setTargetNode({ target: { attrs: { id: input.id ? input.id : id }}});
     repositionSelectionBox();

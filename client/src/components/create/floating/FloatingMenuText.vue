@@ -1,5 +1,6 @@
 <script setup>
-import { defineEmits, toRefs, ref, computed, onMounted } from 'vue'
+import { defineEmits, toRefs, ref, computed, onMounted, watch } from 'vue';
+import fontsArray from './fonts.js';
 import './floatingMenu.css';
 
 const emit = defineEmits([ 'text:update' ]);
@@ -10,9 +11,10 @@ const props = defineProps({
 
 const { node } = toRefs(props);
 
+const fontList = ref(fontsArray);
 
 const textInput = ref('');
-const textFont = ref('Arial');
+const textFont = ref(fontList[0]);
 const textSize = ref(12);
 
 const textFillValue = ref('#000000');
@@ -22,13 +24,6 @@ const textBold = ref(false);
 const textItalic = ref(false);
 const textUnderline = ref(false);
 const textAlign = ref('left');
-
-const fontList = ref([
-  {
-    fontFamily: 'Arial',
-    value: 'Arial',
-  }
-]);
 
 const updateText = (input) => {
 
@@ -80,8 +75,17 @@ const setValues = () => {
   const { attrs } = node.value;
 
   textInput.value = attrs.text;
-  textFont.value = attrs.fontFamily;
   textSize.value = attrs.fontSize;
+
+  if (attrs.fontFamily) {
+    for (let i = 0; i < fontsArray.length; i++) {
+      let fontItem = fontsArray[i];
+      if (fontItem === attrs.fontFamily) {
+        textFont.value = fontItem;
+        break;
+      }
+    }
+  }
 
   if (attrs.fontStyle) {
     console.log('font style: ',attrs.fontStyle);
@@ -134,7 +138,13 @@ watch(() => node.value, () => {
     <div class="float-text-menu">
       <div class="float-text-menu-font">
         Font: <br />
-        <USelectMenu v-model="textFont" :items="fontList" @change="updateText('font')" class="w-25 py-2" />
+        <USelectMenu v-model="textFont" :items="fontList" :ui="{ content: 'min-w-fit' }" @change="updateText('font')" class="w-25 py-2">
+          <template #item-label="{ item }">
+            <span :style="'font-family:' + item">
+              {{ item }}
+            </span>
+          </template>
+        </USelectMenu>
       </div>
       <div class="float-text-menu-size">
         Size: <br />
