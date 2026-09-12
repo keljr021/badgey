@@ -13,10 +13,12 @@ const badgeStore = useBadgeStore();
 
 const undo = () => {
    console.log('undo button clicked.');
+   canvasStore.undoCanvas();
 };
 
 const redo = () => {
    console.log('redo button clicked.');
+   canvasStore.redoCanvas();
 };
 
 const reset = () => {

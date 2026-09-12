@@ -110,7 +110,7 @@ const configImg = (el) => {
   }
 };
 
-const setTargetNode = (e, w, h) => {
+const setTargetNode = async (e, w, h) => {
   console.log(' - [setTargetNode] - e: ', e,' - w: ', w, ' - h: ', h);
   
   const id = e.target.attrs.id;
@@ -122,10 +122,14 @@ const setTargetNode = (e, w, h) => {
 
   restrictForLine.value = (id.includes('line')) ? true : false;
 
+  debugger;
+  let nodeFromArray = await canvasStore.selectItem(id);
+  canvasStore.recordHistory(id, nodeFromArray);
+
   console.log(' - [setTargetNode] id', id, ' node: ', node, ' - width: ', menuItemW.value, ' - height: ', menuItemH.value);
 }
 
-const handleClick = (e) => {
+const handleClick = async (e) => {
   console.log(' - [handleClick] - e.target: ', e.target, ' - e.target.attrs.id: ', e.target.attrs.id);
 
   // if we are selecting with rect, do nothing
@@ -172,7 +176,7 @@ const handleClick = (e) => {
   }
 
   //Set menu position
-  setTargetNode(e);
+  await setTargetNode(e);
   showFloatingMenu.value = true;
 
   const transformerNode = trRef.value.getNode();
@@ -301,7 +305,7 @@ const getClientRect = (element) => {
   };
 };
 
-const handleDragEnd = (e, index) => {
+const handleDragEnd = async (e, index) => {
   const nodeList = [...canvasNodes.value];
   nodeList[index] = {
     ...nodeList[index],
@@ -310,10 +314,11 @@ const handleDragEnd = (e, index) => {
   };
 
   updateItem(nodeList[index].konvaValues.id, { konvaValues: { x: e.target.x(), y: e.target.y() } });
+  await setTargetNode(e, e.target.width(), e.target.height());
   canvasNodes.value = nodeList;
 };
 
-const handleTransformEnd = (e, index, img) => {
+const handleTransformEnd = async (e, index, img) => {
   console.log('target: ', e.target);
   const id = e.target.attrs.id;
   const node = layerRef.value.getNode().findOne('#' + id);
@@ -351,7 +356,7 @@ const handleTransformEnd = (e, index, img) => {
   updateItem(id, updatedConfigs);
 
   refreshCanvas();
-  setTargetNode(e, updatedConfigs.konvaValues.width, updatedConfigs.konvaValues.height);
+  await setTargetNode(e, updatedConfigs.konvaValues.width, updatedConfigs.konvaValues.height);
 };
 
 const closeFloatingMenu = () => {
@@ -363,8 +368,8 @@ const closeFloatingMenu = () => {
 const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, JSON.stringify(input));
   updateItem(id, input);
-  setTimeout(() => {
-    setTargetNode({ target: { attrs: { id: input.id ? input.id : id }}});
+  setTimeout(async () => {
+    await setTargetNode({ target: { attrs: { id: input.id ? input.id : id }}});
     repositionSelectionBox();
   });
 }

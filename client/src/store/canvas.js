@@ -5,6 +5,10 @@ import * as canvasConfig from './../components/create/canvasConfig.js';
 const { VITE_POST_URL } = import.meta.env;
 
 export const useCanvasStore = defineStore('canvas', () => {
+
+    const history = ref([]);
+    const historyStep = ref(0);
+
     const loading = ref(true);
     const selectedCanvas = ref('circle');
     const selectedCanvasSides = ref(3);
@@ -87,7 +91,7 @@ export const useCanvasStore = defineStore('canvas', () => {
     }
 
     async function updateItem(id, input) {
-        console.group('-- canvas.js [updateItem] - updateItem triggered - id: ', id, ' - input: ', input);
+        console.group('-- [updateItem] - updateItem triggered - id: ', id, ' - input: ', input);
 
         selectedNode.value = input.id ? input.id : id;
         console.log(' - selectedNode: ', selectedNode.value);
@@ -95,14 +99,14 @@ export const useCanvasStore = defineStore('canvas', () => {
         for (let i = 0; i < nodes.value.length; i++) {
             if (nodes.value[i].id === id) {
                 let targetNode = nodes.value[i];
-                console.log('-- canvas.js [updateItem] - node found: ', targetNode);
+                console.log('-- node found: ', targetNode);
 
                 Object.keys(input).forEach((inputKey) => {
-                    console.log('  -- canvas.js [updateItem] - inputKey: ', inputKey, ' - value: ', input[inputKey]);
+                    console.log('  -- inputKey: ', inputKey, ' - value: ', input[inputKey]);
                     if (inputKey === 'konvaValues') {
                         Object.keys(input.konvaValues).forEach((konvaKey) => {
                             targetNode.konvaValues[konvaKey] = input.konvaValues[konvaKey];
-                            console.log('     -- konvaValues: key - ', konvaKey, ' - value: ', input.konvaValues[konvaKey]);
+                            console.log('  -- konvaValues: key - ', konvaKey, ' - value: ', input.konvaValues[konvaKey]);
                         });
                     }
                     else {
@@ -153,10 +157,34 @@ export const useCanvasStore = defineStore('canvas', () => {
 
     async function undoCanvas() {
         console.log('-- canvas store - undoCanvas triggered');
+        if (historyStep.value === 0) 
+            return;
+  
+        historyStep.value -= 1;
+        _stepToHistory();
     }
 
     async function redoCanvas() {
         console.log('-- canvas store - redoCanvas triggered');
+        if (historyStep.value === history.value.length - 1) 
+            return;
+        
+        historyStep.value += 1;
+        _stepToHistory();
+    }
+
+    async function recordHistory(id, value) {
+        history.value.push({ id: id, value: value });
+        historyStep.value += 1;
+        console.log(' - [recordHistory] history step value: ', historyStep.value, ' - history is now: ', history.value);
+    }
+
+    async function _stepToHistory() {
+        console.log(' - [_stepToHistory] step is now: ', historyStep.value);
+        const stepObject = history.value[historyStep.value];
+        const targetId = stepObject.id;
+        const targetValue = stepObject.value;
+        updateItem(targetId, targetValue, true);
     }
 
     async function importFile(input) {
@@ -176,7 +204,7 @@ export const useCanvasStore = defineStore('canvas', () => {
         });        
     }
 
-    return { loading, canvasLayer, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder, nodes, selectedNode, setCanvas, changeCanvas, changeCanvasSides, changeCanvasAngle, changeCanvasBorder, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, importFile };
+    return { loading, canvasLayer, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder, nodes, selectedNode, setCanvas, changeCanvas, changeCanvasSides, changeCanvasAngle, changeCanvasBorder, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, recordHistory, importFile };
 }, {
     persist: {
         paths: ['loading']
