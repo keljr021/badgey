@@ -2,7 +2,7 @@
 Badgey Next Steps
 ========================================
 - Resolve these issues found:
-  - Add text - Size broken after importing fonts
+  - Undo/Redo - Recording state changes attributes when added
 
   - Navbar - Submenu issue with clicking links even when hidden
 

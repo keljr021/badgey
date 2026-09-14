@@ -110,7 +110,7 @@ const configImg = (el) => {
   }
 };
 
-const setTargetNode = async (e, w, h) => {
+const setTargetNode = (e, w, h) => {
   console.log(' - [setTargetNode] - e: ', e,' - w: ', w, ' - h: ', h);
   
   const id = e.target.attrs.id;
@@ -121,10 +121,6 @@ const setTargetNode = async (e, w, h) => {
   menuItemH.value = h ? h : node.height();
 
   restrictForLine.value = (id.includes('line')) ? true : false;
-
-  debugger;
-  let nodeFromArray = await canvasStore.selectItem(id);
-  canvasStore.recordHistory(id, nodeFromArray);
 
   console.log(' - [setTargetNode] id', id, ' node: ', node, ' - width: ', menuItemW.value, ' - height: ', menuItemH.value);
 }
@@ -176,7 +172,7 @@ const handleClick = async (e) => {
   }
 
   //Set menu position
-  await setTargetNode(e);
+  setTargetNode(e);
   showFloatingMenu.value = true;
 
   const transformerNode = trRef.value.getNode();
@@ -305,7 +301,7 @@ const getClientRect = (element) => {
   };
 };
 
-const handleDragEnd = async (e, index) => {
+const handleDragEnd = (e, index) => {
   const nodeList = [...canvasNodes.value];
   nodeList[index] = {
     ...nodeList[index],
@@ -314,7 +310,7 @@ const handleDragEnd = async (e, index) => {
   };
 
   updateItem(nodeList[index].konvaValues.id, { konvaValues: { x: e.target.x(), y: e.target.y() } });
-  await setTargetNode(e, e.target.width(), e.target.height());
+  setTargetNode(e, e.target.width(), e.target.height());
   canvasNodes.value = nodeList;
 };
 
@@ -356,7 +352,7 @@ const handleTransformEnd = async (e, index, img) => {
   updateItem(id, updatedConfigs);
 
   refreshCanvas();
-  await setTargetNode(e, updatedConfigs.konvaValues.width, updatedConfigs.konvaValues.height);
+  setTargetNode(e, updatedConfigs.konvaValues.width, updatedConfigs.konvaValues.height);
 };
 
 const closeFloatingMenu = () => {
@@ -368,9 +364,10 @@ const closeFloatingMenu = () => {
 const updateNodeFromMenu = async (id, input) => {
   console.log('update: ', id, JSON.stringify(input));
   updateItem(id, input);
-  setTimeout(async () => {
-    await setTargetNode({ target: { attrs: { id: input.id ? input.id : id }}});
+  setTimeout(() => {
+    setTargetNode({ target: { attrs: { id: input.id ? input.id : id }}});
     repositionSelectionBox();
+    refreshCanvas();
   });
 }
 

@@ -10,6 +10,9 @@ export const useCanvasStore = defineStore('canvas', () => {
     const historyStep = ref(0);
 
     const loading = ref(true);
+
+
+
     const selectedCanvas = ref('circle');
     const selectedCanvasSides = ref(3);
     const selectedCanvasAngle = ref(0);
@@ -87,13 +90,19 @@ export const useCanvasStore = defineStore('canvas', () => {
         nodes.value.push(output);
         selectedNode.value = output.id;
 
+        recordHistory(output.id, output);
+
         console.log('-- canvas store - addItem - nodes: ', nodes.value);
     }
 
-    async function updateItem(id, input) {
+    async function updateItem(id, input, isUndoRedo = false) {
         console.group('-- [updateItem] - updateItem triggered - id: ', id, ' - input: ', input);
 
         selectedNode.value = input.id ? input.id : id;
+
+        if (isUndoRedo === false)
+            recordHistory(selectedNode.value, input);
+
         console.log(' - selectedNode: ', selectedNode.value);
 
         for (let i = 0; i < nodes.value.length; i++) {
@@ -152,12 +161,14 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log('-- canvas store - resetCanvas triggered');
         nodes.value = [];
         selectedNode.value = null;
+        historyStep.value = 0;
+        history.value = [];
         setCanvas();
     }
 
     async function undoCanvas() {
         console.log('-- canvas store - undoCanvas triggered');
-        if (historyStep.value === 0) 
+        if (historyStep.value <= 0) 
             return;
   
         historyStep.value -= 1;
@@ -174,17 +185,20 @@ export const useCanvasStore = defineStore('canvas', () => {
     }
 
     async function recordHistory(id, value) {
-        history.value.push({ id: id, value: value });
-        historyStep.value += 1;
-        console.log(' - [recordHistory] history step value: ', historyStep.value, ' - history is now: ', history.value);
+        const historyItem = { id: id, value: JSON.stringify(value) };
+        console.log( ' - [recordHistory] item: ', JSON.stringify(historyItem));
+        history.value.push(historyItem);
+        historyStep.value = history.value.length;
+        console.log(' - [recordHistory] history step value: ', historyStep.value, ' - history is now: ', JSON.stringify(history.value));
     }
 
     async function _stepToHistory() {
         console.log(' - [_stepToHistory] step is now: ', historyStep.value);
-        const stepObject = history.value[historyStep.value];
-        const targetId = stepObject.id;
-        const targetValue = stepObject.value;
-        updateItem(targetId, targetValue, true);
+        const obj = history.value[historyStep.value - 1];
+        const id = obj.id;
+        const parsedValue = JSON.parse(obj.value);
+        console.log( ' - [_stepToHistory] step object: ', obj.id, parsedValue);
+        updateItem(id, parsedValue, true);
     }
 
     async function importFile(input) {
@@ -204,7 +218,32 @@ export const useCanvasStore = defineStore('canvas', () => {
         });        
     }
 
-    return { loading, canvasLayer, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder, nodes, selectedNode, setCanvas, changeCanvas, changeCanvasSides, changeCanvasAngle, changeCanvasBorder, addItem, updateItem, deleteItem, selectItem, resetCanvas, undoCanvas, redoCanvas, recordHistory, importFile };
+    return { 
+        history, 
+        historyStep, 
+        loading, 
+        canvasLayer, 
+        selectedCanvas, 
+        selectedCanvasSides, 
+        selectedCanvasAngle, 
+        selectedCanvasBorder, 
+        nodes, 
+        selectedNode, 
+        setCanvas, 
+        changeCanvas, 
+        changeCanvasSides, 
+        changeCanvasAngle, 
+        changeCanvasBorder, 
+        addItem, 
+        updateItem, 
+        deleteItem, 
+        selectItem, 
+        resetCanvas, 
+        undoCanvas,
+        redoCanvas, 
+        recordHistory, 
+        importFile 
+    };
 }, {
     persist: {
         paths: ['loading']

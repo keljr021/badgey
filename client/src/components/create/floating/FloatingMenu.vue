@@ -44,6 +44,7 @@ const deleteNode = () => {
   <div ref="menuRef" class="float">
     <div class="float-header">
       <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
+      <div class="float-header-text">{{  node.attrs.id }}</div>
     </div>
 
     <div class="float-menu">

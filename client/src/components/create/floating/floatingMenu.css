@@ -17,6 +17,11 @@
   padding: 15px 0;
 }
 
+.float-header-text {
+  font-style: italic; 
+  opacity: 0.3;
+}
+
 .float-menu {
   max-height: 50vh;
   overflow-y: auto;
