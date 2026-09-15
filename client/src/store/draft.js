@@ -26,7 +26,28 @@ const callServer = async (query, variables = null) => {
 
 export const useDraftStore = defineStore('draft', () => {
 
-    const drafts = ref([]);
+    const items = [
+        {
+            label: 'draft1',
+            description: 'Last updated: 2024-06-01 12:00 PM',
+            icon: 'i-lucide-file-pen',
+            value: 'draft1'
+        },
+        {
+            label: 'draft2',
+            description: 'Last updated: 2024-06-01 12:00 PM',
+            icon: 'i-lucide-file-pen',
+            value: 'draft2'
+        },
+        {
+            label: 'draft3',
+            description: 'Last updated: 2024-06-01 12:00 PM',
+            icon: 'i-lucide-file-pen',
+            value: 'draft3'
+        },
+    ];
+
+    const drafts = ref(items);
     const selectedDraft = ref(null);
 
     async function fetchAllDrafts() {

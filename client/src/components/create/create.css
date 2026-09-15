@@ -38,6 +38,12 @@
   z-index: 9;
 }
 
+.save-dialog-filename,
+.save-dialog-list,
+.save-dialog-buttons {
+  padding: 15px 0;
+}
+
 /* CreateMenu.vue */
 .menu {
     position: absolute;
@@ -194,6 +200,11 @@
 .create-menu-drafts-header {
   font-weight: 600;
   padding: 15px 0;
+}
+
+.create-menu-drafts-buttons {
+  padding: 15px 0;
+  text-align: right;
 }
 
 /* CreateMenuImport.vue */
