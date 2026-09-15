@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, watch } from 'vue';
+import { ref, defineEmits, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useDraftStore } from '../../../store/draft';
 import './../create.css'
@@ -8,9 +8,10 @@ const emit = defineEmits(['close']);
 
 const draftStore = useDraftStore();
 
-const { drafts } = storeToRefs(draftStore);
+const { drafts, selectedDraft } = storeToRefs(draftStore);
 
-const selectedDraft = ref(null);
+const loading = ref(true);
+const draftsList = ref([]);
 const searchTerm = ref('');
 
 const closeMenu = () => {
@@ -18,8 +19,24 @@ const closeMenu = () => {
   emit('close');
 }
 
+const loadDrafts = async () => {
+  for (let i = 0; i < drafts.value.length; i++) {
+    let draftItem = drafts.value[i];
+
+    draftsList.value.push({
+      icon: 'i-lucide-file-pen',
+      label: draftItem.name,
+      description: 'Last updated: ' + draftItem.createdAt,
+      value: draftItem.name,
+    });
+  }
+
+  loading.value = false;
+}
+
 const openDraft = () => {
     console.log('open draft: ', selectedDraft.value.value);
+    draftStore.loadDraft();
 }
 
 const deleteDraft = () => {
@@ -28,6 +45,14 @@ const deleteDraft = () => {
       console.log('delete draft: ', selectedDraft.value.value);
   }
 } 
+
+onMounted(() => {
+  draftStore.fetchAllDrafts();
+})
+
+watch(() => drafts.value, () => {
+  loadDrafts();
+});
 </script>
 
 <template>
@@ -37,7 +62,7 @@ const deleteDraft = () => {
       <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="closeMenu" />
     </div>
     <div class="create-menu-drafts-list">
-      <UListbox v-model="selectedDraft" :search-term="searchTerm" filter :items="drafts" class="cursor-pointer" />
+      <UListbox v-model="selectedDraft" :loading="loading" :search-term="searchTerm" filter :items="draftsList" class="cursor-pointer" />
     </div>
     <div class="create-menu-drafts-manage float-right">
       <UButton :disabled="selectedDraft === null" color="neutral" variant="outline" size="md" class="px-2 mr-2" icon="i-lucide-file-down" label="Open" @click="openDraft" />

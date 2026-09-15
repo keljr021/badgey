@@ -140,37 +140,37 @@ watch(() => height.value, () => {
 </script>
 
 <template>
-  <div ref="menuShapeRef" class="float-shape">
-    <div class="float-shape-list">
-      <div class="float-shape-list-item" :class="{ 'active': activeShape === 'circle' }" @click="setNewShape('circle')">
-        <div class="float-shape-list-item-icon"><UIcon name="i-lucide-circle" class="size-5" /></div>
-        <div class="float-shape-list-item-text">Circle</div>
+  <div ref="menuShapeRef" class="floatbox-shape">
+    <div class="floatbox-shape-list">
+      <div class="floatbox-shape-list-item" :class="{ 'active': activeShape === 'circle' }" @click="setNewShape('circle')">
+        <div class="floatbox-shape-list-item-icon"><UIcon name="i-lucide-circle" class="size-5" /></div>
+        <div class="floatbox-shape-list-item-text">Circle</div>
       </div> 
-      <div class="float-shape-list-item" :class="{ 'active': activeShape === 'rectangle' }" @click="setNewShape('rectangle')">
-        <div class="float-shape-list-item-icon"><UIcon name="i-lucide-square" class="size-5" /></div>
-        <div class="float-shape-list-item-text">Rectangle</div>
+      <div class="floatbox-shape-list-item" :class="{ 'active': activeShape === 'rectangle' }" @click="setNewShape('rectangle')">
+        <div class="floatbox-shape-list-item-icon"><UIcon name="i-lucide-square" class="size-5" /></div>
+        <div class="floatbox-shape-list-item-text">Rectangle</div>
       </div> 
-      <div class="float-shape-list-item" :class="{ 'active': activeShape === 'polygon' }" @click="setNewShape('polygon')">
-        <div class="float-shape-list-item-icon"><UIcon name="i-lucide-octagon" class="size-5" /></div>
-        <div class="float-shape-list-item-text">Polygon</div>
+      <div class="floatbox-shape-list-item" :class="{ 'active': activeShape === 'polygon' }" @click="setNewShape('polygon')">
+        <div class="floatbox-shape-list-item-icon"><UIcon name="i-lucide-octagon" class="size-5" /></div>
+        <div class="floatbox-shape-list-item-text">Polygon</div>
       </div> 
     </div>
 
-    <div class="float-shape-menu">
-      <div class="float-shape-menu-width">
+    <div class="floatbox-shape-menu">
+      <div class="floatbox-shape-menu-width">
         Width (px): <br />
         <UInputNumber v-model="shapeWidth" @update:modelValue="updateShape('width')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
       </div>
-      <div class="float-shape-menu-height">
+      <div class="floatbox-shape-menu-height">
         Height (px): <br />
         <UInputNumber v-model="shapeHeight" @update:modelValue="updateShape('height')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
       </div>
-      <div class="float-shape-menu-sides" v-if="activeShape === 'polygon'">
+      <div class="floatbox-shape-menu-sides" v-if="activeShape === 'polygon'">
         Sides: <br />
         <UInputNumber v-model="shapeSides" @update:modelValue="updateShape('sides')" class="w-20 py-2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" :min="3" />
 
       </div>
-      <div class="float-shape-menu-fill">
+      <div class="floatbox-shape-menu-fill">
         Fill: <br />
         <UPopover class="py-2">
           <UButton color="neutral" variant="outline" size="lg">
@@ -185,7 +185,7 @@ watch(() => height.value, () => {
           </template>
         </UPopover>
       </div>
-      <div class="float-shape-menu-stroke">
+      <div class="floatbox-shape-menu-stroke">
         <USwitch 
           class="w-50 py-2"
           v-model="shapeStroke" 
@@ -194,11 +194,11 @@ watch(() => height.value, () => {
         />
       </div>
       <template v-if="shapeStroke === true">
-        <div class="float-shape-menu-stroke-width">
+        <div class="floatbox-shape-menu-stroke-width">
           Stroke width:
           <UInputNumber v-model="shapeStrokeWidth" @update:modelValue="updateShape('strokeWidth')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
         </div>
-        <div class="float-shape-menu-stroke-color">
+        <div class="floatbox-shape-menu-stroke-color">
           Stroke color:
           <UPopover class="py-2">
             <UButton color="neutral" variant="outline" size="lg">

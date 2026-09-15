@@ -14,13 +14,12 @@ const canvasStore = useCanvasStore();
 const draftsStore = useDraftStore();
 const badgeStore = useBadgeStore();
 
-const { canvasLayer, nodes: nodesFromStore, selectedNode, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder } = storeToRefs(canvasStore);
+const { stageRef, canvasLayer, nodes: nodesFromStore, selectedNode, selectedCanvas, selectedCanvasSides, selectedCanvasAngle, selectedCanvasBorder } = storeToRefs(canvasStore);
 
 const [myImage, status] = useImage(imagePlaceholder);
 
 const canvasNodes = ref([]);
 const layerRef = ref(null);
-const stageRef = ref(null);
 const trRef = ref(null);
 
 const bgCircle = ref(canvasConfig.bgCircle);

@@ -25,7 +25,7 @@ query Draft($id: String) {
 `;
 
 export const createDraft = `
-mutation createDraft($input: UserInfo) {
+mutation createDraft($input: DraftInfo) {
   createDraft(input: $input) {
     id
     userId
@@ -38,7 +38,7 @@ mutation createDraft($input: UserInfo) {
 `;
 
 export const updateDraft = `
-mutation UpdateDraft ($id: String, $input: UserInfo) {
+mutation UpdateDraft ($id: String, $input: DraftInfo) {
   updateDraft(id: $id, input: $input) {
     id
     userId

@@ -83,17 +83,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="menuImageRef" class="float-image">
-    <div class="float-image-menu">
-      <div class="float-image-menu-width">
+  <div ref="menuImageRef" class="floatbox-image">
+    <div class="floatbox-image-menu">
+      <div class="floatbox-image-menu-width">
         Width (px): <br />
         <UInputNumber v-model="imageWidth" @update:modelValue="updateImage('width')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
       </div>
-      <div class="float-image-menu-height">
+      <div class="floatbox-image-menu-height">
         Height (px): <br />
         <UInputNumber v-model="imageHeight" @update:modelValue="updateImage('height')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
       </div>
-      <div class="float-image-menu-stroke">
+      <div class="floatbox-image-menu-stroke">
         <USwitch 
           class="w-50 py-2"
           v-model="imageStroke" 
@@ -102,11 +102,11 @@ onMounted(() => {
         />
       </div>
       <template v-if="imageStroke === true">
-        <div class="float-image-menu-stroke-width">
+        <div class="floatbox-image-menu-stroke-width">
           Stroke width:
           <UInputNumber v-model="imageStrokeWidth" @update:modelValue="updateImage('strokeWidth')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
         </div>
-        <div class="float-image-menu-stroke-color">
+        <div class="floatbox-image-menu-stroke-color">
           Stroke color:
           <UPopover class="py-2">
             <UButton color="neutral" variant="outline" size="lg">

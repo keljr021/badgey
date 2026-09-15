@@ -1,9 +1,9 @@
 
 /* FloatingMenu.vue */
-.float {
+.floatbox {
   position: absolute;
   top: 100px;
-  left: 1120px;
+  right: 0;
   background: white;
   width: 400px;
   padding: 20px;
@@ -12,27 +12,27 @@
   z-index: 9;
 }
 
-.float-header {
+.floatbox-header {
   font-weight: 600;
   padding: 15px 0;
 }
 
-.float-header-text {
+.floatbox-header-text {
   font-style: italic; 
   opacity: 0.3;
 }
 
-.float-menu {
+.floatbox-menu {
   max-height: 50vh;
   overflow-y: auto;
 }
 
-.float-menu-arrange {
+.floatbox-menu-arrange {
   width: 100%;
   float: left;
 }
 
-.float-footer {
+.floatbox-footer {
   width: 100%;
   padding: 10px 0;
 }
@@ -43,7 +43,7 @@
 
 
 /* FloatingMenuShape.vue */
-.float-shape-list {
+.floatbox-shape-list {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -53,7 +53,7 @@
   cursor: pointer;
 }
 
-.float-shape-list-item {
+.floatbox-shape-list-item {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -63,87 +63,87 @@
     cursor: pointer;
 }
 
-.float-shape-list-item:hover {
+.floatbox-shape-list-item:hover {
     background-color: #eee;
 }
 
-.float-shape-list-item-icon {
+.floatbox-shape-list-item-icon {
     margin: 0 auto;
     padding: 10px 0;
     opacity: 0.5;
 }
 
-.float-shape-list-item.active .float-shape-list-item-icon {
+.floatbox-shape-list-item.active .floatbox-shape-list-item-icon {
     color: var(--badgey-green);
     opacity: 1;
 }
 
-.float-shape-list-item.active .float-shape-list-item-text {
+.floatbox-shape-list-item.active .floatbox-shape-list-item-text {
     color: var(--badgey-green);
     font-weight: bold;
 
 }
 
-.float-shape-menu {
+.floatbox-shape-menu {
   width: 100%;
 }
 
-.float-shape-menu-width,
-.float-shape-menu-height,
-.float-shape-menu-sides,
-.float-shape-menu-fill,
-.float-shape-menu-stroke-width,
-.float-shape-menu-stroke-color {
+.floatbox-shape-menu-width,
+.floatbox-shape-menu-height,
+.floatbox-shape-menu-sides,
+.floatbox-shape-menu-fill,
+.floatbox-shape-menu-stroke-width,
+.floatbox-shape-menu-stroke-color {
   width: calc(50% - 10px);
   padding: 10px 5px;
   float: left;
 }
 
-.float-shape-menu-stroke {
+.floatbox-shape-menu-stroke {
   width: 100%;
   padding: 10px 0;
 }
 
 /* FloatMenuLine.vue */
-.float-line-menu {
+.floatbox-line-menu {
   width: 100%;
 }
 
-.float-line-menu-width,
-.float-line-menu-stroke,
-.float-line-menu-rotate,
-.float-line-menu-fill {
+.floatbox-line-menu-width,
+.floatbox-line-menu-stroke,
+.floatbox-line-menu-rotate,
+.floatbox-line-menu-fill {
   width: calc(50% - 10px);
   padding: 10px 5px;
   float: left;
 }
 
 /* FloatMenuText.vue */
-.float-text-input {
+.floatbox-text-input {
   width: 100%;
 }
 
-.float-text-menu {
+.floatbox-text-menu {
   width: 100%;
 }
 
-.float-text-menu-font,
-.float-text-menu-size,
-.float-text-menu-style,
-.float-text-menu-align {
+.floatbox-text-menu-font,
+.floatbox-text-menu-size,
+.floatbox-text-menu-style,
+.floatbox-text-menu-align {
   width: calc(50% - 10px);
   padding: 10px 5px;
   float: left;
 }
 
-.float-text-menu-fill {
+.floatbox-text-menu-fill {
   width: 100%;
   padding: 10px 5px;
   clear: both;
 }
 
 /* FloatingMenuImage.vue */
-.float-image-list {
+.floatbox-image-list {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -153,7 +153,7 @@
   cursor: pointer;
 }
 
-.float-image-list-item {
+.floatbox-image-list-item {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -163,41 +163,41 @@
     cursor: pointer;
 }
 
-.float-image-list-item:hover {
+.floatbox-image-list-item:hover {
     background-color: #eee;
 }
 
-.float-image-list-item-icon {
+.floatbox-image-list-item-icon {
     margin: 0 auto;
     padding: 10px 0;
     opacity: 0.5;
 }
 
-.float-image-list-item.active .float-image-list-item-icon {
+.floatbox-image-list-item.active .floatbox-image-list-item-icon {
     color: var(--badgey-green);
     opacity: 1;
 }
 
-.float-image-list-item.active .float-image-list-item-text {
+.floatbox-image-list-item.active .floatbox-image-list-item-text {
     color: var(--badgey-green);
     font-weight: bold;
 
 }
 
-.float-image-menu {
+.floatbox-image-menu {
   width: 100%;
 }
 
-.float-image-menu-width,
-.float-image-menu-height,
-.float-image-menu-stroke-width,
-.float-image-menu-stroke-color {
+.floatbox-image-menu-width,
+.floatbox-image-menu-height,
+.floatbox-image-menu-stroke-width,
+.floatbox-image-menu-stroke-color {
   width: calc(50% - 10px);
   padding: 10px 5px;
   float: left;
 }
 
-.float-image-menu-stroke {
+.floatbox-image-menu-stroke {
   width: 100%;
   padding: 10px 0;
 }

@@ -12,7 +12,7 @@ const canvasStore = useCanvasStore();
 const draftStore = useDraftStore();
 const badgeStore = useBadgeStore();
 
-const { drafts } = storeToRefs(draftStore);
+const { stageRef, nodes } = storeToRefs(canvasStore);
 
 const openModal = ref(false);
 const filename = ref('');
@@ -29,6 +29,10 @@ const reset = () => {
 
 const saveDraft = () => {
   console.log('save draft clicked.');
+
+  const defaultName = 'draft' + new Date().getTime();
+
+  draftStore.addDraft(filename.value ? filename.value : defaultName);
   toggleModal(false);
 };
 

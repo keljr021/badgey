@@ -41,13 +41,13 @@ const deleteNode = () => {
 </script>
 
 <template>
-  <div ref="menuRef" class="float">
-    <div class="float-header">
+  <div ref="menuRef" class="floatbox">
+    <div class="floatbox-header">
       <UButton color="neutral" variant="ghost" size="md" icon="i-lucide-x" class="float-right" @click="emit('close')" />
-      <div class="float-header-text">{{  node.attrs.id }}</div>
+      <div class="floatbox-header-text">{{  node.attrs.id }}</div>
     </div>
 
-    <div class="float-menu">
+    <div class="floatbox-menu">
       <floating-menu-shape 
         v-if="nodeType() === 'shape' || nodeType() === 'circle' || nodeType() === 'rectangle' || nodeType() === 'polygon'"
         @shape:update="updateNode"
@@ -66,7 +66,7 @@ const deleteNode = () => {
         :height="itemHeight" 
       />
 
-      <div class="float-menu-arrange">
+      <div class="floatbox-menu-arrange">
         Arrange: <br />
         <UFieldGroup orientation="horizontal" class="py-2">
           <UTooltip text="Bring to front">
@@ -85,8 +85,8 @@ const deleteNode = () => {
       </div>
     </div>
 
-    <div class="float-footer">
-      <div class="float-footer-delete">
+    <div class="floatbox-footer">
+      <div class="floatbox-footer-delete">
         <UTooltip :text="'Delete ' + nodeType()">
           <UButton color="neutral" variant="outline" size="md" icon="i-lucide-trash" label="Delete" class="my-4" @click="deleteNode" />
         </UTooltip>

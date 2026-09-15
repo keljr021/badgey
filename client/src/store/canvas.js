@@ -6,6 +6,8 @@ const { VITE_POST_URL } = import.meta.env;
 
 export const useCanvasStore = defineStore('canvas', () => {
 
+    const stageRef = ref(null);
+
     const loading = ref(true);
     const history = ref([]);
     const historyStep = ref(0);
@@ -42,6 +44,11 @@ export const useCanvasStore = defineStore('canvas', () => {
     async function changeCanvasBorder(input) {
         console.log('-- canvas store - changeCanvasBorder triggered: ', input);
         selectedCanvasBorder.value = input;
+    }
+
+    async function loadNodesFromDraft(list) {
+        console.log('-- [loadNodesFromDraft] list: ', list);
+        nodes.value = list;
     }
 
     async function addItem(input) {  
@@ -229,6 +236,7 @@ export const useCanvasStore = defineStore('canvas', () => {
     }
 
     return { 
+        stageRef,
         history, 
         historyStep, 
         loading, 
@@ -244,6 +252,7 @@ export const useCanvasStore = defineStore('canvas', () => {
         changeCanvasSides, 
         changeCanvasAngle, 
         changeCanvasBorder, 
+        loadNodesFromDraft,
         addItem, 
         updateItem, 
         deleteItem, 

@@ -12,6 +12,7 @@ import cors from 'cors';
 import { User } from './models/user.js';
 import { Badge } from './models/badge.js';
 import { Draft } from './models/drafts.js';
+import { deleteDraft } from '../client/src/gql/draftQuery.js';
 
  
 // Construct a schema, using GraphQL schema language
@@ -79,7 +80,7 @@ const schema = buildSchema(
     isLocked: Boolean
   }
 
-  input Draft {
+  type Draft {
     id: String
     userId: String
     name: String
@@ -117,9 +118,7 @@ const schema = buildSchema(
     updatePassword(id: String, password: String): User
     deleteUser(id: String): String
     createDraft(input: DraftInfo): Draft
-    updateDraft(id: String): Draft
     deleteDraft(id: String): Draft
-
   }
 `
 );
@@ -293,6 +292,19 @@ const root = {
     return null;
   },
 
+  async drafts() {
+    const drafts = await db.select().from(Draft);
+    return drafts;
+  },
+
+  async draft({ id }) {
+    const targetDrafts = await db.select()
+      .from(Draft)
+      .where(eq(Draft.id, id))
+      .limit(1);
+      return targetDrafts[0];
+  },
+
   async createDraft({ input }) {
     const newDraftId = uuidv4();
 
@@ -300,8 +312,10 @@ const root = {
       id: newDraftId,
       userId: input.userId,
       name: input.name,
-      canvas: input.canvas,
+      canvas: input.canvas
     };
+
+    console.log('[createDraft] - draftInfo: ', draftInfo);
 
     await db.insert(Draft).values(draftInfo);
 
@@ -311,6 +325,11 @@ const root = {
       .limit(1);
 
     return target[0];
+  },
+
+  async deleteDraft({ id }) {
+    await db.delete(Draft).where(eq(Draft.id, id));
+    return 'Draft ' + id + ' deleted.';
   },
 
   async updateUser({ id, input }) {   

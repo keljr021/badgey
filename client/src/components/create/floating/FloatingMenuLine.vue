@@ -52,21 +52,21 @@ watch(() => node.value, () => {
 </script>
 
 <template>
-  <div ref="menuRef" class="float-line">
-    <div class="float-line-menu">
-      <div class="float-line-menu-width">
+  <div ref="menuRef" class="floatbox-line">
+    <div class="floatbox-line-menu">
+      <div class="floatbox-line-menu-width">
         Width (px): <br />
         <UInputNumber v-model="lineWidth" @update:modelValue="updateLine('width')" orientation="vertical" class="w-20 py-2" :min="1" :increment="false" :decrement="false" />
       </div>
-      <div class="float-line-menu-stroke">
+      <div class="floatbox-line-menu-stroke">
         Stroke: <br />
         <UInputNumber v-model="lineStrokeWidth" @update:modelValue="updateLine('stroke')" class="w-20 py-2" :min="0" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }" />
       </div>
-      <div class="float-line-menu-rotate">
+      <div class="floatbox-line-menu-rotate">
         Rotate: <br />
         <UInputNumber v-model="lineRotation" @update:modelValue="updateLine('rotate')" class="w-20 py-2" :min="0" :max="360" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }"/>
       </div>
-      <div class="float-line-menu-fill">
+      <div class="floatbox-line-menu-fill">
           Fill: <br />
           <UPopover class="py-2">
             <UButton color="neutral" variant="outline" size="md">

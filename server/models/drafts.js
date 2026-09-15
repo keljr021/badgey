@@ -16,6 +16,6 @@ export const Draft = mysqlTable('drafts', {
   canvas: json(),
   createdAt: datetime('createdAt', { mode: 'string', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3)`),
-  updatedAt: datetime('createdAt', { mode: 'string', fsp: 3 })
+  updatedAt: datetime('updatedAt', { mode: 'string', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3)`),
 });

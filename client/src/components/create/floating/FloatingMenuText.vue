@@ -130,13 +130,13 @@ watch(() => node.value, () => {
 </script>
 
 <template>
-  <div ref="menuRef" class="float-text">
-    <div class="float-text-input">
+  <div ref="menuRef" class="floatbox-text">
+    <div class="floatbox-text-input">
       Input: <br />
       <UTextarea v-model="textInput" @change="updateText('input')" :rows="2" class="w-60 py-2" />
     </div>
-    <div class="float-text-menu">
-      <div class="float-text-menu-font">
+    <div class="floatbox-text-menu">
+      <div class="floatbox-text-menu-font">
         Font: <br />
         <USelectMenu v-model="textFont" :items="fontList" :ui="{ content: 'min-w-fit' }" @change="updateText('font')" class="w-25 py-2">
           <template #item-label="{ item }">
@@ -146,11 +146,11 @@ watch(() => node.value, () => {
           </template>
         </USelectMenu>
       </div>
-      <div class="float-text-menu-size">
+      <div class="floatbox-text-menu-size">
         Size: <br />
         <UInputNumber v-model="textSize" @update:modelValue="updateText('size')" orientation="horizontal" class="w-25 py-2" :min="2" :increment="{ size: 'sm' }" :decrement="{ size: 'sm' }"/>
       </div> 
-      <div class="float-text-menu-fill">
+      <div class="floatbox-text-menu-fill">
         Fill: <br />
         <UPopover class="py-2">
           <UButton color="neutral" variant="outline" size="lg">
@@ -166,7 +166,7 @@ watch(() => node.value, () => {
         </UPopover>
       </div>
      
-      <div class="float-text-menu-style">
+      <div class="floatbox-text-menu-style">
         Style: <br />
         <UFieldGroup orientation="horizontal" class="py-2">
           <UTooltip text="Bold">
@@ -180,7 +180,7 @@ watch(() => node.value, () => {
           </UTooltip>
         </UFieldGroup>
       </div>
-      <div class="float-text-menu-align">
+      <div class="floatbox-text-menu-align">
         Style: <br />
         <UFieldGroup orientation="horizontal" class="py-2">
           <UTooltip text="Left align">
