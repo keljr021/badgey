@@ -13,6 +13,11 @@ Badgey Next Steps
   - Add Publish workflow
 
 
+- Modularize folder structure
+  - Each page has its own directory
+    - utils, pages, components (assets?)
+
+
 - Add followers and following workflow
 - Add top badges to profile
 
