@@ -12,8 +12,6 @@ import cors from 'cors';
 import { User } from './models/user.js';
 import { Badge } from './models/badge.js';
 import { Draft } from './models/drafts.js';
-import { deleteDraft } from '../client/src/gql/draftQuery.js';
-
  
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(
@@ -118,7 +116,7 @@ const schema = buildSchema(
     updatePassword(id: String, password: String): User
     deleteUser(id: String): String
     createDraft(input: DraftInfo): Draft
-    deleteDraft(id: String): Draft
+    deleteDraft(id: String): String
   }
 `
 );

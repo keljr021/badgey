@@ -20,10 +20,13 @@ const closeMenu = () => {
 }
 
 const loadDrafts = async () => {
+  draftsList.value = [];
+
   for (let i = 0; i < drafts.value.length; i++) {
     let draftItem = drafts.value[i];
 
     draftsList.value.push({
+      ...draftItem,
       icon: 'i-lucide-file-pen',
       label: draftItem.name,
       description: 'Last updated: ' + draftItem.createdAt,
@@ -39,10 +42,13 @@ const openDraft = () => {
     draftStore.loadDraft();
 }
 
-const deleteDraft = () => {
+const deleteDraft = async () => {
   const confirmDelete = confirm('Are you sure you want to this draft: ' + selectedDraft.value.value + '?');
   if (confirmDelete) {
+      loading.value = true;
       console.log('delete draft: ', selectedDraft.value.value);
+      await draftStore.removeDraft();
+      loading.value = false;
   }
 } 
 

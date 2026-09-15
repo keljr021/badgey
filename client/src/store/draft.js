@@ -1,7 +1,7 @@
 import { ref, toRaw } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { fetchDrafts, findDraft, createDraft, updateDraft, deleteDraft } from './../gql/draftQuery.js';
+import { fetchDrafts, createDraft, deleteDraft } from './../gql/draftQuery.js';
 import { useCanvasStore } from './canvas.js';
 import { useUserStore } from './user.js';
 
@@ -31,27 +31,6 @@ export const useDraftStore = defineStore('draft', () => {
     const canvasStore = useCanvasStore();
     const userStore = useUserStore();
 
-    const items = [
-        {
-            label: 'draft1',
-            description: 'Last updated: 2024-06-01 12:00 PM',
-            icon: 'i-lucide-file-pen',
-            value: 'draft1'
-        },
-        {
-            label: 'draft2',
-            description: 'Last updated: 2024-06-01 12:00 PM',
-            icon: 'i-lucide-file-pen',
-            value: 'draft2'
-        },
-        {
-            label: 'draft3',
-            description: 'Last updated: 2024-06-01 12:00 PM',
-            icon: 'i-lucide-file-pen',
-            value: 'draft3'
-        },
-    ];
-
     const drafts = ref([]);
     const selectedDraft = ref(null);
 
@@ -65,11 +44,15 @@ export const useDraftStore = defineStore('draft', () => {
     async function fetchDraft(id) {
         console.log('-- drafts store - fetchDraft triggered - id: ', id);
 
-        // const findDraftCall = await callServer(findDraft, { id: id });
-        // if (findDraftCall && findDraftCall.draft !== null) {
-        //     return findDraftCall.draft;
-        // }
-        // return null;
+        let targetItem = null;
+        for (let i = 0; i < drafts.value.length; i++) {
+            let item = drafts.value[i];
+            if (item.id === id) {
+                targetItem = item;
+                break;
+            }
+        }
+        return targetItem;
     }
 
     async function addDraft(name) {
@@ -89,27 +72,19 @@ export const useDraftStore = defineStore('draft', () => {
     async function loadDraft() {
         console.log('[loadDraft] - selected draft: ', selectedDraft.value);
         await canvasStore.resetCanvas();
-        
-        let targetItem = null;
-        for (let i = 0; i < drafts.value.length; i++) {
-            let item = drafts.value[i];
-            if (item.value === selectedDraft.id) {
-                targetItem = item;
-                break;
-            }
-        }
 
-        if (targetItem) {
-            console.log('[loadDraft] - target item: ', targetItem);
-            canvasStore.loadNodesFromDraft(JSON.parse(targetItem.canvas));
+        if (selectedDraft.value) {
+            console.log('[loadDraft] - target item: ', selectedDraft.value);
+            canvasStore.loadNodesFromDraft(JSON.parse(selectedDraft.value.canvas));
         }
     }
 
-    async function removeDraft(id) {
-        console.log('-- drafts store - removeDraft triggered - id: ', id);
-
-        // const data = await callServer(deleteDraft, { id });
-        // return data.deleteDraft;
+    async function removeDraft() {
+        console.log('-- drafts store - removeDraft triggered - id: ', selectedDraft.value.id);
+        const data = await callServer(deleteDraft, { id: selectedDraft.value.id });
+        selectedDraft.value = null;
+        fetchAllDrafts();
+        return data.deleteDraft;
     }
 
     return { 
