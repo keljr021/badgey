@@ -6,12 +6,13 @@ const { VITE_POST_URL } = import.meta.env;
 
 export const useCanvasStore = defineStore('canvas', () => {
 
+    const loading = ref(true);
     const history = ref([]);
     const historyStep = ref(0);
-
-    const loading = ref(true);
-
-
+    
+    const canvasLayer = ref(null);
+    const nodes = ref([]);
+    const selectedNode = ref(null);
 
     const selectedCanvas = ref('circle');
     const selectedCanvasSides = ref(3);
@@ -19,10 +20,6 @@ export const useCanvasStore = defineStore('canvas', () => {
     const selectedCanvasBorder = ref({});
     const currentImportedFile = ref(null);
     
-    const canvasLayer = ref(null);
-    const nodes = ref([]);
-    const selectedNode = ref(null);
-
     async function setCanvas() {
         changeCanvas(selectedCanvas.value);
     }
@@ -82,8 +79,8 @@ export const useCanvasStore = defineStore('canvas', () => {
         }
 
         if (input.type !== 'line') {
-            output.konvaValues.x = canvasConfig[inputType].x + (nodes.value.length + 10);
-            output.konvaValues.y = canvasConfig[inputType].y + (nodes.value.length + 10);
+            output.konvaValues.x = canvasConfig[inputType].x + (nodes.value.length * 10);
+            output.konvaValues.y = canvasConfig[inputType].y + (nodes.value.length * 10);
         }
 
         console.log('-- canvas store - addItem triggered: ', output);
@@ -99,9 +96,6 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.group('-- [updateItem] - updateItem triggered - id: ', id, ' - input: ', input);
 
         selectedNode.value = input.id ? input.id : id;
-
-        if (isUndoRedo === false)
-            recordHistory(selectedNode.value, input);
 
         console.log(' - selectedNode: ', selectedNode.value);
 
@@ -125,6 +119,10 @@ export const useCanvasStore = defineStore('canvas', () => {
                 });
                 console.log('node updated to: ', targetNode, ' - id: -', targetNode.id);
                 nodes.value[i] = targetNode;
+
+                if (isUndoRedo === false)
+                    recordHistory(selectedNode.value, targetNode);
+
                 break;
             }
         }
@@ -141,6 +139,16 @@ export const useCanvasStore = defineStore('canvas', () => {
             }
         }
         nodes.value = updatedNodes;
+
+        let updatedHistory = [];
+        for (let h = 0; h < history.value.length; h++) {
+            let historyItem = history.value[h];
+            if (historyItem.id !== id) {
+                updatedHistory.push(historyItem);
+            }
+        }
+        history.value = updatedHistory;
+        historyStep.value = history.value.length;
     }
 
     async function selectItem(id) {
@@ -172,16 +180,16 @@ export const useCanvasStore = defineStore('canvas', () => {
             return;
   
         historyStep.value -= 1;
-        _stepToHistory();
+        stepToHistory();
     }
 
     async function redoCanvas() {
         console.log('-- canvas store - redoCanvas triggered');
-        if (historyStep.value === history.value.length - 1) 
+        if (historyStep.value >= history.value.length) 
             return;
         
         historyStep.value += 1;
-        _stepToHistory();
+        stepToHistory();
     }
 
     async function recordHistory(id, value) {
@@ -192,13 +200,15 @@ export const useCanvasStore = defineStore('canvas', () => {
         console.log(' - [recordHistory] history step value: ', historyStep.value, ' - history is now: ', JSON.stringify(history.value));
     }
 
-    async function _stepToHistory() {
-        console.log(' - [_stepToHistory] step is now: ', historyStep.value);
+    async function stepToHistory() {
+        console.log(' - [stepToHistory] step is now: ', historyStep.value);
         const obj = history.value[historyStep.value - 1];
-        const id = obj.id;
-        const parsedValue = JSON.parse(obj.value);
-        console.log( ' - [_stepToHistory] step object: ', obj.id, parsedValue);
-        updateItem(id, parsedValue, true);
+        if (obj) {
+            const id = obj.id;
+            const parsedValue = JSON.parse(obj.value);
+            console.log( ' - [stepToHistory] step object: ', obj.id, parsedValue);
+            updateItem(id, parsedValue, true);
+        }
     }
 
     async function importFile(input) {

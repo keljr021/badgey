@@ -1,5 +1,6 @@
 <script setup>
-import { defineEmits } from 'vue';
+import { computed, defineEmits } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useCanvasStore } from './../../store/canvas.js'
 import { useDraftStore } from './../../store/draft.js'
 import { useBadgeStore } from './../../store/badge.js'
@@ -10,6 +11,11 @@ const emit = defineEmits(['reset-lines']);
 const canvasStore = useCanvasStore();
 const draftStore = useDraftStore();
 const badgeStore = useBadgeStore();
+
+const { history, historyStep } = storeToRefs(canvasStore);
+
+const showUndo = computed(() => historyStep.value === 0);
+const showRedo = computed(() => historyStep.value === history.value.length);
 
 const undo = () => {
    console.log('undo button clicked.');
@@ -38,7 +44,7 @@ const publishBadge = () => {
 <template>
   <div class="undo-buttons">
      <UTooltip text="Undo action">
-       <UButton @click="undo" class="mx-2 cursor-pointer" icon="i-lucide-undo" color="neutral" variant="outline" caption="Undo" />
+       <UButton @click="undo" :disabled="showUndo" class="mx-2 cursor-pointer" icon="i-lucide-undo" color="neutral" variant="outline" caption="Undo" />
      </UTooltip>
 
      <template class="undo-buttons-mobile">
@@ -48,7 +54,7 @@ const publishBadge = () => {
      </template>
 
      <UTooltip text="Redo action">
-       <UButton @click="redo" class="mx-2 cursor-pointer" trailing-icon="i-lucide-redo" color="neutral" variant="outline" caption="Redo" />
+       <UButton @click="redo" :disabled="showRedo" class="mx-2 cursor-pointer" trailing-icon="i-lucide-redo" color="neutral" variant="outline" caption="Redo" />
      </UTooltip>
   </div>
 </template>

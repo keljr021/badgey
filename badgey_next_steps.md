@@ -2,15 +2,12 @@
 Badgey Next Steps
 ========================================
 - Resolve these issues found:
-  - Undo/Redo - Recording state changes attributes when added
 
   - Navbar - Submenu issue with clicking links even when hidden
 
 
 - Create Canvas store for functions
  
-  - Add Undo/Redo
-
   - Add Save/Load/Delete Draft to database
 
   - Add Publish workflow
