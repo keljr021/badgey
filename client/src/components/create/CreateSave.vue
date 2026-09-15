@@ -55,10 +55,7 @@ const publishBadge = () => {
 
           <template #body class="py-4 px-4">
             <div class="save-dialog-filename">
-               Draft name: <UInput v-model="filename" ref="filenameRef" :autofocus="openModal === true" />
-            </div>
-            <div class="save-dialog-list">
-              <UListbox v-model="selectedDraft" :items="drafts" class="cursor-pointer" />
+               Name: <UInput v-model="filename" ref="filenameRef" class="mx-2" :autofocus="openModal === true" />
             </div>
             <div class="save-dialog-buttons">
               <UButton @click="saveDraft" color="neutral" variant="outline" size="md" icon="i-lucide-save" class="float-right" label="Save"/>
